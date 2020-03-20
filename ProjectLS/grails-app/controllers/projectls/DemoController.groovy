@@ -71,4 +71,11 @@ class DemoController {
     def logout(){
         render "loggged out"
     }
+    def formtest(){
+
+        println params.param1
+        println params.param2
+
+        return
+    }
 }
