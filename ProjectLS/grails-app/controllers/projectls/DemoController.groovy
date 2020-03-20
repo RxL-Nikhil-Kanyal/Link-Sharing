@@ -33,8 +33,9 @@ class DemoController {
             }
 
         }else{
+
             redirect(controller:'Demo',action:'auth')
-            flash.message = "User Does Not Exsist"
+           flash.message = "User Does Not Exsist"
         }
 
 
@@ -42,14 +43,24 @@ class DemoController {
 
     def RegisterAction(){
 
-        def uploadedFile = request.getFile("regphoto");
-        byte[] p=uploadedFile.bytes
-
         User u=new User(email:params.regemail,username:params.regusername,password:params.regpassword,firstName:params.regfirstname,lastName:params.reglastname,
         admin:0,active:1)
-        u.photo=p
-        u.save(flush:true,failOnError:true)
-        render("rendered page")
+
+        u.photo=params.regphoto.bytes
+
+        u.validate()
+        if (u.hasErrors()) {
+            u.errors.allErrors.each {
+                println it
+            }
+//            render view: 'auth', model: [myUser: u]
+//            return
+        }
+
+            u.save(flush:true,failOnError:true)
+
+            render(view:"dashboard")
+
 
     }
     def search(){}

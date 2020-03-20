@@ -8,6 +8,12 @@
 
    <g:message code="default.link.skip.label" default=""/></a>
 
+
+<g:hasErrors bean="${myUser}" field="name">
+    <g:message error="${myUser.errors.getFieldErrors("name")}" />
+</g:hasErrors>
+
+
      <div class="bodyContent" id="bodyContent">
 
        <g:if test="${flash.message}">
