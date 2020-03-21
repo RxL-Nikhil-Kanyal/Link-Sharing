@@ -1,3 +1,3 @@
 class DocumentResources extends Resource {
-    String filePath
+    byte[] doc
 }

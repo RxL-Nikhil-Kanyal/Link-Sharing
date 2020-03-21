@@ -7,7 +7,7 @@ class Topics {
     String name
     static belongsTo=[user:User]
     Date dateCreated
-    Date dateUpdated
+    Date lastUpdated
     Visibility visibility
     static hasMany=[resource:Resource]
 

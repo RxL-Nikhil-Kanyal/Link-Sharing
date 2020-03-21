@@ -11,6 +11,8 @@
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
 <script>
 
 $(document).ready(function(){
@@ -136,7 +138,7 @@ $(document).ready(function(){
         <div class="btn-group dropdown">
           <button type="button" class="btn btn-secondary">
 
-                <span> <g:img dir="images" file="defaultpic.png" width="50" height="60" id="button3"/></span>
+                <span> <g:img dir="images" file="defaultpic.png" width="50" height="60" id="buttonimage"/></span>
                 <span>username</span>
 
           </button>
@@ -148,7 +150,7 @@ $(document).ready(function(){
 
                <a class="dropdown-item" href="/demo/index">User</a>
                <a class="dropdown-item" href="/demo/topicsShow">Topic</a>
-               <a class="dropdown-item" href="/demo/index">Posts</a>
+               <a class="dropdown-item" href="/demo/posts">Posts</a>
                <div class="dropdown-divider"></div>
                <a class="dropdown-item" href="/demo/logout">Logout</a>
           </div>

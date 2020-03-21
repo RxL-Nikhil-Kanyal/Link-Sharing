@@ -127,7 +127,7 @@
                      </div>
                      <div class="card-body">
                        <Div class="container">
-                       <g:form name="myForm" controller="demo" action="RegisterAction">
+                       <g:form name="myForm" controller="demo" action="RegisterAction" method="post">
                                    <Div class="row">                              <%-- add in message--%>
                                       <Div class="col-sm-6">
                                        <g:message code="auth.register.firstname" />
