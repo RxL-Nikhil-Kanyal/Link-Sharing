@@ -34,7 +34,7 @@ class DemoController {
             if(us.password==params.passwd){
                 session.user = us.username
 
-                redirect(controller:'demo',action:'dashboard',model:['user':us.username])
+                redirect(controller:'demo',action:'dashboard')
                 flash.message = "Logged in "
 
             }else{
@@ -89,9 +89,7 @@ class DemoController {
     def search(){}
 
     def dashboard(){
-//        List tl=Subsciption.findByUser("1").t
-//
-//        [top:tl]
+
 
     }
     def logout(){
@@ -121,4 +119,15 @@ class DemoController {
 
 
     }
+
+    def UsersA(){
+        def persons = User.list()
+
+       return [usr:persons]
+
+
+
+    }
+
+
 }

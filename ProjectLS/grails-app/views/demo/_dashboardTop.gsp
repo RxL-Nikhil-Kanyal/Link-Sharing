@@ -13,6 +13,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 
+
 <script>
 
 $(document).ready(function(){
@@ -139,7 +140,7 @@ $(document).ready(function(){
           <button type="button" class="btn btn-secondary">
 
                 <span> <g:img dir="images" file="defaultpic.png" width="50" height="60" id="buttonimage"/></span>
-                <span>username</span>
+                <span id="dp">username</span>
 
           </button>
           <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
