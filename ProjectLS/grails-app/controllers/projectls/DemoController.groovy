@@ -17,12 +17,19 @@ class DemoController {
 
     }
 
+
     def auth(){
 
 
     }
-    def posts(){}
+    def posts(){
+        User au=User.findByUsername(session.user)
+        return [activeUser:au]
+    }
     def topicsShow(){
+
+        User au=User.findByUsername(session.user)
+        return [activeUser:au]
 
     }
     def myAction(){
@@ -31,16 +38,23 @@ class DemoController {
         String p=params.passwd;
         User us=User.findByUsernameOrEmailIlike(params.username,params.username)
         if(us){
-            if(us.password==params.passwd){
-                session.user = us.username
+            if(us.active){
+                if(us.password==params.passwd){
+                    session.user = us.username
 
-                redirect(controller:'demo',action:'dashboard')
-                flash.message = "Logged in "
+                    redirect(controller:'demo',action:'dashboard')
+                    flash.message = "Logged in "
 
+                }else{
+                    redirect(controller:'Demo',action:'auth')
+                    flash.message = "Invalid Username/Password, please try again."
+                }
             }else{
-                redirect(controller:'Demo',action:'auth')
-                flash.message = "Invalid Username/Password, please try again."
+                redirect(controller: 'Demo',action:'auth')
+                flash.message="User Inactive , Contact Admin "
+
             }
+
 
         }else{
 
@@ -89,6 +103,8 @@ class DemoController {
     def search(){}
 
     def dashboard(){
+        User au=User.findByUsername(session.user)
+        [activeUser:au]
 
 
     }
@@ -122,11 +138,58 @@ class DemoController {
 
     def UsersA(){
         def persons = User.list()
+        User au=User.findByUsername(session.user)
+        def nu=persons.size()
+        println "size of the list : "+ nu
+       return [usr:persons,activeUser:au,numberOfUser:nu]
 
-       return [usr:persons]
 
 
+    }
+    def editProfile(){
 
+        User au=User.findByUsername(session.user)
+
+        return [activeUser:au]
+    }
+    def changeUserPassword(){
+
+        if(params.changePassword==params.changeConfirmPassword){
+            User U=User.findByUsername(session.user)
+            U.password=params.changePassword
+            U.save(flush:true,failOnError: true)
+
+            redirect (action:"editProfile")
+            flash.message="Password changed"
+        }else{
+            redirect (action:"editProfile")
+            flash.message="Password and Confirm Password do not match"
+
+        }
+    }
+    def changeUserDeatails () {
+
+        User y=User.findByUsername(session.user)
+        println params.changeUsername
+        println params.changeFirstname
+        println params.changeLastname
+        println params.changePhoto.bytes
+
+        if(params.changeUsername){y.username=params.changeUsername}
+        if(params.changeFirstname){y.firstName=params.changeFirstname}
+        if(params.changeLastname) { y.lastName=params.changeLastname}
+        if(params.changePhoto.bytes){ y.photo=params.changePhoto.bytes}
+
+        y.save(flush:true,failOnError: true)
+
+        redirect(action:"editProfile")
+        flash.message="Changes Successfull"
+
+
+    }
+    def  userProfile(){
+        User au=User.findByUsername(session.user)
+        [activeUser:au]
     }
 
 

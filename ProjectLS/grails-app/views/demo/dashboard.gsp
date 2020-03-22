@@ -2,7 +2,11 @@
 <head>
 <title>dashboard</title>
 
+
 <g:javascript>
+
+
+
 
   function callMyAjax(){
   alert("Topic added")
@@ -40,11 +44,19 @@
                         <div class="card shadow p-0 bg-white rounded">
 
                               <div class="card-body">
+                                  <g:link action="userProfile" id="nameLink">
                                   <span class="col-4">
+
                                   <g:img dir="images" file="defaultpic.png" width="120" height="120"/>
-                                  </span>
-                                  <span class="col-8">uday pratap singh</span>
+                                  </span></g:link>
+                                   <g:link action="userProfile" id="nameLink">
+                                  <span class="col-8" id="displayName">
+                                    ${activeUser.firstName} ${activeUser.lastName}
+
+                                  </span></g:link>
+
                               </div>
+
                         </div>
                     </div><%--end of first row --%>
 

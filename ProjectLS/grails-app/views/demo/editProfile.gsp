@@ -1,18 +1,13 @@
 <html>
 <head>
-<title>homePage</title>
+<title>My Posts</title>
 
 </head>
+
 <body>
-<g:render template="top" />
-
+<g:render template="dashboardTop" />
+edit profile
    <g:message code="default.link.skip.label" default=""/></a>
-
-
-<g:hasErrors bean="${myUser}" field="name">
-    <g:message error="${myUser.errors.getFieldErrors("name")}" />
-</g:hasErrors>
-
 
      <div class="bodyContent" id="bodyContent">
 
@@ -23,42 +18,43 @@
      </div>
 
 <div class="container">
-
-<div class="row">&nbsp;</div>
-
   <div class="row">    <%-- row 1 --%>
     <div class="col-sm-6">                <%-- container 1--%>
 
-      <div class="card shadow p-0 bg-white rounded">
-        <div class="card-header">
-          Recent Shares
-        </div>
-        <div class="card-body">
-          <h5 class="card-title">Special title treatment</h5>
-          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-          <a href="#">link</a>
-        </div>
-      </div>
+      <div class="container">  <%--e--%>
+
+
+                         <div class="row">
+                             <div class="card shadow p-0 bg-white rounded ">
+
+                                   <div class="card-body ">
+                                       <span class="col-4">
+                                       <g:img dir="images" file="defaultpic.png" width="120" height="120" />
+                                       </span>
+                                       <span class="col-8" id="displayName"> ${activeUser.firstName} ${activeUser.lastName}</span>
+                                   </div>
+                             </div>
+                         </div><%--end of first row --%>
+
+       </div>
+
 
     </div>
-
-
-
     <div class="col-sm-6">                 <%-- container 2--%>
 
       <div class="card shadow p-0 bg-white rounded">
              <div class="card-header">
-              Login
+              <g:message code="editProfile.Profile" />
              </div>
              <div class="card-body">
                <Div class="container">
-               <g:form name="myForm" controller="Demo" action="myAction">
+               <g:form name="changeDetailForm" controller="Demo" action="changeUserPassword">
                            <Div class="row" >                              <%-- add in message--%>
                               <Div class="col-sm-6">
-                               <g:message code="auth.login.username" />
+                               <g:message code="auth.register.password" />
                               </Div>
                               <Div class="col-sm-4">
-                              <g:field type="text" name="username" value="" required="true" />
+                              <g:field type="Password" name="changePassword" value="" required="true" />
                               </Div>
                            </Div>
 
@@ -67,22 +63,22 @@
 
                            <Div class="row">
                                    <Div class="col-sm-6">
-                                       <g:message code="auth.login.password" />
+                                       <g:message code="auth.register.confirmpassword" />
                                    </Div>
                                    <Div class="col-sm-4">
-                                       <g:field type="Password" name="passwd" value="" required="true" /></Div>
+                                       <g:field type="Password" name="changeConfirmPassword" value="" required="true" /></Div>
                                     </Div>
                            </Div>
 
                            <Div class="row">
                                 <Div class="col-sm-6">
-                                           <a href="" >forgot Password</a>
+
                                  </Div>
                                  <Div class="col-sm-1">
 
                                  </Div>
                                   <Div class="col-sm-5">
-                                    <g:submitButton name="update" value="submit"/></span></Div>
+                                    <g:submitButton name="updatePassword" value="submit"/></span></Div>
                                    </Div>
 
 
@@ -126,17 +122,17 @@
 
         <div class="card shadow p-0 bg-white rounded">
                      <div class="card-header">
-                      Register                                              <%--add in message--%>
+                      Profile                                            <%--add in message--%>
                      </div>
                      <div class="card-body">
                        <Div class="container">
-                       <g:form name="myForm" controller="demo" action="RegisterAction" method="post">
+                       <g:form name="myDetailsForm" controller="demo" action="changeUserDeatails" method="post">
                                    <Div class="row">                              <%-- add in message--%>
                                       <Div class="col-sm-6">
                                        <g:message code="auth.register.firstname" />
                                       </Div>
                                       <Div class="col-sm-4">
-                                      <g:field type="text" name="regfirstname"  required="true" />
+                                      <g:field type="text" name="changeFirstname"  />
                                       </Div>
                                    </Div>
 
@@ -146,19 +142,11 @@
                                                    <g:message code="auth.register.lastname" />
                                              </Div>
                                             <Div class="col-sm-4">
-                                                    <g:field type="text" name="reglastname"  required="true" />
+                                                    <g:field type="text" name="changeLastname"  />
                                               </Div>
                                        </Div>
 
 
-                                          <Div class="row">                              <%-- add in message--%>
-                                                  <Div class="col-sm-6">
-                                                          <g:message code="auth.register.email" />
-                                                   </Div>
-                                                   <Div class="col-sm-4">
-                                                          <g:field type="text" name="regemail"  required="true" />
-                                                   </Div>
-                                           </Div>
 
 
                                        <Div class="row">                              <%-- add in message--%>
@@ -166,36 +154,18 @@
                                                           <g:message code="auth.register.username" />
                                              </Div>
                                              <Div class="col-sm-4">
-                                                          <g:field type="text" name="regusername"  required="true" />
+                                                          <g:field type="text" name="changeUsername"  />
                                               </Div>
                                        </Div>
 
-                                        <Div class="row">                              <%-- add in message--%>
-                                             <Div class="col-sm-6">
-                                                       <g:message code="auth.register.password" />
-                                             </Div>
-                                             <Div class="col-sm-4">
-                                                        <g:field type="Password" name="regpassword"  required="true" />
-                                             </Div>
-                                        </Div>
 
-
-
-                                        <Div class="row">                              <%-- add in message--%>
-                                             <Div class="col-sm-6">
-                                                       <g:message code="auth.register.confirmpassword" />
-                                             </Div>
-                                             <Div class="col-sm-4">
-                                                        <g:field type="Password" name="regconfirmpassword"  required="true" />
-                                             </Div>
-                                        </Div>
 
                                          <Div class="row">                              <%-- add in message--%>
                                               <Div class="col-sm-6">
                                                          <g:message code="auth.register.photo" />
                                                </Div>
                                                <Div class="col-sm-4">
-                                                         <input type="file" name="regphoto" accept="image/x-png,image/gif,image/jpeg" />
+                                                         <input type="file" name="changePhoto" accept="image/x-png,image/gif,image/jpeg" />
                                                 </Div>
                                                </Div>
 
@@ -208,7 +178,7 @@
                                                                 <%--empty--%>
                                          </Div>
                                           <Div class="col-sm-5">
-                                            <g:submitButton name="update" value="submit"/></span></Div>
+                                            <g:submitButton name="changePersonDetail" value="submit"/></span></Div>
                                            </Div>
 
 
@@ -230,6 +200,6 @@
 
   <div>
 </div>
-
 </body>
+
 </html>

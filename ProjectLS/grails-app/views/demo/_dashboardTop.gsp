@@ -18,6 +18,10 @@
 
 $(document).ready(function(){
   $("#button1").click(function(){
+  if(window.location.pathname!="/demo/dashboard")
+    {
+    open("/demo/dashboard", "_self");
+    }
 
   $('html, body').animate({
   		scrollTop: $("#shareLink").offset().top
@@ -31,6 +35,11 @@ $(document).ready(function(){
 $(document).ready(function(){
   $("#button2").click(function(){
 
+    if(window.location.pathname!="/demo/dashboard")
+      {
+      open("/demo/dashboard", "_self");
+      }
+
     $('html, body').animate({
     		scrollTop: $("#sharetopic").offset().top
     	},1000);
@@ -42,6 +51,11 @@ $(document).ready(function(){
 $(document).ready(function(){
   $("#button3").click(function(){
 
+    if(window.location.pathname!="/demo/dashboard")
+      {
+      open("/demo/dashboard", "_self");
+      }
+
     $('html, body').animate({
     		scrollTop: $("#createtopic").offset().top
     	},1000);
@@ -52,6 +66,11 @@ $(document).ready(function(){
 
 $(document).ready(function(){
   $("#button4").click(function(){
+
+    if(window.location.pathname!="/demo/dashboard")
+      {
+      open("/demo/dashboard", "_self");
+      }
 
     $('html, body').animate({
     		scrollTop: $("#sendinvites").offset().top
@@ -140,17 +159,22 @@ $(document).ready(function(){
           <button type="button" class="btn btn-secondary">
 
                 <span> <g:img dir="images" file="defaultpic.png" width="50" height="60" id="buttonimage"/></span>
-                <span id="dp">username</span>
+                <span id="dp">${activeUser.username}</span>
 
           </button>
           <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="sr-only">Toggle Dropdown</span>
           </button>
           <div class="dropdown-menu">
-               <a class="dropdown-item" href="/demo/index">Profile</a>
+               <a class="dropdown-item" href="/demo/editProfile">Edit Profile</a>
+               <g:if test="${activeUser.admin}">
 
-               <a class="dropdown-item" href="/demo/index">User</a>
-               <a class="dropdown-item" href="/demo/topicsShow">Topic</a>
+                    <a class="dropdown-item" href="/demo/usersA">User</a>
+                    <a class="dropdown-item" href="/demo/topicsShow">Topic</a>
+               </g:if>
+
+
+
                <a class="dropdown-item" href="/demo/posts">Posts</a>
                <div class="dropdown-divider"></div>
                <a class="dropdown-item" href="/demo/logout">Logout</a>
