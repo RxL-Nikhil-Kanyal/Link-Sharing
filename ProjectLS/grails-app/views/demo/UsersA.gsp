@@ -41,6 +41,8 @@
                       <th> <h4> <B>LAST NAME</h4> </th>
                       <th><h4><B>USERNAME</h4></th>
                       <th> <h4> <B>EMAIL</h4> </th>
+                      <th> <h4> <B>ACTIVE STATUS</h4> </th>
+                      <th> <h4> <B>ACTIVATE/DEACTIVATE</h4> </th>
                       </thead>
                       </tr>
                              <g:each in="${usr}" var="u" status="i">
@@ -52,7 +54,10 @@
                                     <td> <h5 id="idtable">${u.firstName}</h5></td>
                                     <td> <h5 id="idtable">${u.username}.</h5></td>
                                     <td> <h5 id="idtable">${u.email}</h5></td>
+                                    <td> <h5 id="idtable">${u.active}</h5></td>
+                                    <td> <h5 id="idtable"><g:link action="changeUserActiveStatus" params="[val:u.id]">CLICK TO CHANGE STATUS</g:link></h5></td>
                                     </tr>
+
 
 
                              </g:each>

@@ -32,6 +32,7 @@
                               <div class="card-body">
                                   <span class="col-4">
                                   <g:img dir="images" file="defaultpic.png" width="120" height="120"/>
+                                  <img src="${createLink(controller: 'Demo', action: 'fetchProductImage', params: ['productName': 'Some_product_name'])}"/>
                                   </span>
                                   <span class="col-8" id="displayName"> ${activeUser.firstName} ${activeUser.lastName}</span>
                               </div>

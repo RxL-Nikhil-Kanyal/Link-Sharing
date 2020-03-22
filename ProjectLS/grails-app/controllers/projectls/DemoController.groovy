@@ -85,7 +85,7 @@ class DemoController {
                 println it
             }
 //            render
-//            return
+
         }
 
             u.save(flush:true,failOnError:true)
@@ -93,9 +93,10 @@ class DemoController {
 
 
         session.user = params.regusername
-        flash.message = "welcome new user"
-        redirect(controller:'demo',action:'dashboard')
+        println "new user name:" +session.user
 
+        redirect(controller:'demo',action:'dashboard')
+        flash.message = "welcome new user"
 
 
 
@@ -112,6 +113,7 @@ class DemoController {
 
         println "session out"
         session.invalidate()
+
         redirect(action: "auth")
         flash.message="logged out successfully"
     }
@@ -190,6 +192,24 @@ class DemoController {
     def  userProfile(){
         User au=User.findByUsername(session.user)
         [activeUser:au]
+    }
+    def changeUserActiveStatus(){
+       User otherUser=User.get(params.val)
+        if(otherUser.active){
+
+            otherUser.active=0
+        }else{otherUser.active=1}
+        otherUser.save(flush:true,failOnError: true)
+        println "change active called"
+        redirect(action:"UsersA")
+    }
+
+    def fetchPersonImage(){
+        def aus = User.findByUsername(session.user)
+        byte[] imageInByte = aus.photo
+        response.contentType = 'image/png ,image/x-png,image/jpeg' // or the appropriate image content type
+        response.outputStream << imageInByte
+        response.outputStream.flush()
     }
 
 
