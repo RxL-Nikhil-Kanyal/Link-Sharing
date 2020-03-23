@@ -11,7 +11,12 @@
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<style>
+#grad {
+  background-image: linear-gradient(#7F00FF, #E100FF);
+}
 
+</style>
 
 
 <script>
@@ -83,15 +88,15 @@ $(document).ready(function(){
 
 
 </head>
-<body>
+<body id="grad">
 
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
 <div class="container">
     <div class="col-3">
 
-  <a class="navbar-brand" href="/demo/dashboard"><h4>Link Sharing</h4><h6>Welcome</h6></a>
+  <a class="navbar-brand" href="/demo/dashboard"><h4>LINK SHARING</h4><h6>Welcome</h6></a>
 
 
     </div>
@@ -112,7 +117,7 @@ $(document).ready(function(){
 
 
 
-             <g:img dir="images" file="topic.png" width="20" height="20" id="button3"/>
+             <g:img dir="images" file="topic.png" width="20" height="20" id="button3" />
 
 
 
@@ -191,6 +196,105 @@ $(document).ready(function(){
 </nav>
 
 
+
+  <!-- Trigger the modal with a doc -->
+
+    <g:img dir="images"  file="doc.png" style="background-color: white;border-radius: 5px;" width="20" height="20" data-toggle="modal" data-target="#myModaldoc" />
+  <!-- Modal -->
+  <div class="modal fade" id="myModaldoc" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+        </div>
+        <div class="modal-body">
+          <p>Some text in the doc modal.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!--end--->
+    <!-- Trigger the modal with a link -->
+
+      <g:img dir="images" file="Link.png" style="background-color: white;border-radius: 5px;"  width="20" height="20" data-toggle="modal" data-target="#myModallink" />
+    <!-- Modal -->
+    <div class="modal fade" id="myModallink" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+          </div>
+          <div class="modal-body">
+            <p>Some text in the link modal.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!--end--->
+
+      <!-- Trigger the modal with a topic -->
+
+          <g:img dir="images" file="topic.png" style="background-color: white;border-radius: 5px;"  width="20" height="20" data-toggle="modal" data-target="#myModaltopic" />
+        <!-- Modal -->
+        <div class="modal fade" id="myModaltopic" role="dialog">
+          <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+              </div>
+              <div class="modal-body">
+                <p>Some text in the topic modal.</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <!--end--->
+
+         <!-- Trigger the modal with a invite -->
+
+                  <g:img dir="images" file="msg.jpg" style="background-color: white;border-radius: 5px;"  width="20" height="20" data-toggle="modal" data-target="#myModalinvite" />
+                <!-- Modal -->
+                <div class="modal fade" id="myModalinvite" role="dialog">
+                  <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                      </div>
+                      <div class="modal-body">
+                        <p>Some text in the invite modal.</p>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+                <!--end--->
 
 
 </body>

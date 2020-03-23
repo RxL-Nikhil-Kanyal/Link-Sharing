@@ -22,13 +22,16 @@
 <body>
 <g:render template="dashboardTop" />
 
-<g:message code="default.link.skip.label" default=""/></a>
 
-
-   <g:if test="${flash.message}">
-      <div class="message">${flash.message}
-</div>
+ <g:if test="${flash.message}">
+        <div class="message" role="status" style="font-size: medium;color: white;background-color: green;font-weight: bold;">${flash.message}</div>
     </g:if>
+    <g:if test="${flash.warning}">
+        <div class="message_error" style="font-size: medium;color: white;background-color: red;font-weight: bold;">${flash.warning}</div>
+    </g:if>
+
+
+
 
 <div class="container">
 <div class="row">
@@ -37,7 +40,7 @@
 
        <div class="row">  <%--e--%>
 
-            <div class="card">  <%--e--%>
+            <div class="container">  <%--e--%>
                  <div class="row"> &nbsp;</div>
 
                     <div class="row">

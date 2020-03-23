@@ -7,21 +7,29 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <%--addin--%>
+
+
+<style>
+#grad {
+  background-image: linear-gradient(#7F00FF, #E100FF);
+}
+
+</style>
 </head>
-<body>
+<body id="grad" >
 
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark " style="height: 100px;">
 
 <div class="container">
-    <div class="col-6">
+    <div class="col-7">
 
-  <a class="navbar-brand" href="#"><h4>Link Sharing</h4></a>
+  <a class="navbar-brand" href="#"><h4>LINK SHARING</h4></a>
 
 
     </div>
 
-     <div class="col-4">
+     <div class="col-5">
 
     <form class="form-inline my-2 my-lg-0">
 

@@ -43,15 +43,15 @@ class DemoController {
                     session.user = us.username
 
                     redirect(controller:'demo',action:'dashboard')
-                    flash.message = "Logged in "
+                    flash.message = "Logged in as ${session.user} "
 
                 }else{
                     redirect(controller:'Demo',action:'auth')
-                    flash.message = "Invalid Username/Password, please try again."
+                    flash.warning = "Invalid Username/Password, please try again."
                 }
             }else{
                 redirect(controller: 'Demo',action:'auth')
-                flash.message="User Inactive , Contact Admin "
+                flash.warning="User Inactive , Contact Admin "
 
             }
 
@@ -59,7 +59,7 @@ class DemoController {
         }else{
 
             redirect(controller:'Demo',action:'auth')
-           flash.message = "User Does Not Exsist"
+            flash.warning = "User Does Not Exsist"
         }
 
 
@@ -70,7 +70,7 @@ class DemoController {
         if(params.regpassword!=params.regconfirmpassword)
         {
             redirect(controller:'Demo',action:'auth')
-            flash.message = "password and confirm password do not match"
+            flash.warning = "password and confirm password do not match"
             return
         }
 
@@ -84,7 +84,7 @@ class DemoController {
             u.errors.allErrors.each {
                 println it
             }
-//            render
+
 
         }
 
@@ -95,8 +95,12 @@ class DemoController {
         session.user = params.regusername
         println "new user name:" +session.user
 
+
         redirect(controller:'demo',action:'dashboard')
-        flash.message = "welcome new user"
+        flash.message = "Welcome New ${session.user}"
+       // message(code: 'create.user.successful')
+
+
 
 
 
@@ -165,7 +169,7 @@ class DemoController {
             flash.message="Password changed"
         }else{
             redirect (action:"editProfile")
-            flash.message="Password and Confirm Password do not match"
+            flash.warning="Password and Confirm Password do not match"
 
         }
     }
@@ -174,7 +178,6 @@ class DemoController {
         User y=User.findByUsername(session.user)
         println params.changeUsername
         println params.changeFirstname
-        println params.changeLastname
         println params.changePhoto.bytes
 
         if(params.changeUsername){y.username=params.changeUsername}

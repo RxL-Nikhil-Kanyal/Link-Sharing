@@ -5,9 +5,9 @@
 //
 //
 //    MyInterceptor(){
-//        println "interceptor called"
+//        println "my interceptor called"
 //
-//        matchAll().excludes(action:~/(auth|myAction|RegisterAction)/)
+//        matchAll().excludes(controller:"Demo",action:~/(auth|myAction|RegisterAction)/)
 //
 //
 //

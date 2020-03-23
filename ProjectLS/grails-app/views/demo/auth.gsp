@@ -2,24 +2,24 @@
 <head>
 <title>homePage</title>
 
+
 </head>
 <body>
 <g:render template="top" />
 
-   <g:message code="default.link.skip.label" default=""/></a>
+ <g:message code="default.link.skip.label" default="" />
 
-
-<g:hasErrors bean="${myUser}" field="name">
-    <g:message error="${myUser.errors.getFieldErrors("name")}" />
-</g:hasErrors>
 
 
      <div class="bodyContent" id="bodyContent">
 
-       <g:if test="${flash.message}">
-         <div class="message">${flash.message}
-   </div>
-       </g:if>
+   <g:if test="${flash.message}">
+          <div class="message" role="status" style="font-size: medium;color: white;background-color: green;font-weight: bold;">${flash.message}</div>
+      </g:if>
+      <g:if test="${flash.warning}">
+          <div class="message_error" style="font-size: medium;color: white;background-color: red;font-weight: bold;">${flash.warning}</div>
+      </g:if>
+
      </div>
 
 <div class="container">
@@ -52,37 +52,39 @@
              </div>
              <div class="card-body">
                <Div class="container">
-               <g:form name="myForm" controller="Demo" action="myAction">
-                           <Div class="row" >                              <%-- add in message--%>
+               <g:form name="myForm" controller="Demo" action="myAction" >
+                           <Div class="row form-group" >                              <%-- add in message--%>
                               <Div class="col-sm-6">
                                <g:message code="auth.login.username" />
                               </Div>
-                              <Div class="col-sm-4">
-                              <g:field type="text" name="username" value="" required="true" />
+                              <Div class="col-sm-6 ">
+                              <g:field type="text" name="username" value=""
+                              required="true"  class="form-control"/>
                               </Div>
                            </Div>
 
-                            <Div class="row">
+                            <Div class="row form-group">
                             </Div>
 
                            <Div class="row">
                                    <Div class="col-sm-6">
                                        <g:message code="auth.login.password" />
                                    </Div>
-                                   <Div class="col-sm-4">
-                                       <g:field type="Password" name="passwd" value="" required="true" /></Div>
+                                   <Div class="col-sm-6">
+                                       <g:field type="Password" name="passwd" value=""
+                                       required="true" class="form-control"/></Div>
                                     </Div>
                            </Div>
 
                            <Div class="row">
-                                <Div class="col-sm-6">
+                                <Div class="col-sm-5">
                                            <a href="" >forgot Password</a>
                                  </Div>
-                                 <Div class="col-sm-1">
+                                 <Div class="col-sm-2">
 
                                  </Div>
-                                  <Div class="col-sm-5">
-                                    <g:submitButton name="update" value="submit"/></span></Div>
+                                  <Div class="col-sm-4">
+                                    <g:submitButton name="update" value="submit" class="form-control"/></span></Div>
                                    </Div>
 
 
@@ -130,77 +132,78 @@
                      </div>
                      <div class="card-body">
                        <Div class="container">
-                       <g:form name="myForm" controller="demo" action="RegisterAction" method="post">
-                                   <Div class="row">                              <%-- add in message--%>
+                       <g:form name="myForm" controller="demo" action="RegisterAction"
+                       method="post" >
+                                   <Div class="row form-group">                              <%-- add in message--%>
                                       <Div class="col-sm-6">
                                        <g:message code="auth.register.firstname" />
                                       </Div>
-                                      <Div class="col-sm-4">
-                                      <g:field type="text" name="regfirstname"  required="true" />
+                                      <Div class="col-sm-6">
+                                      <g:field type="text" name="regfirstname"  required="true" class="form-control" />
                                       </Div>
                                    </Div>
 
 
-                                      <Div class="row">                              <%-- add in message--%>
+                                      <Div class="row form-group">                              <%-- add in message--%>
                                             <Div class="col-sm-6">
                                                    <g:message code="auth.register.lastname" />
                                              </Div>
-                                            <Div class="col-sm-4">
-                                                    <g:field type="text" name="reglastname"  required="true" />
+                                            <Div class="col-sm-6">
+                                                    <g:field type="text" name="reglastname"  required="true" class="form-control"/>
                                               </Div>
                                        </Div>
 
 
-                                          <Div class="row">                              <%-- add in message--%>
+                                          <Div class="row form-group">                              <%-- add in message--%>
                                                   <Div class="col-sm-6">
                                                           <g:message code="auth.register.email" />
                                                    </Div>
-                                                   <Div class="col-sm-4">
-                                                          <g:field type="text" name="regemail"  required="true" />
+                                                   <Div class="col-sm-6">
+                                                          <g:field type="email" name="regemail"  required="true" class="form-control"/>
                                                    </Div>
                                            </Div>
 
 
-                                       <Div class="row">                              <%-- add in message--%>
+                                       <Div class="row form-group">                              <%-- add in message--%>
                                              <Div class="col-sm-6">
                                                           <g:message code="auth.register.username" />
                                              </Div>
-                                             <Div class="col-sm-4">
-                                                          <g:field type="text" name="regusername"  required="true" />
+                                             <Div class="col-sm-6 ">
+                                                          <g:field type="text" name="regusername"  required="true" class="form-control"/>
                                               </Div>
                                        </Div>
 
-                                        <Div class="row">                              <%-- add in message--%>
+                                        <Div class="row form-group">                              <%-- add in message--%>
                                              <Div class="col-sm-6">
                                                        <g:message code="auth.register.password" />
                                              </Div>
-                                             <Div class="col-sm-4">
-                                                        <g:field type="Password" name="regpassword"  required="true" />
+                                             <Div class="col-sm-6">
+                                                        <g:field type="Password" name="regpassword" id="rp" required="true" autocomplete="new-password" class="form-control" minlength="8" maxlength="15"/>
                                              </Div>
                                         </Div>
 
 
 
-                                        <Div class="row">                              <%-- add in message--%>
+                                        <Div class="row form-group">                              <%-- add in message--%>
                                              <Div class="col-sm-6">
                                                        <g:message code="auth.register.confirmpassword" />
                                              </Div>
-                                             <Div class="col-sm-4">
-                                                        <g:field type="Password" name="regconfirmpassword"  required="true" />
+                                             <Div class="col-sm-6">
+                                                        <g:field type="Password" name="regconfirmpassword" id="crp" required="true" class="form-control" minlength="8" maxlength="15"/>
                                              </Div>
                                         </Div>
 
-                                         <Div class="row">                              <%-- add in message--%>
+                                         <Div class="row form-group">                              <%-- add in message--%>
                                               <Div class="col-sm-6">
                                                          <g:message code="auth.register.photo" />
                                                </Div>
-                                               <Div class="col-sm-4">
-                                                         <input type="file" name="regphoto" accept="image/x-png,image/gif,image/jpeg" />
+                                               <Div class="col-sm-6">
+                                                         <input type="file" name="regphoto" accept="image/x-png,image/gif,image/jpeg" class="form-control"/>
                                                 </Div>
                                                </Div>
 
                                     <div class="row">&nbsp;</div>
-                                   <Div class="row">
+                                   <Div class="row form-group">
                                         <Div class="col-sm-6">
                                                                <%--empty--%>
                                          </Div>
@@ -208,7 +211,7 @@
                                                                 <%--empty--%>
                                          </Div>
                                           <Div class="col-sm-5">
-                                            <g:submitButton name="update" value="submit"/></span></Div>
+                                            <g:submitButton name="update" value="submit" class="form-control"/></span></Div>
                                            </Div>
 
 
