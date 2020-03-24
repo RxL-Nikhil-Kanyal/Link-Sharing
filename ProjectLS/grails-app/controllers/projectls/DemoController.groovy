@@ -92,12 +92,12 @@ class DemoController {
 
 
 
-        session.user = params.regusername
-        println "new user name:" +session.user
+//        session.user = params.regusername
+//        println "new user name:" +session.user
 
 
-        redirect(controller:'demo',action:'dashboard')
-        flash.message = "Welcome New ${session.user}"
+        redirect(controller:'demo',action:'auth')
+   //     flash.message = "Welcome ${session.user}"
        // message(code: 'create.user.successful')
 
 
@@ -109,6 +109,7 @@ class DemoController {
 
     def dashboard(){
         User au=User.findByUsername(session.user)
+
         [activeUser:au]
 
 
@@ -137,7 +138,9 @@ class DemoController {
         Subscription newSub=new Subscription(user:x.id,topics:t.id,seriousness:"Serious")
         newSub.save(flush:true,failOnError: true)
 
+        flash.message="Topic added Successfully"
         redirect(action:"dashboard")
+
 
 
     }

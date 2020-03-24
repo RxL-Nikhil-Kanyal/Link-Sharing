@@ -7,8 +7,11 @@
 //    MyInterceptor(){
 //        println "my interceptor called"
 //
-//        matchAll().excludes(controller:"Demo",action:~/(auth|myAction|RegisterAction)/)
-//
+// //       matchAll().excludes(controller:"Demo",action:~/(auth|myAction|RegisterAction)/)
+//        matchAll()
+//                .excludes(action:'auth')
+//                .excludes(action:'myAction')
+//                .excludes(action:'RegisterAction')
 //
 //
 //
@@ -28,6 +31,7 @@
 //            println "before was called!"
 //            return false
 //        }else {
+//            println "inside else"
 //            true
 //        }
 //

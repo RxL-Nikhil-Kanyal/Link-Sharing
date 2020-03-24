@@ -13,78 +13,13 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <style>
 #grad {
-  background-image: linear-gradient(#7F00FF, #E100FF);
+  background-image: linear-gradient(#33ccff,#ff99cc );
 }
+<!-#7F00FF#E100FF->
 
 </style>
 
 
-<script>
-
-$(document).ready(function(){
-  $("#button1").click(function(){
-  if(window.location.pathname!="/demo/dashboard")
-    {
-    open("/demo/dashboard", "_self");
-    }
-
-  $('html, body').animate({
-  		scrollTop: $("#shareLink").offset().top
-  	},1000);
-
-
-    $("#shareLink").children().toggle();
-  });
-});
-
-$(document).ready(function(){
-  $("#button2").click(function(){
-
-    if(window.location.pathname!="/demo/dashboard")
-      {
-      open("/demo/dashboard", "_self");
-      }
-
-    $('html, body').animate({
-    		scrollTop: $("#sharetopic").offset().top
-    	},1000);
-
-    $("#sharetopic").children().toggle();
-  });
-});
-
-$(document).ready(function(){
-  $("#button3").click(function(){
-
-    if(window.location.pathname!="/demo/dashboard")
-      {
-      open("/demo/dashboard", "_self");
-      }
-
-    $('html, body').animate({
-    		scrollTop: $("#createtopic").offset().top
-    	},1000);
-
-    $("#createtopic").children().toggle();
-  });
-});
-
-$(document).ready(function(){
-  $("#button4").click(function(){
-
-    if(window.location.pathname!="/demo/dashboard")
-      {
-      open("/demo/dashboard", "_self");
-      }
-
-    $('html, body').animate({
-    		scrollTop: $("#sendinvites").offset().top
-    	},1000);
-
-    $("#sendinvites").children().toggle();
-  });
-});
-</script>
 
 
 </head>
@@ -117,7 +52,67 @@ $(document).ready(function(){
 
 
 
-             <g:img dir="images" file="topic.png" width="20" height="20" id="button3" />
+                  <!-- Trigger the modal with a topic -->
+
+                      <g:img dir="images" file="topic.png" style="background-color: white;border-radius: 5px;"  width="20" height="20" data-toggle="modal" data-target="#myModaltopic" />
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModaltopic" role="dialog">
+                      <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                          <div class="modal-header">
+
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                          </div>
+                          <div class="modal-body">
+
+                                <p align="center">Create Topic</p>
+                            <%--form start here--%>
+
+
+
+                                        <g:form name="createTopicForm" action="createTopicFormAction" id="1" class="form-group">
+
+                                       <div class="row">
+                                            <div class="col-4">Name</div>
+
+                                            <div class="col-8"><g:textField name="newTopicname" value="${mytopic}" required="true" class="form-control"/></div>
+
+                                       </div>
+                                       <div class="row">&nbsp;</div>
+
+                                          <div class="row">
+                                           <div class="col-4">Visibility</div>
+
+                                           <div class="col-8"><g:select name="topic.visibility" from="${['Public','Private']}" value="${vis}"
+                                                                                                    noSelection="['':'-Choose Visibility-']" required="true" class="form-control"/>
+
+                                            </div>
+
+                                      </div>
+
+
+
+
+
+                          </div>
+                          <div class="modal-footer">
+                          <div class="col-5">
+                          <g:submitButton name="CreateTopicButton" value="Create" onclick="callMyAjax()" class="form-control"/>
+                            </div><class="col-6">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                          </div>
+
+                          </div>
+                        </div>
+                         </g:form>  <%--form end here---%>
+
+                      </div>
+                    </div>
+                    <!--end--->
+
 
 
 
@@ -127,7 +122,72 @@ $(document).ready(function(){
 
 
 
-                     <g:img dir="images" file="Link.png" width="20" height="20" id="button1"/>
+                         <!-- Trigger the modal with a link -->
+
+                           <g:img dir="images" file="Link.png" style="background-color: white;border-radius: 5px;"  width="20" height="20" data-toggle="modal" data-target="#myModallink" />
+                         <!-- Modal -->
+                         <div class="modal fade" id="myModallink" role="dialog">
+                           <div class="modal-dialog">
+
+                             <!-- Modal content-->
+                             <div class="modal-content">
+                               <div class="modal-header">
+                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                               </div>
+                               <div class="modal-body"><p align="center">Share Link Here</p>
+
+
+                                   <%-----------start here form-----------%>
+
+                                     <g:form name="shareLinkForm" action="dashboard" id="3">
+                                       <table class="table">
+
+                                         <tr>
+                                         <td>Link</td>
+                                            <td><g:textField name="LinkTopicName" value="${Ltopic}" required="true" class="form-control" /></td>
+                                          </tr>
+
+                                             <tr>
+                                             <td>Description</td>
+                                             <td><g:textArea name="myLinkField" value="Topic related Url" rows="3" cols="10" class="form-control" /> </td>
+
+                                             </tr>
+
+                                             <tr>
+                                               <td>Topic</td>
+                                               <td>   <%---add list of topic here---%>
+                                                 <g:select name="topic.visibility" from="${ }" value="${vis}" noSelection="['':'-Choose Topic-']" required="true" class="form-control" />
+
+                                               </td>
+                                             </tr>
+
+
+
+                                           </table>
+
+
+
+
+
+
+
+                               </div>
+                               <div class="modal-footer">
+
+                               <div class="col-3"><g:submitButton name="shareLinkButton" value="share" class="form-control" /></div>
+                                 <div class="col-6"><button type="button" class="btn btn-default" data-dismiss="modal" class="form-control" >Close</button></div>
+                               </div>
+                             </div>
+
+                                  </g:form>
+
+                                            <%------------end here form-------------%>
+
+
+                           </div>
+                         </div>
+                         <!--end--->
 
 
 
@@ -138,7 +198,62 @@ $(document).ready(function(){
 
 
 
-                     <g:img dir="images" file="msg.jpg" width="20" height="20" id="button4"/>
+
+         <!-- Trigger the modal with a invite -->
+
+                  <g:img dir="images" file="msg.jpg" style="background-color: white;border-radius: 5px;"  width="20" height="20" data-toggle="modal" data-target="#myModalinvite" />
+                <!-- Modal -->
+                <div class="modal fade" id="myModalinvite" role="dialog">
+                  <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                      </div>
+                      <div class="modal-body">
+                        <p align="center">Send Invites</p>
+
+    <%-----------invite form start here form-----------%>
+
+             <g:form name="sendInviteForm" action="dashboard" id="4">
+               <table class="table">
+
+                 <tr>
+                 <td>Email</td>
+                    <td><g:textField name="friendEmail" value="${sendtopic}" required="true" class="form-control"/></td>
+                  </tr>
+                    <tr>
+                       <td>Topic</td>
+                       <td>   <%---add list of topic here---%>
+                         <g:select name="topic.visibility" from="${ }" value="${vis}" noSelection="['':'-Choose Topic-']" required="true" class="form-control"/>
+
+                       </td>
+                     </tr>
+
+
+                   </table>
+
+
+
+                      </div>
+                      <div class="modal-footer"><div class="col-5"><g:submitButton name="sendInviteButton" value="send" class="form-control"/></div>
+                      <div class="col-6"><button type="button" class="btn btn-default" data-dismiss="modal" class="form-control">Close</button></div>
+
+                      </div>
+                    </div>
+
+
+
+             </g:form>
+
+            <%------------invites end here form-------------%>
+
+                  </div>
+                </div>
+                <!--end--->
+
 
 
 
@@ -150,7 +265,66 @@ $(document).ready(function(){
 
 
 
-                     <g:img dir="images" file="doc.png" width="20" height="20" id="button2"/>
+                      <!-- Trigger the modal with a doc -->
+
+                        <g:img dir="images"  file="doc.png" style="background-color: white;border-radius: 5px;" width="20" height="20" data-toggle="modal" data-target="#myModaldoc" />
+                      <!-- Modal -->
+                      <div class="modal fade" id="myModaldoc" role="dialog">
+                        <div class="modal-dialog">
+
+                          <!-- Modal content-->
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                            </div>
+                            <div class="modal-body"><p align="center">Share documents Here</p>
+                             <%-------------form start here----------------%>
+
+                                  <g:form name="shareDocForm" action="dashboard" id="2">
+                                        <table class="table">
+
+                                          <tr>
+                                              <td>Document</td>
+                                                 <td><input type="file" name="docfile" class="form-control" /></td>
+                                          </tr>
+
+                                          <tr>
+                                          <td>Description</td>
+                                          <td><g:textArea name="myField" value="" rows="3" cols="10" class="form-control"/> </td>
+
+                                          </tr>
+
+                                          <tr>
+                                            <td>Topic</td>
+                                            <td>   <%---add list of topic here---%>
+                                              <g:select name="chosentopic" from="${ }" value="${vis}" noSelection="['':'-Choose Topic-']" required="true" class="form-control"/>
+
+                                            </td>
+                                          </tr>
+
+                                        </table>
+
+
+
+
+
+
+
+                            </div>
+                            <div class="modal-footer">
+                            <div class="col-5"><td ><g:submitButton name="update" value="share" onclick="callMyAjax()" class="form-control"/></td></div>
+                              <div class="col-4"><button type="button" class="btn btn-default" data-dismiss="modal"class="form-control">Close</button></div>
+                            </div>
+                          </div>
+                            </g:form>
+
+                                       <%------------end here form-------------%>
+
+                        </div>
+                      </div>
+                      <!--end--->
+
 
 
 
@@ -197,104 +371,8 @@ $(document).ready(function(){
 
 
 
-  <!-- Trigger the modal with a doc -->
 
-    <g:img dir="images"  file="doc.png" style="background-color: white;border-radius: 5px;" width="20" height="20" data-toggle="modal" data-target="#myModaldoc" />
-  <!-- Modal -->
-  <div class="modal fade" id="myModaldoc" role="dialog">
-    <div class="modal-dialog">
 
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-
-        </div>
-        <div class="modal-body">
-          <p>Some text in the doc modal.</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-
-    </div>
-  </div>
-  <!--end--->
-    <!-- Trigger the modal with a link -->
-
-      <g:img dir="images" file="Link.png" style="background-color: white;border-radius: 5px;"  width="20" height="20" data-toggle="modal" data-target="#myModallink" />
-    <!-- Modal -->
-    <div class="modal fade" id="myModallink" role="dialog">
-      <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-
-          </div>
-          <div class="modal-body">
-            <p>Some text in the link modal.</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
-        </div>
-
-      </div>
-    </div>
-    <!--end--->
-
-      <!-- Trigger the modal with a topic -->
-
-          <g:img dir="images" file="topic.png" style="background-color: white;border-radius: 5px;"  width="20" height="20" data-toggle="modal" data-target="#myModaltopic" />
-        <!-- Modal -->
-        <div class="modal fade" id="myModaltopic" role="dialog">
-          <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-
-              </div>
-              <div class="modal-body">
-                <p>Some text in the topic modal.</p>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              </div>
-            </div>
-
-          </div>
-        </div>
-        <!--end--->
-
-         <!-- Trigger the modal with a invite -->
-
-                  <g:img dir="images" file="msg.jpg" style="background-color: white;border-radius: 5px;"  width="20" height="20" data-toggle="modal" data-target="#myModalinvite" />
-                <!-- Modal -->
-                <div class="modal fade" id="myModalinvite" role="dialog">
-                  <div class="modal-dialog">
-
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-
-                      </div>
-                      <div class="modal-body">
-                        <p>Some text in the invite modal.</p>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-                <!--end--->
 
 
 </body>

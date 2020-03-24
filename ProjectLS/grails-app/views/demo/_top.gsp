@@ -11,7 +11,7 @@
 
 <style>
 #grad {
-  background-image: linear-gradient(#7F00FF, #E100FF);
+  background-image: linear-gradient(#33ccff,#ff99cc );
 }
 
 </style>
