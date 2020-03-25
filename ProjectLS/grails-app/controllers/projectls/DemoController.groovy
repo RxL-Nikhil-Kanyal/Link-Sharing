@@ -15,6 +15,17 @@ class DemoController {
     }
 
     def auth(){
+        List PublicTopics=Topics?.findAllByVisibility("Public")
+
+        List LatestUpdatedPublicTopics=Resource.createCriteria().list{
+            and{
+                inList("topics",PublicTopics)
+                order("lastUpdated", "desc")
+            }
+        }
+
+        [recentUpdatedTopics:LatestUpdatedPublicTopics]
+
 
 
     }
@@ -114,16 +125,6 @@ class DemoController {
         List subscribedTopics=Subscription.findAllByUser(User.get(au.id)).topics
 
 
-//        list sub=Subscription.findAllByUser(2)
-//        println sub.topics
-//        list k=sub.topics
-//        list dp=Topics.findAllById(k)
-//        println dp
-
-
-
-
-
 
         [activeUser:au,subbedTopics:subscribedTopics]
 
@@ -155,6 +156,15 @@ class DemoController {
 
         flash.message="Topic added Successfully"
         redirect(action:"dashboard")
+
+
+
+    }
+    def PublicTopicsShow(){
+
+        Resource res=Resource.get(params.topicRelated)
+
+        [recentUpdatedTopics:res]
 
 
 
@@ -231,7 +241,9 @@ class DemoController {
 
     def fetchPersonImage(){
         def user = User.findByUsername(session.user)
-        byte[] imageInByte = aus.photo
+        byte[] imageInByte = user.photo
+        String encoded = Base64.getEncoder().encodeToString(imageInByte)
+        session.setAttribute("userPhoto", encoded)
 //        response.contentType = 'image/png ,image/x-png,image/jpeg' // or the appropriate image content type
 //        response.outputStream << User.photo
 //        response.outputStream.flush()

@@ -33,7 +33,7 @@ setTimeout(function() {
 <div class="container">
     <div class="col-7">
 
-  <a class="navbar-brand" href="#"><h4>LINK SHARING</h4></a>
+  <a class="navbar-brand" href="/demo/auth"><h4>LINK SHARING</h4></a>
 
 
     </div>

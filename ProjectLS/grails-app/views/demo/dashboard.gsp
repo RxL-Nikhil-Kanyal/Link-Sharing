@@ -42,8 +42,17 @@
                                   <g:link action="userProfile" id="nameLink">
                                   <span class="col-4">
 
-                                  <g:img dir="images" file="defaultpic.png" width="120" height="120"/>
-                            <%--      <img src="${createLink(controller: 'Demo', action: 'fetchPersonImage')}"/>---%>
+                                        <g:if test="${session.getAttribute("userPhoto")}">
+
+                                         <img style="width: inherit" src="data:image/jpg;base64,${session.getAttribute("userPhoto")}"/>
+                                        </g:if>
+                                        <g:else>
+                                             <g:img dir="images" file="defaultpic.png" width="120" height="120"/>
+                                        </g:else>
+
+
+
+
 
 
 
