@@ -14,10 +14,10 @@
      <div class="bodyContent" id="bodyContent">
 
    <g:if test="${flash.message}">
-          <div class="message" role="status" style="font-size: medium;color: white;background-color: green;font-weight: bold;">${flash.message}</div>
+          <div id ="animateDiv" class="message" role="status" style="font-size: medium;color: white;background-color: green;font-weight: bold;">${flash.message}</div>
       </g:if>
       <g:if test="${flash.warning}">
-          <div class="message_error" style="font-size: medium;color: white;background-color: red;font-weight: bold;">${flash.warning}</div>
+          <div id ="animateDiv"  class="message_error" style="font-size: medium;color: white;background-color: red;font-weight: bold;">${flash.warning}</div>
       </g:if>
 
      </div>

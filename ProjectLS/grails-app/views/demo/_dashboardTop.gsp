@@ -8,6 +8,14 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <%--addin--%>
 
+<g:javascript>
+
+setTimeout(function() {
+  $("#animateDiv").fadeOut("slow").empty();
+}, 2500);
+
+</g:javascript>
+
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -140,12 +148,12 @@
 
                                    <%-----------start here form-----------%>
 
-                                     <g:form name="shareLinkForm" action="dashboard" id="3">
+                                     <g:form name="shareLinkForm" action="shareLinkAction" id="3">
                                        <table class="table">
 
                                          <tr>
                                          <td>Link</td>
-                                            <td><g:textField name="LinkTopicName" value="${Ltopic}" required="true" class="form-control" /></td>
+                                            <td><g:textField name="LinkTopicUrl" value="${Ltopic}" required="true" class="form-control" /></td>
                                           </tr>
 
                                              <tr>
@@ -157,7 +165,7 @@
                                              <tr>
                                                <td>Topic</td>
                                                <td>   <%---add list of topic here---%>
-                                                 <g:select name="topic.visibility" from="${ }" value="${vis}" noSelection="['':'-Choose Topic-']" required="true" class="form-control" />
+                                                 <g:select name="linktopic.name" from="${subbedTopics.name}" value="${vis}" noSelection="['':'-Choose Topic-']" required="true" class="form-control" />
 
                                                </td>
                                              </tr>
@@ -227,7 +235,7 @@
                     <tr>
                        <td>Topic</td>
                        <td>   <%---add list of topic here---%>
-                         <g:select name="topic.visibility" from="${ }" value="${vis}" noSelection="['':'-Choose Topic-']" required="true" class="form-control"/>
+                         <g:select name="topic.visibility" from="${subbedTopics.name}" value="${vis}" noSelection="['':'-Choose Topic-']" required="true" class="form-control"/>
 
                        </td>
                      </tr>
@@ -281,7 +289,7 @@
                             <div class="modal-body"><p align="center">Share documents Here</p>
                              <%-------------form start here----------------%>
 
-                                  <g:form name="shareDocForm" action="dashboard" id="2">
+                                  <g:form name="shareDocForm" action="shareDocAction" id="2">
                                         <table class="table">
 
                                           <tr>
@@ -291,14 +299,14 @@
 
                                           <tr>
                                           <td>Description</td>
-                                          <td><g:textArea name="myField" value="" rows="3" cols="10" class="form-control"/> </td>
+                                          <td><g:textArea name="myDocField" value="" rows="3" cols="10" class="form-control"/> </td>
 
                                           </tr>
 
                                           <tr>
                                             <td>Topic</td>
                                             <td>   <%---add list of topic here---%>
-                                              <g:select name="chosentopic" from="${ }" value="${vis}" noSelection="['':'-Choose Topic-']" required="true" class="form-control"/>
+                                              <g:select name="docChosenTopic" from="${subbedTopics.name}" value="${vis}" noSelection="['':'-Choose Topic-']" required="true" class="form-control"/>
 
                                             </td>
                                           </tr>

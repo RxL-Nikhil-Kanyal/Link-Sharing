@@ -13,10 +13,6 @@ class DemoController {
         println session.user
         render "abc"
     }
-    def top(){
-
-    }
-
 
     def auth(){
 
@@ -24,12 +20,17 @@ class DemoController {
     }
     def posts(){
         User au=User.findByUsername(session.user)
-        return [activeUser:au]
+        List subscribedTopics=Subscription.findAllByUser(User.get(au.id)).topics
+
+
+        return [activeUser:au,subbedTopics:subscribedTopics]
     }
     def topicsShow(){
 
         User au=User.findByUsername(session.user)
-        return [activeUser:au]
+        List subscribedTopics=Subscription.findAllByUser(User.get(au.id)).topics
+
+        return [activeUser:au,subbedTopics:subscribedTopics]
 
     }
     def myAction(){
@@ -110,6 +111,8 @@ class DemoController {
     def dashboard(){
         User au=User.findByUsername(session.user)
 
+        List subscribedTopics=Subscription.findAllByUser(User.get(au.id)).topics
+
 
 //        list sub=Subscription.findAllByUser(2)
 //        println sub.topics
@@ -122,7 +125,7 @@ class DemoController {
 
 
 
-        [activeUser:au]
+        [activeUser:au,subbedTopics:subscribedTopics]
 
 
     }
@@ -160,9 +163,10 @@ class DemoController {
     def UsersA(){
         def persons = User.list()
         User au=User.findByUsername(session.user)
-        def nu=persons.size()
-        println "size of the list : "+ nu
-       return [usr:persons,activeUser:au,numberOfUser:nu]
+        //remove numbr of users for now p.s()
+        List subscribedTopics=Subscription.findAllByUser(User.get(au.id)).topics
+
+       return [usr:persons,activeUser:au,subbedTopics:subscribedTopics]
 
 
 
@@ -170,8 +174,9 @@ class DemoController {
     def editProfile(){
 
         User au=User.findByUsername(session.user)
+        List subscribedTopics=Subscription.findAllByUser(User.get(au.id)).topics
 
-        return [activeUser:au]
+        return [activeUser:au,subbedTopics:subscribedTopics]
     }
     def changeUserPassword(){
 
@@ -209,7 +214,9 @@ class DemoController {
     }
     def  userProfile(){
         User au=User.findByUsername(session.user)
-        [activeUser:au]
+        List subscribedTopics=Subscription.findAllByUser(User.get(au.id)).topics
+
+        [activeUser:au,subbedTopics:subscribedTopics]
     }
     def changeUserActiveStatus(){
        User otherUser=User.get(params.val)
@@ -230,11 +237,53 @@ class DemoController {
 //        response.outputStream.flush()
 
 
+    }
+    def ShareLinkAction(){
 
-//        response.contentType = "image/png ,image/x-png,image/jpeg"
-//        response.contentLength = user?.photo.length
-//        response.outputStream.write(user?.photo)
-//        response.outputStream.flush()
+        Topics t=Topics.findByName(params.linktopic.name)
+        User u=User.findByUsername(session.user)
+
+
+        LinkResources linkResource=new LinkResources(name:params.myLinkField,URl:params.LinkTopicUrl,user:u.id,topics:t.id)
+        linkResource.validate()
+
+        if (linkResource.hasErrors()) {
+            linkResource.errors.allErrors.each {
+                println it
+            }
+            flash.warning="Error ,Please Try Again"
+        }else{
+            linkResource.save(flush:true,failOnError: true)
+            flash.message="Added Resource Successfully"
+        }
+
+
+        redirect(action:"dashboard")
+    }
+
+    def shareDocAction(){
+        Topics t=Topics.findByName(params.docChosenTopic)
+        User u=User.findByUsername(session.user)
+
+
+
+        DocumentResources docResource=new DocumentResources(name:params.myDocField,user:u.id,topics:t.id)
+        docResource.doc=params.docfile.bytes
+        docResource.validate()
+
+        if (docResource.hasErrors()) {
+            docResource.errors.allErrors.each {
+                println it
+            }
+            flash.warning="Error ,Please Try Again"
+        }else{
+            docResource.save(flush:true,failOnError: true)
+            flash.message="Added Resource Successfully"
+        }
+
+
+        redirect(action:"dashboard")
+
     }
 
 

@@ -15,6 +15,15 @@
 }
 
 </style>
+
+<g:javascript>
+
+setTimeout(function() {
+  $("#animateDiv").fadeOut("slow").empty();
+}, 2500);
+
+</g:javascript>
+
 </head>
 <body id="grad" >
 

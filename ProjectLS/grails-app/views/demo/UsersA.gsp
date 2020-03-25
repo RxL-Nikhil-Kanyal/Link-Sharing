@@ -8,9 +8,20 @@
 
 </style>
 
+
 </head>
 <body>
 <g:render template="dashboardTop" />
+
+
+ <g:if test="${flash.message}">
+        <div id="animateDiv" class="message" role="status" style="font-size: medium;color: white;background-color: green;font-weight: bold;">${flash.message}</div>
+    </g:if>
+    <g:if test="${flash.warning}">
+        <div id="animateDiv" class="message_error" style="font-size: medium;color: white;background-color: red;font-weight: bold;">${flash.warning}</div>
+    </g:if>
+
+
 
 
 
@@ -32,7 +43,7 @@
 
                       </div>
                       <div class="card-body">
-                      <table class="table table-bordered table-success table-hover">
+                      <table class="table table-bordered table-success table-hover" >
                       <tr>
                       <thead class="thead-dark">
                       <th><h4> <B>S.no</h4></th>

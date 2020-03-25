@@ -1,10 +1,10 @@
 //class LinkReource ,DocumentResource
 
 class Resource {
-    String name
+    String name//description
     static belongsTo =[user: User, topics: Topics]
     Date dateCreated
-    Date dateUpdated
+    Date lastUpdated
     static hasmany=[readingItem:ReadingItem, resourceRating: ResourceRating]
 
 
