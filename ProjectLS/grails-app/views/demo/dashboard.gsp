@@ -51,8 +51,13 @@
                                   <span class="col-4">
 
                                   <g:img dir="images" file="defaultpic.png" width="120" height="120"/>
+                            <%--      <img src="${createLink(controller: 'Demo', action: 'fetchPersonImage')}"/>---%>
+
+
+
                                   </span></g:link>
                                    <g:link action="userProfile" id="nameLink">
+
                                   <span class="col-8" id="displayName">
                                     ${activeUser.firstName} ${activeUser.lastName}
 

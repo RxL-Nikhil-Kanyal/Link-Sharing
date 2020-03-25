@@ -110,6 +110,18 @@ class DemoController {
     def dashboard(){
         User au=User.findByUsername(session.user)
 
+
+//        list sub=Subscription.findAllByUser(2)
+//        println sub.topics
+//        list k=sub.topics
+//        list dp=Topics.findAllById(k)
+//        println dp
+
+
+
+
+
+
         [activeUser:au]
 
 
@@ -211,11 +223,18 @@ class DemoController {
     }
 
     def fetchPersonImage(){
-        def aus = User.findByUsername(session.user)
+        def user = User.findByUsername(session.user)
         byte[] imageInByte = aus.photo
-        response.contentType = 'image/png ,image/x-png,image/jpeg' // or the appropriate image content type
-        response.outputStream << imageInByte
-        response.outputStream.flush()
+//        response.contentType = 'image/png ,image/x-png,image/jpeg' // or the appropriate image content type
+//        response.outputStream << User.photo
+//        response.outputStream.flush()
+
+
+
+//        response.contentType = "image/png ,image/x-png,image/jpeg"
+//        response.contentLength = user?.photo.length
+//        response.outputStream.write(user?.photo)
+//        response.outputStream.flush()
     }
 
 

@@ -25,7 +25,7 @@
             <div class="card">  <%--e--%>
                  <div class="row"> &nbsp;</div>
 
- <div class="row">
+              <div class="row">
                 <div class="card" align="center">
                      <div class="card-header">
                                 <B> <h4> ALL USERS</h4>
@@ -64,7 +64,7 @@
 
                       </div>
                 </div>
-            </div>
+               </div>
 
 
 
@@ -72,7 +72,7 @@
 
 
 
-            </div>      <%--e--%>
+             </div>      <%--e--%>
 
 
 

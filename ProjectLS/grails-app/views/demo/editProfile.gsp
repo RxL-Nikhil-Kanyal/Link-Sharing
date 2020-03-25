@@ -54,7 +54,7 @@ edit profile
                                <g:message code="auth.register.password" />
                               </Div>
                               <Div class="col-sm-4">
-                              <g:field type="Password" name="changePassword" value="" required="true" />
+                              <g:field type="Password" name="changePassword" value="" required="true" minlength="8" maxlength="15"/>
                               </Div>
                            </Div>
 
@@ -66,7 +66,7 @@ edit profile
                                        <g:message code="auth.register.confirmpassword" />
                                    </Div>
                                    <Div class="col-sm-4">
-                                       <g:field type="Password" name="changeConfirmPassword" value="" required="true" /></Div>
+                                       <g:field type="Password" name="changeConfirmPassword" value="" required="true"  minlength="8" maxlength="15" /></Div>
                                     </Div>
                            </Div>
 
@@ -132,7 +132,7 @@ edit profile
                                        <g:message code="auth.register.firstname" />
                                       </Div>
                                       <Div class="col-sm-4">
-                                      <g:field type="text" name="changeFirstname"  />
+                                      <g:field type="text" name="changeFirstname" required="true"  />
                                       </Div>
                                    </Div>
 
@@ -142,7 +142,7 @@ edit profile
                                                    <g:message code="auth.register.lastname" />
                                              </Div>
                                             <Div class="col-sm-4">
-                                                    <g:field type="text" name="changeLastname"  />
+                                                    <g:field type="text" name="changeLastname"/>
                                               </Div>
                                        </Div>
 
