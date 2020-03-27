@@ -4,7 +4,7 @@
 </head>
 
 <body>
-<g:render template="top" />
+<g:render template="/authentication/top" />
 
 
       <div class="card shadow p-0 bg-white rounded">
@@ -45,11 +45,13 @@
                             <div class="row"><div class="col-8">${u?.user.email}</div>
                             <div class="col-4">
 
-                                   <g:if test="${u?.URl}">
-                                       Resource: <a href="${u.URl}">${u.URl}</a>
+
+                                    <g:if test="${u?.class==LinkResources}">
+                                       Resource: <a href="${u?.URl}">Go To Link</a>
                                    </g:if>
                                    <g:else>
-                                        Resource: download
+                                        Resource:   <g:link controller="Demo" action="downloadFile" params="[res:u]"> Download
+                                                     </g:link>
                                    </g:else>
 
                             </div> </div>
@@ -71,8 +73,7 @@
             </div>
 
 
-            <a href="#">link</a>
-                </div>
+
       </div>
 
     </div>

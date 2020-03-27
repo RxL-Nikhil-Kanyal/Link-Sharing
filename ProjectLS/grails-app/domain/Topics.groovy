@@ -9,7 +9,7 @@ class Topics {
     Date dateCreated
     Date lastUpdated
     Visibility visibility
-    static hasMany=[resource:Resource]
+    static hasMany=[resource:Resource,subscription:Subscription]
 
     static constraints = {
 
@@ -21,6 +21,9 @@ class Topics {
     static mapping = {
         //source-db=""
         table 'topics'
+
+        resource cascade: 'all-delete-orphan'
+        subscription cascade: 'all-delete-orphan'
 
     }
 

@@ -7,11 +7,8 @@
 //    MyInterceptor(){
 //        println "my interceptor called"
 //
-// //       matchAll().excludes(controller:"Demo",action:~/(auth|myAction|RegisterAction)/)
-//        matchAll()
-//                .excludes(action:'auth')
-//                .excludes(action:'myAction')
-//                .excludes(action:'RegisterAction')
+//        matchAll().excludes(controller:'Authentication')
+//
 //
 //
 //
@@ -26,7 +23,7 @@
 //        println "before called for session by :"+ session.user
 //
 //        if(!session.user) {
-//            redirect(controller: "Demo", action: "auth")
+//            redirect(controller: "Authentication", action: "auth")
 //            flash.message = "please Login first!"
 //            println "before was called!"
 //            return false

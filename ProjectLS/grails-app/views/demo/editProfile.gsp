@@ -6,8 +6,15 @@
 
 <body>
 <g:render template="dashboardTop" />
-edit profile
-   <g:message code="default.link.skip.label" default=""/></a>
+<div class="row">&nbsp;</div>
+
+   <g:if test="${flash.message}">
+          <div id ="animateDiv" class="message" role="status" style="font-size: medium;color: white;background-color: green;font-weight: bold;">${flash.message}</div>
+      </g:if>
+      <g:if test="${flash.warning}">
+          <div id ="animateDiv"  class="message_error" style="font-size: medium;color: white;background-color: red;font-weight: bold;">${flash.warning}</div>
+      </g:if>
+
 
      <div class="bodyContent" id="bodyContent">
 
@@ -28,10 +35,13 @@ edit profile
                              <div class="card shadow p-0 bg-white rounded ">
 
                                    <div class="card-body ">
+
                                        <span class="col-4">
                                        <g:img dir="images" file="defaultpic.png" width="120" height="120" />
                                        </span>
                                        <span class="col-8" id="displayName"> ${activeUser.firstName} ${activeUser.lastName}</span>
+
+                                       <div class="row"><span class="col-6">Subscribed: ${subbedTopics?.size()}</span><span class="col-6">Posts:${}</span></div>
                                    </div>
                              </div>
                          </div><%--end of first row --%>

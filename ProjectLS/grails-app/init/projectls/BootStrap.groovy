@@ -31,7 +31,7 @@ class BootStrap {
         Topics t3=new Topics(name:"ThirdTopic",user:x.id,visibility:"Public")
         t3.save(flush:true,failOnError:true)
 
-        Subscription newSub3=new Subscription(user:x.id,topics:t2.id,seriousness:"Serious")
+        Subscription newSub3=new Subscription(user:x.id,topics:t3.id,seriousness:"Serious")
         newSub3.save(flush:true,failOnError: true)
 
         //resource for topic 2
@@ -41,6 +41,25 @@ class BootStrap {
         //resource for topic 3
         LinkResources linkResource2=new LinkResources(name:" 3 blah blah Description",URl:"kl.com",user:x.id,topics:t3.id)
         linkResource2.save(flush: true,failOnError: true)
+
+
+        //user 3 active
+        User k=new User(email:"scoob@gmail.com",username:"scoob",password:"ssssssss",firstName:"Scooby",lastName:"Doo",admin:0,active:1)
+        k.save()
+
+        Topics t4=new Topics(name:"scTopic",user:k.id,visibility:"Public")
+        t4.save(flush:true,failOnError:true)
+
+        Subscription newSub4=new Subscription(user:k.id,topics:t4.id,seriousness:"Serious")
+        newSub4.save(flush:true,failOnError: true)
+
+        //admin subscribes to scoobs topic
+        Subscription newSub5=new Subscription(user:x.id,topics:t4.id,seriousness:"Serious")
+        newSub5.save(flush:true,failOnError: true)
+
+
+
+
 
 
     }

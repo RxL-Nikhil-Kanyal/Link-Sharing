@@ -9,6 +9,7 @@
   width: auto;
   height: 180px;
   overflow: scroll;
+  overflow-x: hidden;
 }
 #ellps {
   white-space: nowrap;
@@ -59,7 +60,7 @@
                     <div class="row">
                         <div class="col-4">
 
-                        <g:img dir="images" file="defaultpic.png" width="120" height="120"/>
+                        <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
 
                         </div>
                         <div class="col-8"><%---right of pic---%>
@@ -72,7 +73,7 @@
 
                             <div class="col-3">
 
-                           <g:link action="PublicTopicsShow" params="[topicRelated:u.id]">
+                           <g:link controller="Demo" action="PublicTopicsShow" params="[topicRelated:u.id]">
                                  more
                            </g:link>
 
@@ -84,8 +85,8 @@
 
                             <div class="col-4">
 
-                                    <g:if test="${u?.URl}">
-                                       Resource: <a href="${u.URl}">${u.URl}</a>
+                                    <g:if test="${u?.class==LinkResources}">
+                                       Resource: <a href="${u?.URl}">Go To Link</a>
                                    </g:if>
                                    <g:else>
                                         Resource: download
@@ -112,7 +113,7 @@
             </div>
 
 
-            <a href="#">link</a>
+            <a href="#"></a>
                 </div>
       </div>
 
@@ -128,7 +129,7 @@
              </div>
              <div class="card-body">
                <Div class="container">
-               <g:form name="myForm" controller="Demo" action="myAction" >
+               <g:form name="myForm" controller="Authentication" action="login" >
                            <Div class="row form-group" >                              <%-- add in message--%>
                               <Div class="col-sm-6">
                                <g:message code="auth.login.username" />
@@ -208,7 +209,7 @@
                      </div>
                      <div class="card-body">
                        <Div class="container">
-                       <g:form name="myForm" controller="demo" action="RegisterAction"
+                       <g:form name="myForm" controller="Authentication" action="RegisterAction"
                        method="post" >
                                    <Div class="row form-group">                              <%-- add in message--%>
                                       <Div class="col-sm-6">

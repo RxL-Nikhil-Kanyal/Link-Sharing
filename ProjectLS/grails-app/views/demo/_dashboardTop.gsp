@@ -20,6 +20,24 @@ setTimeout(function() {
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <style>
+
+
+
+#flow1{
+
+  width: auto;
+  height: 200px;
+  overflow: scroll;
+}
+#ellps {
+  white-space: nowrap;
+  width: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+}
+
+
 #grad {
   background-image: linear-gradient(#33ccff,#ff99cc );
 }
@@ -364,7 +382,7 @@ setTimeout(function() {
 
                <a class="dropdown-item" href="/demo/posts">Posts</a>
                <div class="dropdown-divider"></div>
-               <a class="dropdown-item" href="/demo/logout">Logout</a>
+               <a class="dropdown-item" href="/Authentication/logout">Logout</a>
           </div>
         </div>
 

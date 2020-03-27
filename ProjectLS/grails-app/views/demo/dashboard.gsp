@@ -76,22 +76,75 @@
                                      <div class="card-header">
                                                   Subscriptions
                                       </div>
-                                      <div class="card-body">
-                                            <h5 class="card-title">Special title treatment</h5>
-                                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                                             <a href="#">link</a>
+                                      <div class="card-body" id="flow1">
+
+                                          <div class="container"><%---corrections from here---%>
+
+                                                   <g:if test="${listOfSubs.size()==0}">
+                                                            <div class="row"><div class="col-12">No Subscriptions yet . Subscribe to new Posts.</div></div>
+
+                                                    </g:if>
+                                                    <g:else>
+
+                                                        <div class="row"><div class="col-12">
+
+                                                           <g:each in="${listOfSubs}" var="u" status="i">
+
+                                                                <div class="row">
+
+                                                                        <div class="col-3">
+
+                                                                        <g:img dir="images" file="defaultpic.png" width="80" height="80"/>
+
+                                                                        </div>
+                                                                        <div class="col-9">
+                                                                            <div class="row">
+                                                                               <div class="col-7">${u?.topics.name}</div>
+                                                                               <div class="col-5">@${u?.topics?.user?.username}</div><%--c--%>
+                                                                            </div><hr>
+
+                                                                             <div class="row">
+                                                                                <div class="col-8">
+                                                                                    <g:link action="unsubscribeAction" params="[topicinfo:u?.topics?.id]">UnSubscribe</g:link>
+
+                                                                                </div>
+
+
+                                                                                <div class="col-4">
+                                                                                     Subs: ${listOfSubs?.user?.size()}
+                                                                                    Posts: ${listOfSubs?.topics?.user?.size()}
+
+
+
+                                                                                 </div>
+                                                                             </div>
+
+
+
+
+                                                                        </div>
+
+                                                                </div><hr>
+
+                                                           </g:each>
+
+
+                                                        </div></div>
+
+
+
+
+                                                     </g:else>
+
+
+
+                                          </div><%------corrections to here-----%>
+
+
                                       </div>
                                 </div>
                             </div><%--end of 2 row --%>
-                                     <div class="row">
-                                         <div class="card shadow p-0 bg-white rounded">
-                                               <div class="card-body">
-                                                     <h5 class="card-title">Special title treatment</h5>
-                                                     <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                                                      <a href="#">link</a>
-                                               </div>
-                                         </div>
-                                     </div><%--end of 3 row --%>
+
 
                      <div class="row"> &nbsp;</div>
 
