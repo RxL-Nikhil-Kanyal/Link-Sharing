@@ -5,7 +5,7 @@ class AuthenticationController {
 
     def auth() {
         List PublicTopics = Topics?.findAllByVisibility("Public")
-        List LatestUpdatedPublicTopics = Resource.createCriteria().list {
+        List LatestUpdatedPublicTopics = Resource.createCriteria().list(offset:0,max:5) {
             and {
                 inList("topics", PublicTopics)
                 order("lastUpdated", "desc")
@@ -62,8 +62,9 @@ class AuthenticationController {
             u.errors.allErrors.each {
                 println it
             }
-            flash.warning = "Error Creating User"
-            redirect(action: "auth")
+            flash.warning = "Error Creating User. Username/email exists! "
+            redirect(controller: 'authentication')
+            return
 
 
         }
@@ -71,13 +72,11 @@ class AuthenticationController {
         u.save(flush: true, failOnError: true)
 
 
-//        session.user = params.regusername
-//        println "new user name:" +session.user
 
-
+         flash.message="User Created ${u.username}. Please Login"
         redirect(controller: 'Authentication', action: 'auth')
         //     flash.message = "Welcome ${session.user}"
-        // message(code: 'create.user.successful')
+
 
 
     }

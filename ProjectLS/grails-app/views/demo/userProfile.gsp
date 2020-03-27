@@ -23,7 +23,7 @@
 
        <div class="row">  <%--e--%>
 
-            <div class="card">  <%--e--%>
+            <div class="container">  <%--e--%>
                  <div class="row"> &nbsp;</div>
 
                     <div class="row">
@@ -31,10 +31,49 @@
 
                               <div class="card-body">
                                   <span class="col-4">
-                                  <g:img dir="images" file="defaultpic.png" width="120" height="120"/>
-                                  <img src="${createLink(controller: 'Demo', action: 'fetchProductImage', params: ['productName': 'Some_product_name'])}"/>
-                                  </span>
-                                  <span class="col-8" id="displayName"> ${activeUser.firstName} ${activeUser.lastName}</span>
+
+
+                             <div class="row">
+
+                                        <div class="col-5">
+                                            <g:link action="userProfile" id="nameLink">
+                                                 <g:if test="${session.getAttribute("userPhoto")}">
+
+                                                    <img style="width: inherit"
+                                                      src="data:image/jpg;base64,${session.getAttribute("userPhoto")}"/>
+                                                 </g:if>
+                                                 <g:else>
+                                                     <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
+                                                 </g:else>
+                                             </g:link>
+                                        </div>
+                                        <div class="col-7">
+
+                                                 <g:link action="userProfile" id="nameLink">
+                                                        <div class="row">&nbsp;</div>
+                                                         <div class="row">  &nbsp;&nbsp;&nbsp;&nbsp;${activeUser.firstName} ${activeUser.lastName}</div>
+                                                         <div class="row">
+
+
+                                                                    <div class="col">Subscriptions:</div>
+                                                                    <div class="row">${subbedTopics.size()}</div>
+                                                                       <div class="col">Topics:</div>
+                                                                     <div class="row">${usersTopics.size()}</div>
+
+
+                                                         </div>
+
+
+
+                                                 </g:link>
+
+                                        </div>
+			</div>
+
+
+
+
+
                               </div>
                         </div>
                     </div><%--end of first row --%>

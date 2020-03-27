@@ -58,6 +58,12 @@ class DemoController {
         //topic creation by user
 
         Topics t = new Topics(name: params.newTopicname, user: x.id, visibility: params.topic.visibility)
+        t.validate()
+        if(t.hasErrors()){
+
+            flash.warning="Topic Already Exists. Try Again!"
+            redirect(action: "dashboard")
+        }
         t.save(flush: true, failOnError: true)
 
         Subscription newSub = new Subscription(user: x.id, topics: t.id, seriousness: "Serious")
@@ -79,7 +85,7 @@ class DemoController {
 
         List updatedTopics = Resource.findAllByTopics(res?.topics)
 
-        println "this is the list of res:-------" + res
+
 
         [recentUpdatedTopics: updatedTopics]
 
@@ -101,8 +107,9 @@ class DemoController {
 
         User au = User.findByUsername(session.user)
         List subscribedTopics = Subscription.findAllByUser(User.get(au.id)).topics
+        List topicsByUser=Topics.findAllByUser(User.findByUsername(session.user),[max:10,offset:0])//10 posts
 
-        return [activeUser: au, subbedTopics: subscribedTopics]
+        return [activeUser: au, subbedTopics: subscribedTopics,userTopics:topicsByUser]
     }
 
     def changeUserPassword() {
@@ -162,7 +169,9 @@ class DemoController {
         User au = User.findByUsername(session.user)
         List subscribedTopics = Subscription.findAllByUser(User.get(au.id)).topics
 
-        [activeUser: au, subbedTopics: subscribedTopics]
+        List topicsByUSer = Topics.findAllByUser(User.findAllByUsername(session.user))
+
+        [activeUser: au, subbedTopics: subscribedTopics,usersTopics: topicsByUSer]
     }
 
     def changeUserActiveStatus() {
@@ -179,13 +188,16 @@ class DemoController {
     }
 
     def fetchPersonImage() {
-        def user = User.findByUsername(session.user)
-        byte[] imageInByte = user.photo
-        String encoded = Base64.getEncoder().encodeToString(imageInByte)
+        User usr = User.findByUsername(session.user)
+//     //   byte[] imageInByte = user.photo
+//        String encoded = Base64.getEncoder().encodeToString(user.photo)
+//        session.setAttribute("userPhoto", encoded)
+////        response.contentType = 'image/png ,image/x-png,image/jpeg' // or the appropriate image content type
+////        response.outputStream << User.photo
+////        response.outputStream.flush()
+
+        String encoded = Base64.getEncoder().encodeToString(usr.photo)
         session.setAttribute("userPhoto", encoded)
-//        response.contentType = 'image/png ,image/x-png,image/jpeg' // or the appropriate image content type
-//        response.outputStream << User.photo
-//        response.outputStream.flush()
 
 
     }
@@ -273,6 +285,34 @@ class DemoController {
 //        } else render "Error!" // appropriate error handling
 
         render "downloading !!!"
+    }
+
+    def changeVisibFromDash(){
+
+        Topics topic=Topics.findByName(params.topicNa);
+        User user=User.findByUsername(session.user);
+        println "topic name ------------------>>>"+params.topicNa
+        println "visibility------------------->>>>"+params.selectVisib
+        println "topics ---------------------->>>>>"+topic
+        if(topic.user.id==user.id){
+            topic.visibility=params.selectVisib;
+
+            println "changeed???-------------->"+topic.visibility
+            topic.save(flush:true,failOnError: true)
+            [success: true, "message": "Visibility Changed !"]
+
+
+        }
+        [success: false, "message": "Permission Denied! Topics Created By Other!"]
+    }
+
+    def deleteTopic(){
+        Topics topic=Topics.get(params.topicId)
+        println "------------------->"+ params.topicId
+        topic.delete(flush:true,failOnError: true)
+
+        flash.message="Topic Deleted"
+        redirect (controller:'demo',action:'editProfile')
     }
 
 

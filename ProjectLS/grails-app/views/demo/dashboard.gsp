@@ -3,12 +3,10 @@
 <title>dashboard</title>
 
 
-<g:javascript>
 
 
 
 
- </g:javascript>
 
 </head>
 <body>
@@ -38,34 +36,51 @@
                     <div class="row">
                         <div class="card shadow p-0 bg-white rounded">
 
-                              <div class="card-body">
-                                  <g:link action="userProfile" id="nameLink">
-                                  <span class="col-4">
-
-                                        <g:if test="${session.getAttribute("userPhoto")}">
-
-                                         <img style="width: inherit" src="data:image/jpg;base64,${session.getAttribute("userPhoto")}"/>
-                                        </g:if>
-                                        <g:else>
-                                             <g:img dir="images" file="defaultpic.png" width="120" height="120"/>
-                                        </g:else>
+                             <div class="card-body">
 
 
+                                    <div class="row">
+
+                                        <div class="col-5">
+                                            <g:link action="userProfile" id="nameLink">
+                                                 <g:if test="${session.getAttribute("userPhoto")}">
+
+                                                    <img style="width: inherit"
+                                                      src="data:image/jpg;base64,${session.getAttribute("userPhoto")}"/>
+                                                 </g:if>
+                                                 <g:else>
+                                                     <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
+                                                 </g:else>
+                                             </g:link>
+                                        </div>
+                                        <div class="col-7">
+
+                                                 <g:link action="userProfile" id="nameLink">
+                                                        <div class="row">&nbsp;</div>
+                                                         <div class="row">  &nbsp;&nbsp;&nbsp;&nbsp;${activeUser.firstName} ${activeUser.lastName}</div>
+                                                         <div class="row">
+
+
+                                                                    <div class="col">Subscriptions:</div>
+                                                                    <div class="row">${subbedTopics.size()}</div>
+                                                                       <div class="col">Topics:</div>
+                                                                     <div class="row">${usersTopics.size()}</div>
+
+
+                                                         </div>
 
 
 
+                                                 </g:link>
+
+                                        </div>
+
+                                    </div>
 
 
-                                  </span></g:link>
-                                   <g:link action="userProfile" id="nameLink">
 
-                                  <span class="col-8" id="displayName">
-                                    ${activeUser.firstName} ${activeUser.lastName}
-
-                                  </span></g:link>
 
                               </div>
-
                         </div>
                     </div><%--end of first row --%>
 
@@ -99,7 +114,7 @@
                                                                         </div>
                                                                         <div class="col-9">
                                                                             <div class="row">
-                                                                               <div class="col-7">${u?.topics.name}</div>
+                                                                               <div id="nameOfTopic" class="col-7">${u?.topics.name}</div>
                                                                                <div class="col-5">@${u?.topics?.user?.username}</div><%--c--%>
                                                                             </div><hr>
 
@@ -117,6 +132,25 @@
 
 
                                                                                  </div>
+                                                                             </div>
+                                                                             <div class="row">
+
+                                                                                   <div class="col-6">
+
+                                                                                          <g:select id="selectSeriousnessId" name="selectSeriousness" from="${['Casual','Serious','Very Serious']}" value="${u?.seriousness}"
+                                                                                           class="form-control"/>
+
+
+                                                                                   </div>
+
+                                                                                   <div class="col-6">
+
+                                                                                        <form >
+
+                                                                                        <g:select id="selectVisibId" name="selectVisib" from="${['Public','Private']}" value="${u?.topics?.visibility}"
+                                                                                        class="form-control"/>
+
+                                                                                   </div>
                                                                              </div>
 
 

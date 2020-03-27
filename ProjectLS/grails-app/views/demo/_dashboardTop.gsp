@@ -14,8 +14,9 @@ setTimeout(function() {
   $("#animateDiv").fadeOut("slow").empty();
 }, 2500);
 
-</g:javascript>
 
+</g:javascript>
+<asset:javascript src="dashboardTop.js"/>
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -28,6 +29,7 @@ setTimeout(function() {
   width: auto;
   height: 200px;
   overflow: scroll;
+  overflow-x:hidden;
 }
 #ellps {
   white-space: nowrap;
@@ -171,7 +173,7 @@ setTimeout(function() {
 
                                          <tr>
                                          <td>Link</td>
-                                            <td><g:textField name="LinkTopicUrl" value="${Ltopic}" required="true" class="form-control" /></td>
+                                            <td><g:field type="url" name="LinkTopicUrl" value="${Ltopic}" required="true" class="form-control" /></td>
                                           </tr>
 
                                              <tr>
