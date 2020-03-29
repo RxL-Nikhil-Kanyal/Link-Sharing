@@ -6,7 +6,6 @@
 
 <body>
 <g:render template="dashboardTop" />
-<div class="row">&nbsp;</div>
 
    <g:if test="${flash.message}">
           <div id ="animateDiv" class="message" role="status" style="font-size: medium;color: white;background-color: green;font-weight: bold;">${flash.message}</div>
@@ -14,6 +13,7 @@
       <g:if test="${flash.warning}">
           <div id ="animateDiv"  class="message_error" style="font-size: medium;color: white;background-color: red;font-weight: bold;">${flash.warning}</div>
       </g:if>
+<div class="row">&nbsp;</div>
 
 
      <div class="bodyContent" id="bodyContent">
@@ -117,7 +117,7 @@
 
                                   <div id="flow1">
 
-                                     <g:each in="${userTopics}" var="u" status="i">
+                                     <g:each in="${userSubbedTopics}" var="u" status="i">
 
                                         <div class="row">
                                             <div class="col-4">
@@ -126,12 +126,12 @@
 
                                             </div>
                                             <div class="col-8"><%---right of pic---%>
-                                               <form>
+                                               <g:form name="ChangeForm" controller="demo" action="editProfileChanges" >
                                                <div class="row">
-                                                   <div class="col-6"><input type="text" id="changeTopicName" name="NewTopicName" value="${u?.name}" class="form-control"></div>
-                                                   <div class="col-5"><input type="submit" value="Save" class="form-control"></div>
+                                                   <div class="col-6"><input type="text" id="changeTopicName" name="NewTopicName" value="${u?.topics?.name}" class="form-control"></div>
+                                                   <div class="col-5"><input id="editProfileTopicChange" type="submit" value="Save" class="form-control butonIdn" ></div>
                                                 </div><hr>
-                                                <div class="row"><div class="col-9">@${u?.user?.username}</div>
+                                                <div class="row"><div class="col-9">@${u?.topics?.user?.username}</div>
 
                                                 <div class="col-3">
                                                 <%--empty space here---%>
@@ -144,13 +144,14 @@
                                                 <div class="row"><div class="col-10">
                                                         <div class="row">
                                                             <div class="col-6">
-                                                            <g:select name="user.age" from="${['Serious','Casual','very_serious']}" value="${}"
+                                                            <g:select id="seriousnessChangeId" name="seriousnessChange" from="${['Serious','Casual','very_serious']}" value="${u?.seriousness}"
                                                                                                                      class="form-control" />
 
                                                             </div>
                                                             <div class="col-6">
-                                                            <g:select name="user.age" from="${['Public','Private']}" value="${u?.visibility}"
+                                                            <g:select id="visibilityChangeId"name="visibilityChange" from="${['Public','Private']}" value="${u?.topics?.visibility}"
                                                                                                                                  class="form-control"/>
+                                                            <Input type="hidden" name="subsIdentify" id="subId" value="${u?.id}"  />
                                                             </div>
                                                          </div>
 
@@ -161,14 +162,14 @@
 
                                                 <div class="col-2">
 
-                                                <g:link controller="demo" title="Delete Topic" action="deleteTopic" params="[topicId:u?.id]" > <g:img dir="images" file="deleteIcon.png" width="25" height="25"/></g:link>
+                                                <g:link title="Delete Topic" controller="topic"  action="deleteTopic" params="[topicId:u?.topics?.id]" > <g:img dir="images" file="deleteIcon.png" width="25" height="25"/></g:link>
 
 
 
 
                                                 </div> </div>
 
-                                                </form>
+                                                </g:form>
 
                                             </div>  <%---right of pic end---%>
                                         </div>

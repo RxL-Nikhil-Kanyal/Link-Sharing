@@ -73,7 +73,7 @@
 
                             <div class="col-3">
 
-                           <g:link controller="Demo" action="PublicTopicsShow" params="[topicRelated:u.id]">
+                           <g:link controller="authentication" action="PublicTopicsShow" params="[topicRelated:u.id]">
                                  more
                            </g:link>
 
@@ -89,7 +89,8 @@
                                        Resource: <a href="${u?.URl}">Go To Link</a>
                                    </g:if>
                                    <g:else>
-                                        Resource: download
+                                        Resource:   <g:link controller="Demo" action="downloadFile" params="[res:u?.id]"> Download
+                                                                                                       </g:link>
                                    </g:else>
 
 

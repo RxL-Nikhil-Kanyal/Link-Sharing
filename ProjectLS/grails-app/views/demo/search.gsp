@@ -10,10 +10,8 @@
 </head>
 <body>
 
-<g:render template="dashboardTop" />
+<g:render template="/demo/dashboardTop" />
 
-
-Search
 
 <div class="container">
 <div class="row">

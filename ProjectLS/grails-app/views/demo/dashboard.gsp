@@ -2,15 +2,11 @@
 <head>
 <title>dashboard</title>
 
-
-
-
-
-
-
 </head>
 <body>
+
 <g:render template="dashboardTop" />
+
 
 
  <g:if test="${flash.message}">
@@ -19,8 +15,6 @@
     <g:if test="${flash.warning}">
         <div id="animateDiv" class="message_error" style="font-size: medium;color: white;background-color: red;font-weight: bold;">${flash.warning}</div>
     </g:if>
-
-
 
 
 <div class="container">
@@ -42,7 +36,7 @@
                                     <div class="row">
 
                                         <div class="col-5">
-                                            <g:link action="userProfile" id="nameLink">
+                                            <g:link action="userProfile" id="nameLink"  params="[otherUserId:activeUser.id]">
                                                  <g:if test="${session.getAttribute("userPhoto")}">
 
                                                     <img style="width: inherit"
@@ -55,7 +49,7 @@
                                         </div>
                                         <div class="col-7">
 
-                                                 <g:link action="userProfile" id="nameLink">
+                                                 <g:link action="userProfile" id="nameLink" params="[otherUserId:activeUser.id]">
                                                         <div class="row">&nbsp;</div>
                                                          <div class="row">  &nbsp;&nbsp;&nbsp;&nbsp;${activeUser.firstName} ${activeUser.lastName}</div>
                                                          <div class="row">
@@ -115,7 +109,12 @@
                                                                         <div class="col-9">
                                                                             <div class="row">
                                                                                <div id="nameOfTopic" class="col-7">${u?.topics.name}</div>
-                                                                               <div class="col-5">@${u?.topics?.user?.username}</div><%--c--%>
+                                                                               <div class="col-5">
+
+                                                                                <g:link action="userProfile" id="nameLink"  params="[otherUserId:u?.topics?.user?.id]">@${u?.topics?.user?.username}
+                                                                                </g:link>
+
+                                                                               </div><%--c--%>
                                                                             </div><hr>
 
                                                                              <div class="row">
@@ -126,19 +125,19 @@
 
 
                                                                                 <div class="col-4">
-                                                                                     Subs: ${listOfSubs?.user?.size()}
-                                                                                    Posts: ${listOfSubs?.topics?.user?.size()}
+                                                                                     Subs: ${u?.topics?.subscription?.size()}
+                                                                                    Posts: ${u?.topics.resource.size()}
 
 
 
                                                                                  </div>
                                                                              </div>
-                                                                             <div class="row">
+                                                                             <div class="row"><input type="hidden" class="hiddenSubId" value="${u.id}">
 
                                                                                    <div class="col-6">
 
                                                                                           <g:select id="selectSeriousnessId" name="selectSeriousness" from="${['Casual','Serious','Very Serious']}" value="${u?.seriousness}"
-                                                                                           class="form-control"/>
+                                                                                           class="form-control changeSeriousclass"/>
 
 
                                                                                    </div>

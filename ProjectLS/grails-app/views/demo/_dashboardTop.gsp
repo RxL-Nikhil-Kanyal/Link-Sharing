@@ -19,7 +19,7 @@ setTimeout(function() {
 <asset:javascript src="dashboardTop.js"/>
 
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
 <style>
 
 
@@ -37,6 +37,13 @@ setTimeout(function() {
   overflow: hidden;
   text-overflow: ellipsis;
 
+}
+#flow2{
+
+  width: auto;
+  height: 600px;
+  overflow: scroll;
+  overflow-x:hidden;
 }
 
 
@@ -66,12 +73,13 @@ setTimeout(function() {
 
      <div class="col-4">
 
-    <form class="form-inline my-2 my-lg-0">
 
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+    <g:form name="searchBar" action="search"  class="form-inline my-2 my-lg-0">
+
+      <input name="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
 
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
+    </g:form>
      </div>
 
 
@@ -101,12 +109,12 @@ setTimeout(function() {
 
 
 
-                                        <g:form name="createTopicForm" action="createTopicFormAction" id="1" class="form-group">
+                                        <form name="createTopicForm" id="createTopicform" class="form-group">
 
                                        <div class="row">
                                             <div class="col-4">Name</div>
 
-                                            <div class="col-8"><g:textField name="newTopicname" value="${mytopic}" required="true" class="form-control"/></div>
+                                            <div class="col-8"><g:textField id="newTopicNameId" name="newTopicName" value="${mytopic}" required="true" class="form-control"/></div>
 
                                        </div>
                                        <div class="row">&nbsp;</div>
@@ -114,7 +122,7 @@ setTimeout(function() {
                                           <div class="row">
                                            <div class="col-4">Visibility</div>
 
-                                           <div class="col-8"><g:select name="topic.visibility" from="${['Public','Private']}" value="${vis}"
+                                           <div class="col-8"><g:select id="topicVisibilityId" name="topic.visibility" from="${['Public','Private']}" value="${vis}"
                                                                                                     noSelection="['':'-Choose Visibility-']" required="true" class="form-control"/>
 
                                             </div>
@@ -128,14 +136,15 @@ setTimeout(function() {
                           </div>
                           <div class="modal-footer">
                           <div class="col-5">
-                          <g:submitButton name="CreateTopicButton" value="Create" onclick="callMyAjax()" class="form-control"/>
+
+                            <button type="button" id="createTopicFormId" >Create</button>
                             </div><class="col-6">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                           </div>
 
                           </div>
                         </div>
-                         </g:form>  <%--form end here---%>
+                         </form>  <%--form end here---%>
 
                       </div>
                     </div>

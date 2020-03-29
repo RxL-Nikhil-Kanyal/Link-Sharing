@@ -36,36 +36,30 @@
                              <div class="row">
 
                                         <div class="col-5">
-                                            <g:link action="userProfile" id="nameLink">
-                                                 <g:if test="${session.getAttribute("userPhoto")}">
 
-                                                    <img style="width: inherit"
-                                                      src="data:image/jpg;base64,${session.getAttribute("userPhoto")}"/>
-                                                 </g:if>
-                                                 <g:else>
+
                                                      <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
-                                                 </g:else>
-                                             </g:link>
+
+
                                         </div>
                                         <div class="col-7">
 
-                                                 <g:link action="userProfile" id="nameLink">
+
                                                         <div class="row">&nbsp;</div>
-                                                         <div class="row">  &nbsp;&nbsp;&nbsp;&nbsp;${activeUser.firstName} ${activeUser.lastName}</div>
+                                                         <div class="row">  &nbsp;&nbsp;&nbsp;&nbsp;${ou.firstName} ${ou.lastName}</div>
                                                          <div class="row">
 
 
                                                                     <div class="col">Subscriptions:</div>
-                                                                    <div class="row">${subbedTopics.size()}</div>
+                                                                    <div class="row">${ouSubs?.size()}</div>
                                                                        <div class="col">Topics:</div>
-                                                                     <div class="row">${usersTopics.size()}</div>
+                                                                     <div class="row">${ouTopic.size()}</div>
 
 
                                                          </div>
 
 
 
-                                                 </g:link>
 
                                         </div>
 			</div>
@@ -86,21 +80,87 @@
                                                  Topics
                                       </div>
                                       <div class="card-body">
-                                            <h5 class="card-title">Special title treatment</h5>
-                                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                                             <a href="#">link</a>
+
+
+                                          <div class="container" id="flow1"><%---corrections from here---%>
+
+                                                   <g:if test="${ouTopic?.size()==0}">
+                                                            <div class="row"><div class="col-12">No Topics To Show. Create New Topics.</div></div>
+
+                                                    </g:if>
+                                                    <g:else>
+
+                                                        <div class="row"><div class="col-12">
+
+                                                           <g:each in="${ouTopic}" var="u" status="i">
+
+                                                                <div class="row">
+
+                                                                        <div class="col-3">
+
+                                                                        <g:img dir="images" file="defaultpic.png" width="80" height="80"/>
+
+                                                                        </div>
+                                                                        <div class="col-9">
+                                                                            <div class="row">
+                                                                               <div id="nameOfTopic" class="col-7">${u?.name}</div>
+                                                                               <div class="col-5">
+
+                                                                                <g:link action="userProfile" id="nameLink"  params="[otherUserId:u?.user?.id]">@${u?.user?.username}
+                                                                                </g:link>
+
+                                                                               </div><%--c--%>
+                                                                            </div><hr>
+
+                                                                             <div class="row">
+                                                                                <div class="col-8">
+
+                                                                                    <g:if test="${u?.user.username !=session.user }">
+                                                                                         <g:link controller="subscription" action="subscribeAction" params="[inviteTopicId:u?.id]">Subscribe</g:link>
+                                                                                    </g:if>
+                                                                                    <g:else>
+                                                                                          <g:link params="[inviteTopicId:u?.id]">Invite</g:link>
+                                                                                    </g:else>
+                                                                                </div>
+
+
+                                                                                <div class="col-4">
+                                                                                     Subs:${u?.subscription?.size()}
+
+
+                                                                                 </div>
+                                                                             </div>
+                                                                             <div class="row">
+
+                                                                                   <div class="col-6">
+
+
+
+                                                                                   </div>
+
+                                                                                   <div class="col-6">
+
+                                                                                   </div>
+                                                                             </div>
+
+                                                                        </div>
+
+                                                                </div><hr>
+
+                                                           </g:each>
+
+
+                                                        </div></div>
+
+                                                     </g:else>
+                                                  </div>
+
+
+
                                       </div>
                                 </div>
                             </div><%--end of 2 row --%>
-                                     <div class="row">
-                                         <div class="card shadow p-0 bg-white rounded">
-                                               <div class="card-body">
-                                                     <h5 class="card-title">Special title treatment</h5>
-                                                     <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                                                      <a href="#">link</a>
-                                               </div>
-                                         </div>
-                                     </div><%--end of 3 row --%>
+
 
                      <div class="row"> &nbsp;</div>
 
@@ -110,9 +170,84 @@
                                                            Subscriptions
                                                </div>
                                                <div class="card-body">
-                                                     <h5 class="card-title">Special title treatment</h5>
-                                                     <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                                                      <a href="#">link</a>
+
+
+
+                                          <div class="container" id="flow1"><%---corrections from here---%>
+
+                                                   <g:if test="${ouSubs?.size()==0}">
+                                                            <div class="row"><div class="col-12">No Subscriptions yet . Subscribe to new Posts.</div></div>
+
+                                                    </g:if>
+                                                    <g:else>
+
+                                                        <div class="row"><div class="col-12">
+
+                                                           <g:each in="${ouSubs}" var="u" status="i">
+
+                                                                <div class="row">
+
+                                                                        <div class="col-3">
+
+                                                                        <g:img dir="images" file="defaultpic.png" width="80" height="80"/>
+
+                                                                        </div>
+                                                                        <div class="col-9">
+                                                                            <div class="row">
+                                                                               <div id="nameOfTopic" class="col-7">${u?.topics?.name}</div>
+                                                                               <div class="col-5">
+
+                                                                                <g:link action="userProfile" id="nameLink"  params="[otherUserId:u?.topics?.user?.id]">@${u?.topics?.user?.username}
+                                                                                </g:link>
+
+                                                                               </div><%--c--%>
+                                                                            </div><hr>
+
+                                                                             <div class="row">
+                                                                                <div class="col-8">
+
+                                                                                    <g:if test="${u?.topics?.user.username !=session.user }">
+                                                                                         <g:link controller="subscription" action="subscribeAction" params="[inviteTopicId:u?.topics?.id]">Subscribe</g:link>
+                                                                                    </g:if>
+                                                                                    <g:else>
+                                                                                          <g:link params="[inviteTopicId:u?.topics?.id]">Invite</g:link>
+                                                                                    </g:else>
+                                                                                </div>
+
+
+                                                                                <div class="col-4">
+                                                                                     Subs:${u?.topics?.subscription?.size()}
+
+
+                                                                                 </div>
+                                                                             </div>
+                                                                             <div class="row">
+
+                                                                                   <div class="col-6">
+
+
+
+                                                                                   </div>
+
+                                                                                   <div class="col-6">
+
+                                                                                   </div>
+                                                                             </div>
+
+                                                                        </div>
+
+                                                                </div><hr>
+
+                                                           </g:each>
+
+
+                                                        </div></div>
+
+                                                     </g:else>
+                                                  </div>
+
+
+
                                                </div>
                                          </div>
                                      </div><%--end of 4 row --%>
@@ -137,20 +272,77 @@
                                 Posts
                       </div>
                       <div class="card-body">
-                            <h5 class="card-title">Special title treatment</h5>
-                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                             <a href="#">link</a>
+                            <%-----------------%>
+
+                        <div class="container">
+
+                        <g:if test="${!DisplayRes.isEmpty()}">
+
+                             <%----display resource start---%>
+
+
+                                      <div id="flow2">
+
+                                         <g:each in="${DisplayRes}" var="u" status="i">
+
+                                            <div class="row">
+                                                <div class="col-4">
+
+                                                <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
+
+                                                </div>
+                                                <div class="col-8"><%---right of pic---%>
+
+                                                   <div class="row">
+                                                       <div class="col-7">Topic: ${u?.topics.name}</div>
+                                                       <div class="col-5">By: ${u?.user.username}</div>
+                                                    </div><hr>
+                                                    <div class="row"><div class="col-12">${u?.name}</div>
+
+                                                   </div>
+
+
+                                                    <div class="row">&nbsp;</div>
+                                                    <div class="row"><div class="col-6">${u?.user.email}</div>
+
+                                                    <div class="col-6">
+
+                                                            <g:if test="${u?.class==LinkResources}">
+                                                               Resource: <a href="${u?.URl}">Go To Link</a>
+                                                           </g:if>
+                                                           <g:else>
+                                                                  <g:link controller="Demo" action="downloadFile" params="[res:u?.id]"> Download
+                                                                                                                     </g:link>
+                                                           </g:else>
+
+                                                    </div> </div>
+
+                                                </div>  <%---right of pic end---%>
+                                            </div>
+                                            <hr>
+
+                                         </g:each>
+
+                                       </div>    <%----div flow end------%>
+
+
+                              <%----display resource end---%>
+
+
+                        </g:if>
+                        <g:else>
+                             No Posts yet. Users Can Create a New Topic or Subscribe to One.
+                        </g:else>
+
+
+                        </div>
+
+                            <%------------------%>
                       </div>
                 </div>
             </div><%--end of 2 row --%>
                      <div class="row">
-                         <div class="card shadow p-0 bg-white rounded">
-                               <div class="card-body">
-                                     <h5 class="card-title">Special title treatment</h5>
-                                     <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                                      <a href="#">link</a>
-                               </div>
-                         </div>
+
                      </div><%--end of 3 row --%>
 
     </div>    <%--end of right side of container--%>

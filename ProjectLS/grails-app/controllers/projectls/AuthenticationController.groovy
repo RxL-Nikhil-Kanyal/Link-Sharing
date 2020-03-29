@@ -3,15 +3,12 @@ package projectls
 class AuthenticationController {
     static defaultAction = "auth"
 
+    AuthService authService
+
+
     def auth() {
-        List PublicTopics = Topics?.findAllByVisibility("Public")
-        List LatestUpdatedPublicTopics = Resource.createCriteria().list(offset:0,max:5) {
-            and {
-                inList("topics", PublicTopics)
-                order("lastUpdated", "desc")
-            }
-        }
-        [recentUpdatedTopics: LatestUpdatedPublicTopics]
+
+        render(view:"auth",model:authService.authMehod())
     }
 
     def login() {
@@ -83,11 +80,24 @@ class AuthenticationController {
 
     def logout() {
 
-        println "session out"
+
         session.invalidate()
 
         redirect(controller: "Authentication", action: "auth")
         flash.message = "logged out successfully"
+    }
+
+    def PublicTopicsShow() {
+
+
+        println "topic updates recently :---------" + params.topicRelated//res updated
+
+        Resource res = Resource.findById(params.topicRelated)
+        List updatedTopics = Resource.findAllByTopics(res?.topics)
+
+        [recentUpdatedTopics: updatedTopics]
+
+
     }
 
 

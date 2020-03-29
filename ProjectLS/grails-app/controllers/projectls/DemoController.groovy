@@ -1,7 +1,11 @@
 package projectls
 
+
+
 class DemoController {
-    static defaultAction = ""
+
+
+    static defaultAction = "dashboard"
 
     def index() {
 
@@ -28,69 +32,89 @@ class DemoController {
         return [activeUser: au, subbedTopics: subscribedTopics]
 
     }
+    def search() {
+        User au = User.findByUsername(session.user)
+        List subscribedTopics = Subscription.findAllByUser(User.get(au.id)).topics
+        //search
 
-    def search() {}
+        if(au.admin){
+
+            if(!params.search){
+                return  [activeUser: au, subbedTopics: subscribedTopics,allResource:Resource.list()]
+
+            }else{
+                Topics topics=Topics.findByName(params.search)
+
+                if(topics){
+                    List resource=Resource.findAllByTopics(topics)
+                    if(!resource){
+                        render "no posts found about for topic!"
+                    }else {
+                        return [activeUser: au, subbedTopics: subscribedTopics, allResource: resource]
+                    }
+                }else{
+                    render "This Topic Does not Exist! "
+                }
+
+
+            }
+
+        }else{
+            if(!params.search){
+                render "Error ! Action Prohibited ! Only Admin have Rights!"
+            }else{
+                List topics=Topics.findAllByNameAndVisibility(params.search,"Public") + Topics.findAllByNameAndUser(params.searach,au)
+
+                topics=topics.unique()
+                if(!topics){
+                    render "error , The searched Topic either Does not exsist or you Do not have Access."
+                }else{
+                    List resource=Resource.findAllByTopicsInList(topics)
+                    if(!resource){
+                        render "no posts found about the topic!"
+                    }else{
+                        return [activeUser: au, subbedTopics: subscribedTopics,allResource:resource]
+                    }
+
+                }
+
+            }
+
+        }
+
+
+
+
+
+
+    }
+
 
     def dashboard() {
         User au = User.findByUsername(session.user)
-
         List subscribedTopics = Subscription.findAllByUser(User.get(au.id)).topics
-
-        List L = Subscription.findAllByUser(User.findByUsername(session.user))//display subs
-
-
+        List L = Subscription.findAllByUser(User.findByUsername(session.user))//display subs of user
         List topicsByUSer = Topics.findAllByUser(User.findAllByUsername(session.user))
 
 
-        [activeUser: au, subbedTopics: subscribedTopics, listOfSubs: L, usersTopics: topicsByUSer]
-
-
-    }
-
-    def createTopicFormAction() {
-
-        println params.newTopicname
-        println params.topic.visibility
-
-        println session.user
-        User x = User.findByUsername(session.user)
-
-        //topic creation by user
-
-        Topics t = new Topics(name: params.newTopicname, user: x.id, visibility: params.topic.visibility)
-        t.validate()
-        if(t.hasErrors()){
-
-            flash.warning="Topic Already Exists. Try Again!"
-            redirect(action: "dashboard")
+        def result = Resource.createCriteria().list() {//trendingPublicTopic
+            projections {
+                count("id", 'myCount')
+            }
+            groupProperty("topics")
+            order ('myCount', 'desc')
+            maxResults(5)
         }
-        t.save(flush: true, failOnError: true)
 
-        Subscription newSub = new Subscription(user: x.id, topics: t.id, seriousness: "Serious")
-        newSub.save(flush: true, failOnError: true)
 
-        flash.message = "Topic added Successfully"
-        redirect(action: "dashboard")
+
+        [activeUser: au, subbedTopics: subscribedTopics, listOfSubs: L, usersTopics: topicsByUSer,trendingtopicsResource:result]
 
 
     }
 
-    def PublicTopicsShow() {
 
 
-        println "topic updates recently :---------" + params.topicRelated//res updated
-
-        Resource res = Resource.findById(params.topicRelated)
-
-
-        List updatedTopics = Resource.findAllByTopics(res?.topics)
-
-
-
-        [recentUpdatedTopics: updatedTopics]
-
-
-    }
 
     def UsersA() {
         def persons = User.list()
@@ -107,9 +131,19 @@ class DemoController {
 
         User au = User.findByUsername(session.user)
         List subscribedTopics = Subscription.findAllByUser(User.get(au.id)).topics
-        List topicsByUser=Topics.findAllByUser(User.findByUsername(session.user),[max:10,offset:0])//10 posts
+        List topicsByUser=Topics.findAllByUser(User.findByUsername(session.user))
 
-        return [activeUser: au, subbedTopics: subscribedTopics,userTopics:topicsByUser]
+
+        if(!topicsByUser.isEmpty()){
+            List UserCreatedAndSubTopics = Subscription.createCriteria().list() {
+
+                inList("topics", topicsByUser)
+            }
+            return [activeUser: au, subbedTopics: subscribedTopics,userSubbedTopics:UserCreatedAndSubTopics]
+        }
+
+
+        return [activeUser: au, subbedTopics: subscribedTopics]
     }
 
     def changeUserPassword() {
@@ -164,14 +198,57 @@ class DemoController {
 
 
     }
-
     def userProfile() {
+
+
         User au = User.findByUsername(session.user)
-        List subscribedTopics = Subscription.findAllByUser(User.get(au.id)).topics
+        List subscribed = Subscription.findAllByUser(User.get(au.id))
+        List subTopics=subscribed.topics
+        List R=[]
 
-        List topicsByUSer = Topics.findAllByUser(User.findAllByUsername(session.user))
+        List topicsByUser = Topics.findAllByUser(User.findAllByUsername(session.user))
 
-        [activeUser: au, subbedTopics: subscribedTopics,usersTopics: topicsByUSer]
+        //get from link
+        if(au==User.get(params.otherUserId)){
+
+
+            if(!subTopics.isEmpty()) {//posts
+                R = Resource.createCriteria().list() {
+                    inList("topics", subTopics)
+
+                }
+
+            }
+
+            return [activeUser: au,DisplayRes:R, subbedTopics: subTopics,usersTopics: topicsByUser,ou:au,ouSubs:subscribed,ouTopic:topicsByUser]
+
+        }else{
+            User otherUser=User.get(params.otherUserId)
+            List ouPublicTopics = Topics?.findAllByVisibilityAndUser("Public",otherUser)
+            List subPublic = Subscription.createCriteria().list() {
+                and {
+
+                    inList("topics", ouPublicTopics)
+
+                }
+            }
+
+            if(!subPublic?.topics?.isEmpty()) { ///posts
+                R = Resource.createCriteria().list() {
+                    inList("topics", subPublic?.topics)
+
+                }
+
+            }
+            return [activeUser: au,DisplayRes:R, subbedTopics: subTopics,usersTopics: topicsByUser,ou:otherUser,ouSubs:subPublic,ouTopic:ouPublicTopics]
+
+
+
+        }
+
+
+
+
     }
 
     def changeUserActiveStatus() {
@@ -189,12 +266,6 @@ class DemoController {
 
     def fetchPersonImage() {
         User usr = User.findByUsername(session.user)
-//     //   byte[] imageInByte = user.photo
-//        String encoded = Base64.getEncoder().encodeToString(user.photo)
-//        session.setAttribute("userPhoto", encoded)
-////        response.contentType = 'image/png ,image/x-png,image/jpeg' // or the appropriate image content type
-////        response.outputStream << User.photo
-////        response.outputStream.flush()
 
         String encoded = Base64.getEncoder().encodeToString(usr.photo)
         session.setAttribute("userPhoto", encoded)
@@ -274,15 +345,13 @@ class DemoController {
 
 
     def downloadFile = {
-//        def sub = params.res
-//        println "here is the downfile res id :====== " + sub
-//        def file = new File("${sub.doc}")
-//        if (file.exists()) {
-//            response.setContentType("application/octet-stream")
-//            // or or image/JPEG or text/xml or whatever type the file is
-//            response.setHeader("Content-disposition", "attachment;filename=\"${file.name}\"")
-//            response.outputStream << file.bytes
-//        } else render "Error!" // appropriate error handling
+        println "------------------------->"+params.res
+        DocumentResources docRes=DocumentResources.findById(params.res)
+
+        response.setHeader("Content-Type", "application/octet-stream;")
+       response.setHeader("Content-Disposition", "attachment; filename=\"" + "document" + "\"")
+        response.outputStream << docRes.doc
+
 
         render "downloading !!!"
     }
@@ -306,14 +375,29 @@ class DemoController {
         [success: false, "message": "Permission Denied! Topics Created By Other!"]
     }
 
-    def deleteTopic(){
-        Topics topic=Topics.get(params.topicId)
-        println "------------------->"+ params.topicId
-        topic.delete(flush:true,failOnError: true)
 
-        flash.message="Topic Deleted"
-        redirect (controller:'demo',action:'editProfile')
+     def editProfileChanges(){
+
+
+         Subscription sub=Subscription.findById(params.subsIdentify)
+         sub.topics.name=params.NewTopicName
+         sub.seriousness=params.seriousnessChange
+         sub.topics.visibility=params.visibilityChange
+         sub.validate()
+         if(sub.hasErrors()){
+            flash.warning="Error! Try Again!"
+             redirect(action:"editProfile")
+         }
+         else{
+             sub.save(flush: true,failOnError: true)
+             flash.message="Changes Saved! "
+             redirect(action:"editProfile")
+
+         }
+
+
     }
+
 
 
 }
