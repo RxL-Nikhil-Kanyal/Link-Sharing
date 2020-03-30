@@ -37,7 +37,8 @@
                                        </span>
                                        <span class="col-8" id="displayName"> ${activeUser.firstName} ${activeUser.lastName}</span>
 
-                                       <div class="row"><span class="col-6">Subscribed: ${subbedTopics?.size()}</span><span class="col-6">Posts:${activeUser?.topics?.size()}</span></div>
+                                       <div class="row"><span class="col-6"><font size="2" color="gray">Subscribed: ${subbedTopics?.size()}</font></span>
+                                       <span class="col-6"><font size="2" color="gray">Posts:${activeUser?.topics?.size()}</font></span></div>
                                    </div>
                              </div>
                          </div><%--end of first row --%>
@@ -131,10 +132,12 @@
                                                    <div class="col-6"><input type="text" id="changeTopicName" name="NewTopicName" value="${u?.topics?.name}" class="form-control"></div>
                                                    <div class="col-5"><input id="editProfileTopicChange" type="submit" value="Save" class="form-control butonIdn" ></div>
                                                 </div><hr>
-                                                <div class="row"><div class="col-9">@${u?.topics?.user?.username}</div>
+                                                <div class="row"><div class="col-7">@${u?.topics?.user?.username}</div>
 
-                                                <div class="col-3">
-                                                <%--empty space here---%>
+                                                <div class="col-5">
+
+                                                <font size="2" color="gray">Subs: ${u?.topics?.subscription?.size()}</font>
+                                                <font size="2" color="gray">Posts:${u?.topics?.resource?.size()}</font>
 
 
                                                </div></div>

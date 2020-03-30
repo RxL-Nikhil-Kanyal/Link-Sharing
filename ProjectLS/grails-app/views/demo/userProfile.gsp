@@ -27,7 +27,7 @@
                  <div class="row"> &nbsp;</div>
 
                     <div class="row">
-                        <div class="card shadow p-0 bg-white rounded">
+                        <div class="card shadow p-0 bg-white rounded ">
 
                               <div class="card-body">
                                   <span class="col-4">
@@ -50,10 +50,10 @@
                                                          <div class="row">
 
 
-                                                                    <div class="col">Subscriptions:</div>
-                                                                    <div class="row">${ouSubs?.size()}</div>
-                                                                       <div class="col">Topics:</div>
-                                                                     <div class="row">${ouTopic.size()}</div>
+                                                                    <div class="col"><font size="2" color="gray">Subscriptions:</font></div>
+                                                                    <div class="row"><font size="2" color="gray">${ouSubs?.size()}</font></div>
+                                                                       <div class="col"><font size="2" color="gray">Topics:</font></div>
+                                                                     <div class="row"><font size="2" color="gray">${ouTopic.size()}</font></div>
 
 
                                                          </div>
@@ -75,7 +75,7 @@
                     <div class="row"> &nbsp;</div>
 
                             <div class="row">
-                                <div class="card shadow p-0 bg-white rounded">
+                                <div class="card shadow p-0 bg-white rounded w-75">
                                      <div class="card-header">
                                                  Topics
                                       </div>
@@ -165,7 +165,7 @@
                      <div class="row"> &nbsp;</div>
 
                                      <div class="row">
-                                         <div class="card shadow p-0 bg-white rounded">
+                                         <div class="card shadow p-0 bg-white rounded w-75">
                                               <div class="card-header">
                                                            Subscriptions
                                                </div>
@@ -267,7 +267,7 @@
                         </div>
 
    <div class="row">
-                <div class="card shadow p-0 bg-white rounded">
+                <div class="card shadow p-0 bg-white rounded w-100">
                      <div class="card-header">
                                 Posts
                       </div>
@@ -303,17 +303,30 @@
 
 
                                                     <div class="row">&nbsp;</div>
-                                                    <div class="row"><div class="col-6">${u?.user.email}</div>
+                                                    <div class="row"><div class="col-4"><g:img dir="images" file="mailIcon.jpg" width="20" height="20" title="${u?.user.email}"/></div>
 
-                                                    <div class="col-6">
+                                                    <div class="col-8">
 
                                                             <g:if test="${u?.class==LinkResources}">
-                                                               Resource: <a href="${u?.URl}">Go To Link</a>
+                                                              <font size="2">
+                                                               Resource: <a href="${u?.URl}">Link</a>
+                                                              </font>
                                                            </g:if>
                                                            <g:else>
+                                                               <font size="2">
                                                                   <g:link controller="Demo" action="downloadFile" params="[res:u?.id]"> Download
                                                                                                                      </g:link>
+                                                               </font>
                                                            </g:else>
+
+                                                           <g:if test="${!subbedTopics.contains(u?.topics)}"><font size="2">
+
+                                                           <g:link controller="Subscription" action="subscribeTopic" params="[topicId:u?.topics.id]">
+                                                                Subscribe
+                                                           </g:link>
+
+
+                                                           </font></g:if>
 
                                                     </div> </div>
 

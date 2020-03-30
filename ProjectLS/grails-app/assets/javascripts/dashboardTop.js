@@ -1,10 +1,10 @@
 
 var createTopic = function(){
-$.ajax({uri:"/Topic/createTopicFormAction",
+$.ajax({url:"/topic/createTopicFormAction",
 type : "POST" ,
-data : {"newTopicName":$("#newTopicNameId").val(),"topic.visibility":$("#topicVisibilityId").val()},
+data : {"newTopicName":$("#newTopicNameId").val(),"topicVisibility":$("#topicVisibilityId").val()},
 success : function () {
-alert("Thank you");
+alert("Data Saved!");
 } ,
 error : function () {alert("Topic Save Failed");
 }}

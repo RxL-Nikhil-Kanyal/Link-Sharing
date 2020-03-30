@@ -19,7 +19,7 @@
 <g:javascript>
 
 setTimeout(function() {
-  $("#animateDiv").fadeOut("slow").empty();
+  $("#animateDiv").hide("slow").empty();
 }, 2500);
 
 </g:javascript>

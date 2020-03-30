@@ -3,6 +3,7 @@ package projectls
 
 
 class DemoController {
+    TopicsService topicsService
 
 
     static defaultAction = "dashboard"
@@ -32,83 +33,15 @@ class DemoController {
         return [activeUser: au, subbedTopics: subscribedTopics]
 
     }
-    def search() {
-        User au = User.findByUsername(session.user)
-        List subscribedTopics = Subscription.findAllByUser(User.get(au.id)).topics
-        //search
-
-        if(au.admin){
-
-            if(!params.search){
-                return  [activeUser: au, subbedTopics: subscribedTopics,allResource:Resource.list()]
-
-            }else{
-                Topics topics=Topics.findByName(params.search)
-
-                if(topics){
-                    List resource=Resource.findAllByTopics(topics)
-                    if(!resource){
-                        render "no posts found about for topic!"
-                    }else {
-                        return [activeUser: au, subbedTopics: subscribedTopics, allResource: resource]
-                    }
-                }else{
-                    render "This Topic Does not Exist! "
-                }
-
-
-            }
-
-        }else{
-            if(!params.search){
-                render "Error ! Action Prohibited ! Only Admin have Rights!"
-            }else{
-                List topics=Topics.findAllByNameAndVisibility(params.search,"Public") + Topics.findAllByNameAndUser(params.searach,au)
-
-                topics=topics.unique()
-                if(!topics){
-                    render "error , The searched Topic either Does not exsist or you Do not have Access."
-                }else{
-                    List resource=Resource.findAllByTopicsInList(topics)
-                    if(!resource){
-                        render "no posts found about the topic!"
-                    }else{
-                        return [activeUser: au, subbedTopics: subscribedTopics,allResource:resource]
-                    }
-
-                }
-
-            }
-
-        }
-
-
-
-
-
-
-    }
-
 
     def dashboard() {
         User au = User.findByUsername(session.user)
         List subscribedTopics = Subscription.findAllByUser(User.get(au.id)).topics
         List L = Subscription.findAllByUser(User.findByUsername(session.user))//display subs of user
         List topicsByUSer = Topics.findAllByUser(User.findAllByUsername(session.user))
+        def topicsWithCount=topicsService.trendingTopics();//trend
 
-
-        def result = Resource.createCriteria().list() {//trendingPublicTopic
-            projections {
-                count("id", 'myCount')
-            }
-            groupProperty("topics")
-            order ('myCount', 'desc')
-            maxResults(5)
-        }
-
-
-
-        [activeUser: au, subbedTopics: subscribedTopics, listOfSubs: L, usersTopics: topicsByUSer,trendingtopicsResource:result]
+        [activeUser: au, subbedTopics: subscribedTopics, listOfSubs: L, usersTopics: topicsByUSer,trendingTopicsAndCount:topicsWithCount]
 
 
     }

@@ -24,6 +24,13 @@ class AuthenticationController {
                     redirect(controller: 'demo', action: 'dashboard')
                     flash.message = "Logged in as ${session.user} "
 
+                    if(us.photo){
+                        String encoded = Base64.getEncoder().encodeToString(us.photo);
+                        session.setAttribute("userPhoto", encoded)
+
+                    }
+
+
                 } else {
                     redirect(controller: 'Authentication', action: 'auth')
                     flash.warning = "Invalid Username/Password, please try again."

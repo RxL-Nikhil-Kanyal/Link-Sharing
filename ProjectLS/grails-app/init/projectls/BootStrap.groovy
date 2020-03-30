@@ -35,11 +35,11 @@ class BootStrap {
         newSub3.save(flush:true,failOnError: true)
 
         //resource for topic 2
-        LinkResources linkResource=new LinkResources(name:"blah blah Description",URl:"xy.com",user:x.id,topics:t2.id)
+        LinkResources linkResource=new LinkResources(name:"blah blah Description",URl:"https://www.wikipedia.org/",user:x.id,topics:t2.id)
         linkResource.save(flush: true,failOnError: true)
 
         //resource for topic 3
-        LinkResources linkResource2=new LinkResources(name:" 3 blah blah Description",URl:"kl.com",user:x.id,topics:t3.id)
+        LinkResources linkResource2=new LinkResources(name:" 3 blah blah Description",URl:"https://www.wikipedia.org/",user:x.id,topics:t3.id)
         linkResource2.save(flush: true,failOnError: true)
 
 
