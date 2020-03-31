@@ -8,13 +8,7 @@
 <body>
 <g:render template="dashboardTop" />
 
-<g:message code="default.link.skip.label" default=""/></a>
 
-
-   <g:if test="${flash.message}">
-      <div class="message">${flash.message}
-</div>
-    </g:if>
 
 <div class="container">
 <div class="row">

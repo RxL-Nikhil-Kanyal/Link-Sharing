@@ -20,12 +20,9 @@ setTimeout(function() {
 </g:javascript>
 <asset:javascript src="jquery-3.3.1.min.js"/>
 <asset:javascript src="dashboardTop.js"/>
-
-
+<asset:javascript src="resourceLs.js"/>
 
 <style>
-
-
 
 #flow1{
 
@@ -56,9 +53,6 @@ setTimeout(function() {
 <!-#7F00FF#E100FF->
 
 </style>
-
-
-
 
 </head>
 <body id="grad">
@@ -112,7 +106,7 @@ setTimeout(function() {
 
 
 
-                                        <form name="createTopicForm" id="createTopicform" class="form-group">
+                                        <form name="createTopicForm" id="createTopicFormId" class="form-group">
 
                                        <div class="row">
                                             <div class="col-4">Name</div>
@@ -140,7 +134,7 @@ setTimeout(function() {
                           <div class="modal-footer">
                           <div class="col-5">
 
-                            <button type="button" id="createTopicFormId" class="form-control" >Create</button>
+                            <button type="button" id="createTopicButtonId" class="form-control" >Create</button>
                             </div><class="col-6">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                           </div>
@@ -409,6 +403,12 @@ setTimeout(function() {
   </div>
 </nav>
 
+ <g:if test="${flash.message}">
+        <div id="animateDiv" class="message" role="status" style="font-size: medium;color: white;background-color: green;font-weight: bold;">${flash.message}</div>
+    </g:if>
+    <g:if test="${flash.warning}">
+        <div id="animateDiv" class="message_error" style="font-size: medium;color: white;background-color: red;font-weight: bold;">${flash.warning}</div>
+    </g:if>
 
 
 

@@ -17,6 +17,7 @@ class Resource {
     static mapping = {
         //source-db=""
         table 'Res'
+        name column: "name", sqlType: "varchar(5000)"
         readingItem cascade: 'all-delete-orphan'
         resourceRating cascade: 'all-delete-orphan'
 

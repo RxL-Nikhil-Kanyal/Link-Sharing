@@ -2,6 +2,7 @@ package projectls
 
 class SubscriptionController {
 
+    SubService subService
 
    def subscribeTopic(){
        println "------------------------>"+ params.topicsId
@@ -25,6 +26,14 @@ class SubscriptionController {
 
        }
    }
+    def changeSeriousnessDash(){
+        println "-----------controller-------------->"+params.changedSeriousness+"-----------"+params.subscriptionId
+
+        subService.changeSeriousnessMethod(params.changedSeriousness,params.subscriptionId);
+        flash.message="Changes Successful!"
+        return true
+
+    }
 
 
 

@@ -16,7 +16,7 @@
 <div class="container">
 <div class="row">
 
-    <div class="col-6">   <%--start of left side of container--%>
+    <div class="col-5">   <%--start of left side of container--%>
 
        <div class="row">  <%--e--%>
 
@@ -156,7 +156,7 @@
 
     </div>  <%--end of left side of container--%>
 
-    <div class="col-6">            <%--start of right side of container--%>
+    <div class="col-7">            <%--start of right side of container--%>
 
                         <div class="row"> &nbsp;
                         </div>
@@ -215,6 +215,9 @@
                                                                                          <font size="2"> <g:link controller="Demo" action="downloadFile" params="[res:u?.id]"> Download
                                                                                                                                                  </g:link></font>
                                                                                        </g:else>
+                                                                                       <font size="2" style="margin-left:10px;"> <g:link controller="Demo" action="viewPost" params="[topicId:u?.topics?.id,userId:u?.user?.id]"> [Full Post]</g:link>
+
+                                                                                       </font>
 
                                                                                 </div> </div>
 

@@ -34,14 +34,14 @@ class DemoController {
 
     }
 
-    def dashboard() {
+    def dashboard() { //changes done here
         User au = User.findByUsername(session.user)
         List subscribedTopics = Subscription.findAllByUser(User.get(au.id)).topics
         List L = Subscription.findAllByUser(User.findByUsername(session.user))//display subs of user
-        List topicsByUSer = Topics.findAllByUser(User.findAllByUsername(session.user))
+        List topicsByUser = Topics.findAllByUser(User.findAllByUsername(session.user))
         def topicsWithCount=topicsService.trendingTopics();//trend
 
-        [activeUser: au, subbedTopics: subscribedTopics, listOfSubs: L, usersTopics: topicsByUSer,trendingTopicsAndCount:topicsWithCount]
+        [activeUser: au, subbedTopics: subscribedTopics, listOfSubs: L, usersTopics: topicsByUser,trendingTopicsAndCount:topicsWithCount]
 
 
     }
@@ -77,6 +77,21 @@ class DemoController {
 
 
         return [activeUser: au, subbedTopics: subscribedTopics]
+    }
+
+    def viewPost() {
+
+        User au = User.findByUsername(session.user)
+        List subscribedTopics = Subscription.findAllByUser(User.get(au.id)).topics
+        Resource resourceOfSelectedTopic
+        println ">>>>>>>>>>>>>>>>>>>>>>>>"+params.topicId+">>>>>>>>>>>>>>>>>>"+params.userId
+        if(params.topicId && params.userId){
+            resourceOfSelectedTopic=Resource.findByTopicsAndUser(Topics.get(params.topicId),User.get(params.userId))
+        }
+
+        return [activeUser: au, subbedTopics: subscribedTopics,selectedResoftopic:resourceOfSelectedTopic,trendingTopicsAndCount:topicsService.trendingTopics()]
+
+
     }
 
     def changeUserPassword() {

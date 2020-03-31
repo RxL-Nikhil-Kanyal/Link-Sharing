@@ -9,12 +9,6 @@
 
 
 
- <g:if test="${flash.message}">
-        <div id="animateDiv" class="message" role="status" style="font-size: medium;color: white;background-color: green;font-weight: bold;">${flash.message}</div>
-    </g:if>
-    <g:if test="${flash.warning}">
-        <div id="animateDiv" class="message_error" style="font-size: medium;color: white;background-color: red;font-weight: bold;">${flash.warning}</div>
-    </g:if>
 
 
 <div class="container">
@@ -134,12 +128,13 @@
 
                                                                                  </div>
                                                                              </div>
-                                                                             <div class="row"><input type="hidden" name="hiddenVal" class="hiddenSubId" value="${u.id}">
+                                                                             <div class="row">
 
                                                                                    <div class="col-6">
 
-                                                                                          <g:select id="selectSeriousnessId" name="selectSeriousness" from="${['Casual','Serious','Very Serious']}" value="${u?.seriousness}"
+                                                                                          <g:select id="selectSeriousnessId" name="selectSeriousness" from="${['Casual','Serious','Very_Serious']}" value="${u?.seriousness}"
                                                                                            class="form-control changeSeriousclass"/>
+                                                                                           <input type="hidden" name="hiddenVal" class="hiddenSubId" value="${u.id}">
 
 
                                                                                    </div>
@@ -149,7 +144,8 @@
                                                                                         <form >
 
                                                                                         <g:select id="selectVisibId" name="selectVisib" from="${['Public','Private']}" value="${u?.topics?.visibility}"
-                                                                                        class="form-control"/>
+                                                                                        class="form-control visibilityChange"/>
+                                                                                        <input type="hidden" name="hiddenValVis" value="${u?.topics?.id}">
 
                                                                                    </div>
                                                                              </div>

@@ -1,6 +1,6 @@
 package projectls
 
-
+import grails.converters.JSON
 
 
 class TopicController {
@@ -17,15 +17,16 @@ class TopicController {
         println session.user
         User x = User.findByUsername(session.user)
 
-        //topic creation by user
 
-        Topics t = new Topics(name: params.newTopicName, user: x.id, visibility: params.topicVisibility)
+
+        Topics t = new Topics(name: params.newTopicName, user: x.id, visibility: params.topicVisibility) //topic creation by user
         t.validate()
         if (t.hasErrors()) {
 
 //            flash.warning="Topic Already Exists. Try Again!"
 //            redirect(action: "dashboard")
-            return
+            flash.warning="An Error Occurred! Topic already Exists! "
+            return [success:false] as JSON
 
         }
         t.save(flush: true, failOnError: true)
@@ -34,13 +35,15 @@ class TopicController {
         newSub.save(flush: true, failOnError: true)
 
 
-        return true
+        flash.message="Topic Created !"
+        return [success:true] as JSON
 //        flash.message = "Topic added Successfully"
 //        redirect(action: "dashboard")
+
     }
 
     def deleteTopic() {
-        println "------------------->" + params.topicId
+
         Topics topic = Topics.get(params.topicId)
         topic.delete(flush: true, failOnError: true)
 
@@ -87,5 +90,23 @@ class TopicController {
                 }
             }
         }
+    }
+
+    def changeTopicVisibDash(){
+
+
+       // render ([success:topicsService.changeSeriousnessMethod(params.changeVisibility,params.topicId,session.user)] as JSON)
+
+       if(topicsService.changeSeriousnessMethod(params.changeVisibility,params.topicId,session.user)){
+           flash.message="Changed Visibility Successfully !"
+           return true
+       }else{
+           flash.warning="Action Restricted! Cannot Change Visibility of others Topics"
+           return
+       }
+
+
+
+
     }
 }

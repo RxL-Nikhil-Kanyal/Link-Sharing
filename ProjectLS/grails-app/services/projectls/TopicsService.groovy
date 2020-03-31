@@ -10,7 +10,7 @@ class TopicsService {
     }
     def trendingTopics(){
 
-        def result = Resource.createCriteria().list() {//trendingPublicTopic
+        def result = Resource.createCriteria().list() {//trendingTopics
             projections {
                 count("id", 'myCount')
             }
@@ -19,6 +19,31 @@ class TopicsService {
             maxResults(5)
         }
         return result
+
+    }
+
+    def changeSeriousnessMethod(String visibility,String topicId,String activeUsername){
+        println "-----------------"+visibility+"--------"+topicId
+
+        Topics topic=Topics.get(topicId);
+
+        User activeUser=User.findByUsername(activeUsername);
+
+        println "--------------->>>>"+activeUser.admin
+        println "---------------->>>"+activeUsername
+        if((topic.user.username==activeUsername )|| activeUser.admin ){
+            topic.visibility=visibility
+            topic.validate()
+            if(topic.hasErrors()){
+                return false
+
+            }
+            topic.save(flush:true,failOnError:true)
+            return true
+        }else{
+            return false
+        }
+
 
     }
 }

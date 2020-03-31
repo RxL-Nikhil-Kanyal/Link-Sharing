@@ -7,12 +7,7 @@
 <body>
 <g:render template="dashboardTop" />
 
-   <g:if test="${flash.message}">
-          <div id ="animateDiv" class="message" role="status" style="font-size: medium;color: white;background-color: green;font-weight: bold;">${flash.message}</div>
-      </g:if>
-      <g:if test="${flash.warning}">
-          <div id ="animateDiv"  class="message_error" style="font-size: medium;color: white;background-color: red;font-weight: bold;">${flash.warning}</div>
-      </g:if>
+
 <div class="row">&nbsp;</div>
 
 
