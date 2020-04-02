@@ -24,11 +24,7 @@ class AuthenticationController {
                     redirect(controller: 'demo', action: 'dashboard')
                     flash.message = "Logged in as ${session.user} "
 
-                    if(us.photo){
-                        String encoded = Base64.getEncoder().encodeToString(us.photo);
-                        session.setAttribute("userPhoto", encoded)
 
-                    }
 
 
                 } else {
@@ -59,7 +55,23 @@ class AuthenticationController {
         User u = new User(email: params.regemail, username: params.regusername, password: params.regpassword, firstName: params.regfirstname, lastName: params.reglastname,
                 admin: 0, active: 1)
 
-        u.photo = params.regphoto.bytes
+     //   u.photo = params.regphoto
+        println "========================>>>>>>>>>>>>"+params.regphoto+"<<<<<<<<================="
+
+        if(params.regphoto){
+//            String dir1 = new Date()
+//            String dir2 = dir1.split(" ").join("")
+//            String dir = "/home/nikhil/Desktop/grailsAppFile/Images/${params.regusername}${dir2}.png"
+//            request.getFile('regphoto').transferTo(new File(dir))
+//            u.photo=dir
+//            println "whhhhhhhhhhhhhhhyyyyyyyyyyyy"
+//            println "sssssssssssssssssssssssssss"+request.getFile('regphoto')
+
+        }
+
+
+
+
 
         u.validate()
         if (u.hasErrors()) {

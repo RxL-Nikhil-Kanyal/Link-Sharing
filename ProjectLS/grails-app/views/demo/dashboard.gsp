@@ -22,19 +22,18 @@
                  <div class="row"> &nbsp;</div>
 
                     <div class="row">
-                        <div class="card shadow p-0 bg-white rounded">
+                        <div class="card shadow p-0 bg-white rounded" style="border:2px solid;">
 
                              <div class="card-body">
 
 
-                                    <div class="row">
+                                    <div class="row" style="border:2px solid;border-radius: 15px;box-shadow: 5px 10px #888888;">
 
                                         <div class="col-5">
                                             <g:link action="userProfile" id="nameLink"  params="[otherUserId:activeUser.id]">
-                                                 <g:if test="${session.getAttribute("userPhoto")}">
+                                                 <g:if test="${activeUser.photo!=null}">
 
-                                                    <img style="width: inherit"
-                                                      src="data:image/jpg;base64,${session.getAttribute("userPhoto")}"/>
+                                                    <img src="${activeUser.photo}" height="100" width="100">
 
 
                                                  </g:if>
@@ -229,9 +228,15 @@
                                                                                       <g:else>
                                                                                          <g:if test="${subbedTopics.name.contains(topicAndCountRow[1].name)}">
                                                                                                <g:link action="unsubscribeAction" params="[topicinfo:topicAndCountRow[1]?.id]">UnSubscribe</g:link>
+                                                                                               <g:if test="${usersTopics.name.contains(topicAndCountRow[1].name)}">
+                                                                                                    <g:img class="deleteTopicClass" dir="images" file="deleteIcon.png" title="delete topic" width="20" height="20"/>
+                                                                                                    <input type="hidden" value="${topicAndCountRow[1]?.id}"/>
+                                                                                               </g:if>
+
+
                                                                                           </g:if>
                                                                                           <g:else>
-                                                                                                <g:link controller="Subscription" action="subscribeTopic" params="[topicId:topicAndCountRow[1]?.id]">Subscribe</g:link>
+                                                                                                <g:link controller="Subscription" action="subscribeTopic" params="[topicsId:topicAndCountRow[1]?.id]">Subscribe</g:link>
                                                                                           </g:else>
 
 
@@ -239,11 +244,9 @@
 
                                                                                   </div>
 
-
                                                                                   <div class="col-4">
                                                                                       <font size="2" color="gray"> Subs: ${topicAndCountRow[1]?.subscription?.size()}</font>
                                                                                      <font size="2" color="gray"> Posts: ${topicAndCountRow[1]?.resource.size()}</font>
-
 
 
                                                                                    </div>
@@ -251,8 +254,6 @@
                                                                                <div class="row">
 
                                                                                      <div class="col-6">
-
-
 
 
                                                                                      </div>
@@ -318,14 +319,87 @@
                         </div>
 
                                    <div class="row">
-                                        <div class="card shadow p-0 bg-white rounded">
+                                        <div class="card shadow p-0 bg-white rounded" style="width:100%;">
                                              <div class="card-header">
                                                           Inbox
                                               </div>
                                               <div class="card-body">
-                                                    <h5 class="card-title">Special title treatment</h5>
-                                                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                                                     <a href="#">link</a>
+                                                    <g:if test="${userUnReadResource?.size==0}">
+                                                           <font size="4" color="red">No NEW Posts To Show !</font>
+
+                                                    </g:if>
+                                                    <g:else>
+
+                                                          <%------------------------%>
+
+                                                      <div class="container" id="flow3">
+                                                            <g:each in="${userUnReadResource}" var="res" status="i">
+
+                                                                <div class="row " style="border:2px solid;border-radius: 10px;">
+
+
+                                                                    <div class="col-3">
+
+                                                                     <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
+
+                                                                    </div>
+                                                                    <div class="col-9">
+                                                                        <div class="row">
+                                                                            <div class="col-6"><font size="3">${res?.user?.firstName} ${res?.user?.lastName}</font></div>
+                                                                            <div class="col-6"><font size="3">${res?.topics?.name}</font></div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-6"><font size="2" color="gray">@${res?.user?.username} ${new Date()-res?.lastUpdated}</font></div>
+                                                                            <div class="col-6"></div>
+
+                                                                        </div>
+                                                                        <hr>
+                                                                        <div class="row">
+                                                                            <div class="col-12" id="ellps" >${res?.name}</div>
+
+                                                                        </div><hr>
+                                                                        <div class="row">
+                                                                              <div class="col-3">   </div>
+                                                                              <div class="col-9">
+                                                                                   <g:if test="${res?.class==LinkResources}">
+                                                                                           <a href="${res?.URl}"><font size="2">Go To Link</font></a>
+                                                                                   </g:if>
+                                                                                   <g:else>
+                                                                                            <g:link controller="Demo" action="downloadFile" params="[res:res?.id]"> <font size="2">Download</font>
+                                                                                                                                                           </g:link>
+                                                                                    </g:else>
+
+                                                                                     <font size="2" style="margin-left:10px;"> <g:link controller="Demo" action="viewPost" params="[topicId:res?.topics?.id,userId:res?.user?.id]">
+                                                                                     [Full Post] </g:link>
+
+                                                                                     <a href="" id="${res?.id}" class="changeReadStatus" >
+
+                                                                                          <font size="2"> &nbsp;&nbsp; Mark as read</font>
+
+                                                                                     </a>
+
+
+
+                                                                               </div>
+
+                                                                        </div>
+
+                                                                    </div>
+
+                                                                </div>
+
+
+                                                             </g:each>
+                                                      </div>
+
+                                                       <%-------------------------%>
+
+
+                                                     </g:else>
+
+
+
+
                                               </div>
                                         </div>
                                     </div>         <%--end of 1 row --%>

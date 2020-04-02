@@ -18,9 +18,11 @@ setTimeout(function() {
 
 
 </g:javascript>
-<asset:javascript src="jquery-3.3.1.min.js"/>
+
 <asset:javascript src="dashboardTop.js"/>
 <asset:javascript src="resourceLs.js"/>
+
+
 
 <style>
 
@@ -28,6 +30,13 @@ setTimeout(function() {
 
   width: auto;
   height: 200px;
+  overflow: scroll;
+  overflow-x:hidden;
+}
+#flow3{
+
+  width: auto;
+  height: 240px;
   overflow: scroll;
   overflow-x:hidden;
 }
@@ -106,7 +115,7 @@ setTimeout(function() {
 
 
 
-                                        <form name="createTopicForm" id="createTopicFormId" class="form-group">
+                                        <g:form name="createTopicForm" id="createTopicFormId" class="form-group">
 
                                        <div class="row">
                                             <div class="col-4">Name</div>
@@ -134,14 +143,14 @@ setTimeout(function() {
                           <div class="modal-footer">
                           <div class="col-5">
 
-                            <button type="button" id="createTopicButtonId" class="form-control" >Create</button>
+                            <button id="createTopicButtonId" class="form-control" >Create</button>
                             </div><class="col-6">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                           </div>
 
                           </div>
                         </div>
-                         </form>  <%--form end here---%>
+                         </g:form>  <%--form end here---%>
 
                       </div>
                     </div>
@@ -174,24 +183,24 @@ setTimeout(function() {
 
                                    <%-----------start here form-----------%>
 
-                                     <g:form name="shareLinkForm" action="shareLinkAction" id="3">
+                                     <g:form name="shareLinkForm" id="3">
                                        <table class="table">
 
                                          <tr>
                                          <td>Link</td>
-                                            <td><g:field type="url" name="LinkTopicUrl" value="${Ltopic}" required="true" class="form-control" /></td>
+                                            <td><g:field type="url" id="linkTopicUrlId" name="LinkTopicUrl" value="${Ltopic}" required="true" class="form-control" /></td>
                                           </tr>
 
                                              <tr>
                                              <td>Description</td>
-                                             <td><g:textArea name="myLinkField" value="Topic related Url" rows="3" cols="10" class="form-control" /> </td>
+                                             <td><g:textArea id="linkDescId"name="linkDesc" value="Topic related Url" rows="3" cols="10" class="form-control" required="true"/> </td>
 
                                              </tr>
 
                                              <tr>
                                                <td>Topic</td>
                                                <td>   <%---add list of topic here---%>
-                                                 <g:select name="linktopic.name" from="${subbedTopics.name}" value="${vis}" noSelection="['':'-Choose Topic-']" required="true" class="form-control" />
+                                                 <g:select id="linkTopicName" name="linkTopicName" from="${subbedTopics.name}" value="${vis}" noSelection="['':'-Choose Topic-']" required="true" class="form-control" />
 
                                                </td>
                                              </tr>
@@ -209,7 +218,7 @@ setTimeout(function() {
                                </div>
                                <div class="modal-footer">
 
-                               <div class="col-3"><g:submitButton name="shareLinkButton" value="share" class="form-control" /></div>
+                               <div class="col-3"><Button id="shareLinkButtonId" name="shareLinkButton" class="form-control">Share</button></div>
                                  <div class="col-6"><button type="button" class="btn btn-default" data-dismiss="modal" class="form-control" >Close</button></div>
                                </div>
                              </div>
@@ -320,12 +329,12 @@ setTimeout(function() {
 
                                           <tr>
                                               <td>Document</td>
-                                                 <td><input type="file" name="docfile" class="form-control" /></td>
+                                                 <td><input type="file" name="docfile" class="form-control" required="true" /></td>
                                           </tr>
 
                                           <tr>
                                           <td>Description</td>
-                                          <td><g:textArea name="myDocField" value="" rows="3" cols="10" class="form-control"/> </td>
+                                          <td><g:textArea name="myDocField" value="" rows="3" cols="10" class="form-control" required="true"/> </td>
 
                                           </tr>
 

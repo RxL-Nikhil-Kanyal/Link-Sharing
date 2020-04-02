@@ -35,12 +35,19 @@ class BootStrap {
         newSub3.save(flush:true,failOnError: true)
 
         //resource for topic 2
-        LinkResources linkResource=new LinkResources(name:"blah blah Description",URl:"https://www.wikipedia.org/",user:x.id,topics:t2.id)
+        LinkResources linkResource=new LinkResources(name:"This is the fiest topic Description",URl:"https://www.wikipedia.org/",user:x.id,topics:t2.id)
         linkResource.save(flush: true,failOnError: true)
+        //read
+        ReadingItem read=new ReadingItem(isRead:1,user:x,resource:linkResource)
+        read.save(flush: true,failOnError: true)
+
 
         //resource for topic 3
-        LinkResources linkResource2=new LinkResources(name:" 3 blah blah Description",URl:"https://www.wikipedia.org/",user:x.id,topics:t3.id)
+        LinkResources linkResource2=new LinkResources(name:" second ever wefwe Description",URl:"https://www.wikipedia.org/",user:x.id,topics:t3.id)
         linkResource2.save(flush: true,failOnError: true)
+        //read
+        ReadingItem read2=new ReadingItem(isRead:1,user:x,resource:linkResource2)
+        read2.save(flush: true,failOnError: true)
 
 
         //user 3 active

@@ -5,7 +5,7 @@ class User {
     String password
     String firstName
     String lastName
-    byte[] photo
+    String photo
     boolean admin
     boolean active
     Date dateCreated
@@ -22,16 +22,15 @@ class User {
 
         firstName blank: false , nullable :false
         lastName blank: false, nullable: false
+        photo nullable:true
 
-        photo(nullable:true, maxSize:1073741824)//4gb max
+      //  photo(nullable:true, maxSize:1073741824)//4gb max
 
 
     }
     static mapping = {
         //source-db=""
         table 'usr'
-
-
 
 
     }

@@ -23,9 +23,9 @@
 
 
                          <div class="row">
-                             <div class="card shadow p-0 bg-white rounded ">
+                             <div class="card shadow p-0 bg-white rounded " style="border:2px solid;">
 
-                                   <div class="card-body ">
+                                   <div class="card-body " style="border:2px solid;border-radius: 15px;box-shadow: 10px 15px #888888;">
 
                                        <span class="col-4">
                                        <g:img dir="images" file="defaultpic.png" width="120" height="120" />

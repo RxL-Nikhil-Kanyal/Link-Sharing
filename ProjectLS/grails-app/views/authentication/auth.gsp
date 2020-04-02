@@ -211,7 +211,7 @@
                      <div class="card-body">
                        <Div class="container">
                        <g:form name="myForm" controller="Authentication" action="RegisterAction"
-                       method="post" >
+                       method="post" enctype="multipart/form-data">
                                    <Div class="row form-group">                              <%-- add in message--%>
                                       <Div class="col-sm-6">
                                        <g:message code="auth.register.firstname" />
@@ -277,6 +277,7 @@
                                                </Div>
                                                <Div class="col-sm-6">
                                                          <input type="file" name="regphoto" accept="image/x-png,image/gif,image/jpeg" class="form-control"/>
+
                                                 </Div>
                                                </Div>
 

@@ -8,7 +8,8 @@ class SubscriptionController {
        println "------------------------>"+ params.topicsId
 
        User activeUser=User.findByUsername(session.user);
-       Topics topic=Topics.get(params.topicId);
+       Topics topic=Topics.get(params.topicsId);
+       println "tttttttttttttttttttttttttttt"+topic
 
 
        Subscription newSub=new Subscription(user:activeUser,topics:topic,seriousness:'Serious');

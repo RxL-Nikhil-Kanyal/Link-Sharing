@@ -69,16 +69,18 @@
                     <div class="row"> &nbsp;</div>
 
                             <div class="row">
-                                <div class="card shadow p-0 bg-white rounded w-75">
+                                <div class="card shadow p-0 bg-white rounded" style="width:90%;">
                                      <div class="card-header">
                                                  Topics
                                       </div>
                                       <div class="card-body">
 
 
+
+
                                           <div class="container" id="flow1"><%---corrections from here---%>
 
-                                                   <g:if test="${ouTopic?.size()==0}">
+                                                   <g:if test="${subsOfTopicByOUser?.size()==0}">
                                                             <div class="row"><div class="col-12">No Topics To Show. Create New Topics.</div></div>
 
                                                     </g:if>
@@ -86,7 +88,7 @@
 
                                                         <div class="row"><div class="col-12">
 
-                                                           <g:each in="${ouTopic}" var="u" status="i">
+                                                           <g:each in="${subsOfTopicByOUser}" var="u" status="i">
 
                                                                 <div class="row">
 
@@ -97,10 +99,10 @@
                                                                         </div>
                                                                         <div class="col-9">
                                                                             <div class="row">
-                                                                               <div id="nameOfTopic" class="col-7">${u?.name}</div>
+                                                                               <div id="nameOfTopic" class="col-7">${u?.topics?.name}</div>
                                                                                <div class="col-5">
 
-                                                                                <g:link action="userProfile" id="nameLink"  params="[otherUserId:u?.user?.id]">@${u?.user?.username}
+                                                                                <g:link action="userProfile" id="nameLink"  params="[otherUserId:u?.user?.id]">@${u?.topics?.user?.username}
                                                                                 </g:link>
 
                                                                                </div><%--c--%>
@@ -109,17 +111,29 @@
                                                                              <div class="row">
                                                                                 <div class="col-8">
 
-                                                                                    <g:if test="${u?.user.username !=session.user }">
-                                                                                         <g:link controller="subscription" action="subscribeAction" params="[inviteTopicId:u?.id]">Subscribe</g:link>
+                                                                                    <g:if test="${!(u?.user?.username.contains(session.user)) }">
+                                                                                         <g:link controller="Subscription" action="subscribeTopic" params="[topicId:u?.topics?.id]">Subscribe</g:link>
                                                                                     </g:if>
                                                                                     <g:else>
-                                                                                          <g:link params="[inviteTopicId:u?.id]">Invite</g:link>
+                                                                                            <div class="row">
+                                                                                                    <div class="col-6">
+                                                                                                     <g:select id="selectSeriousnessId" name="selectSeriousness" from="${['Casual','Serious','Very_Serious']}" value="${u?.seriousness}"
+                                                                                                       class="form-control changeSeriousclass"/>
+                                                                                                       <input type="hidden" name="hiddenVal" class="hiddenSubId" value="${u.id}">
+
+
+
+                                                                                                    </div>
+                                                                                                    <div class="col-6"><g:link params=" ">Invite</g:link></div>
+                                                                                            </div>
+
                                                                                     </g:else>
                                                                                 </div>
 
 
                                                                                 <div class="col-4">
-                                                                                     Subs:${u?.subscription?.size()}
+                                                                                        <div class="row"><font siz="2" color="gray">Subs:${u?.topics?.subscription?.size()}</font></div>
+                                                                                        <div class="row"><font siz="2" color="gray">Post:${u?.topics?.resource?.size()}</font></div>
 
 
                                                                                  </div>
@@ -159,7 +173,7 @@
                      <div class="row"> &nbsp;</div>
 
                                      <div class="row">
-                                         <div class="card shadow p-0 bg-white rounded w-75">
+                                         <div class="card shadow p-0 bg-white rounded" style="width:90%;">
                                               <div class="card-header">
                                                            Subscriptions
                                                </div>

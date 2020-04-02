@@ -11,13 +11,10 @@ location.reload();
 }
 } ,
 error : function () {
-
-}}
-
-);
-
+    alert("Failed!")
+    }}
+  );
 };
-
 
 $(document).ready(function () {
 $("#createTopicButtonId").click(function(){

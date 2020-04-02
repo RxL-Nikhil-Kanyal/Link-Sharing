@@ -1,11 +1,11 @@
 class ResourceRating {
     static belongsTo=[user: User, resource:Resource]
-    int score
+    float score
 
 
     static constraints = {
 
-     score (range: 0..6)
+
 
 
     }

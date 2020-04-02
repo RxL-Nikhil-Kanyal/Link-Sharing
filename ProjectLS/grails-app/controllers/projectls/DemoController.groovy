@@ -4,17 +4,13 @@ package projectls
 
 class DemoController {
     TopicsService topicsService
+    ReadingItemService readingItemService
 
 
     static defaultAction = "dashboard"
 
     def index() {
 
-        if (session.user != null) {
-            println "session active"
-        }
-        println session.user
-        render "abc"
     }
 
 
@@ -34,14 +30,17 @@ class DemoController {
 
     }
 
-    def dashboard() { //changes done here
+    def dashboard() {
         User au = User.findByUsername(session.user)
         List subscribedTopics = Subscription.findAllByUser(User.get(au.id)).topics
         List L = Subscription.findAllByUser(User.findByUsername(session.user))//display subs of user
         List topicsByUser = Topics.findAllByUser(User.findAllByUsername(session.user))
         def topicsWithCount=topicsService.trendingTopics();//trend
 
-        [activeUser: au, subbedTopics: subscribedTopics, listOfSubs: L, usersTopics: topicsByUser,trendingTopicsAndCount:topicsWithCount]
+        List UnReadResources=readingItemService.unReadResourceMethod(session.user)
+
+        [activeUser: au, subbedTopics: subscribedTopics, listOfSubs: L,
+         usersTopics: topicsByUser,trendingTopicsAndCount:topicsWithCount,userUnReadResource:UnReadResources]
 
 
     }
@@ -84,12 +83,34 @@ class DemoController {
         User au = User.findByUsername(session.user)
         List subscribedTopics = Subscription.findAllByUser(User.get(au.id)).topics
         Resource resourceOfSelectedTopic
-        println ">>>>>>>>>>>>>>>>>>>>>>>>"+params.topicId+">>>>>>>>>>>>>>>>>>"+params.userId
+
+        List allResourceScoreAndCount=[]
+
         if(params.topicId && params.userId){
             resourceOfSelectedTopic=Resource.findByTopicsAndUser(Topics.get(params.topicId),User.get(params.userId))
-        }
 
-        return [activeUser: au, subbedTopics: subscribedTopics,selectedResoftopic:resourceOfSelectedTopic,trendingTopicsAndCount:topicsService.trendingTopics()]
+           allResourceScoreAndCount= ResourceRating.createCriteria().list() {
+                projections {
+                    sum("score")
+                    count("user")
+
+                }
+                groupProperty("resource")
+                eq("resource",resourceOfSelectedTopic)
+            }
+            println "||||||||||||||||||||||||="+allResourceScoreAndCount
+        }
+        ResourceRating userRating=ResourceRating.findByUserAndResource(au,resourceOfSelectedTopic)
+        List rating=[]
+        if(userRating){
+            rating=[userRating.score]
+        }
+        println "ggggggggggggggggggggggg"+rating
+
+
+        return [activeUser: au, subbedTopics: subscribedTopics,
+                selectedResoftopic:resourceOfSelectedTopic,trendingTopicsAndCount:topicsService.trendingTopics(),
+                userPastRating:rating,scoreAndCount:allResourceScoreAndCount]
 
 
     }
@@ -150,29 +171,46 @@ class DemoController {
 
 
         User au = User.findByUsername(session.user)
-        List subscribed = Subscription.findAllByUser(User.get(au.id))
+        List subscribed = Subscription.findAllByUser(au)
         List subTopics=subscribed.topics
         List R=[]
 
-        List topicsByUser = Topics.findAllByUser(User.findAllByUsername(session.user))
+        List topicsByUser = Topics.findAllByUser(User.findByUsername(session.user))
+
 
         //get from link
         if(au==User.get(params.otherUserId)){
+           List subsOfTopicCreatedByUser =Subscription.createCriteria().list(){
+
+                inList("topics",topicsByUser)
+                eq('user',User.findByUsername(session.user))
+
+            }
 
 
-            if(!subTopics.isEmpty()) {//posts
-                R = Resource.createCriteria().list() {
+            if(!subTopics.isEmpty()) {
+                R = Resource.createCriteria().list() {//posts
                     inList("topics", subTopics)
 
                 }
 
             }
 
-            return [activeUser: au,DisplayRes:R, subbedTopics: subTopics,usersTopics: topicsByUser,ou:au,ouSubs:subscribed,ouTopic:topicsByUser]
+            return [activeUser: au,DisplayRes:R, subbedTopics: subTopics,subsOfTopicByOUser:subsOfTopicCreatedByUser,usersTopics: topicsByUser,ou:au,ouSubs:subscribed,ouTopic:topicsByUser]
 
         }else{
             User otherUser=User.get(params.otherUserId)
             List ouPublicTopics = Topics?.findAllByVisibilityAndUser("Public",otherUser)
+            List x=topicsByUser+ouPublicTopics
+
+
+            List subsOfTopicCreatedByOtherUser =Subscription.createCriteria().list(){
+
+                inList("topics",x)
+                eq('user',otherUser)
+
+            }
+
             List subPublic = Subscription.createCriteria().list() {
                 and {
 
@@ -188,8 +226,9 @@ class DemoController {
                 }
 
             }
-            return [activeUser: au,DisplayRes:R, subbedTopics: subTopics,usersTopics: topicsByUser,ou:otherUser,ouSubs:subPublic,ouTopic:ouPublicTopics]
-
+            return [activeUser        : au, DisplayRes: R, subbedTopics: subTopics, usersTopics: topicsByUser,
+                    subsOfTopicByOUser: subPublic, ou: otherUser, ouSubs: subsOfTopicCreatedByOtherUser,
+                    ouTopic           : ouPublicTopics]
 
 
         }
@@ -214,34 +253,37 @@ class DemoController {
 
     def fetchPersonImage() {
         User usr = User.findByUsername(session.user)
-
-        String encoded = Base64.getEncoder().encodeToString(usr.photo)
-        session.setAttribute("userPhoto", encoded)
+//
+//        String encoded = Base64.getEncoder().encodeToString(usr.photo)
+//        session.setAttribute("userPhoto", encoded)
 
 
     }
 
     def ShareLinkAction() {
 
-        Topics t = Topics.findByName(params.linktopic.name)
+        Topics t = Topics.findByName(params.linkTopicName)
         User u = User.findByUsername(session.user)
 
 
-        LinkResources linkResource = new LinkResources(name: params.myLinkField, URl: params.LinkTopicUrl, user: u.id, topics: t.id)
+        LinkResources linkResource = new LinkResources(name: params.linkDesc, URl: params.LinkTopicUrl, user: u.id, topics: t.id)
         linkResource.validate()
 
         if (linkResource.hasErrors()) {
             linkResource.errors.allErrors.each {
                 println it
             }
-            flash.warning = "Error ,Please Try Again"
+            flash.warning = "Error! "
+            return
         } else {
             linkResource.save(flush: true, failOnError: true)
+            ReadingItem readingItem=new ReadingItem(isRead:'true',user:u,resource:linkResource)
+            readingItem.save(flush:true,failOnError: true)
             flash.message = "Added Resource Successfully"
+            return true
         }
 
 
-        redirect(action: "dashboard")
     }
 
     def shareDocAction() {
@@ -260,6 +302,9 @@ class DemoController {
             flash.warning = "Error ,Please Try Again"
         } else {
             docResource.save(flush: true, failOnError: true)
+
+            ReadingItem readingItem=new ReadingItem(isRead:'true',user:u,resource:docResource)
+            readingItem.save(flush:true,failOnError: true)
             flash.message = "Added Resource Successfully"
         }
 
@@ -279,14 +324,18 @@ class DemoController {
         Subscription checksub = Subscription.findByTopicsAndUser(topic, u)
 
         if (u.id == topic.user.id) {
-            topic.delete(flush: true, failOnError: true)
-            flash.message = "Unsubscibed and deleted topic"
+
+             flash.warning = "can not UnSubcribe your own Topic!"
+
+             redirect(action: "dashboard")
+
         } else {
             checksub.delete(flush: true, failOnError: true)
             flash.message = "Unsubscibed "
+            redirect(action: "dashboard")
         }
 
-        redirect(action: "dashboard")
+
 
 
     }

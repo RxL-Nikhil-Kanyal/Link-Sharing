@@ -3,10 +3,11 @@
 <title>View Post</title>
 
 
-
 </head>
 <body>
 <g:render template="dashboardTop" />
+<asset:javascript src="jquery.star-rating-svg.js"/>
+<asset:stylesheet src="star-rating-svg.css"/>
 
 
 
@@ -62,7 +63,23 @@
                                                      </font>
                                                 </div>
                                             </div>
-                                            <div class="row"></div>
+                                            <div class="row">
+                                            <div class="col-7"></div>
+                                            <div class="col-5"><div class="my-rating"></div> <input id="hiddenResourceId" value="${selectedResoftopic?.id}" type="hidden"/>
+                                            <g:if test="${scoreAndCount}">
+
+
+                                            <font size="2" color="gray">(${scoreAndCount[0][1]})</font>
+                                            <font size="2" color="gray">${Math.round((scoreAndCount[0][0]/scoreAndCount[0][1]) * 100) / 100}</font>
+                                            </g:if>
+                                            <input id="rate" type="hidden" value="${userPastRating[0]}"/>
+
+                                            </div>
+
+                                             <%-----------rating-------------%>
+
+
+                                            </div>
                                         </div>
                                      </div>
                                     </g:else>
@@ -101,12 +118,60 @@
 
                                                              </div>
 
-
-
                                                             <div class="col">
                                                               <font size="3">
-                                                                  <a href class="editOwnResource" id="${selectedResoftopic?.id}">Edit</a>
+
+                                                                  <a href class=" " data-toggle="modal" data-target="#EditResourceModal">
+                                                                    Edit
+                                                                  </a>
                                                               </font>
+                                                                  <%----------------modal------------%>
+
+
+                                                                    <!-- Modal -->
+                                                                    <div class="modal fade" id="EditResourceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                                      <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                        <div class="modal-content">
+                                                                          <div class="modal-header">
+                                                                            <h5 class="modal-title" id="exampleModalLongTitle">Edit Post</h5>
+                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                              <span aria-hidden="true">&times;</span>
+                                                                            </button>
+                                                                          </div>
+                                                                            <form class="form-group">
+
+                                                                              <div class="modal-body" style="border:1px outset;">
+
+                                                                                <div class="row">
+                                                                                    <input type="text" id="topicNameEdit" value="${selectedResoftopic?.topics?.name}" name="topicName" disabled class="form-control">
+
+                                                                                </div>
+                                                                                <div class="row">&nbsp;</div>
+
+                                                                                <div class="row">
+
+
+                                                                                        <label id class="form-control">Description</label>
+
+
+                                                                                          <input id="hiddenResourceId" value="${selectedResoftopic?.id}" type="hidden"/>
+                                                                                         <textarea maxlength="4000" id="editResDesc" rows="5" cols="50" class="form-control" required></textarea>
+
+                                                                                 </div>
+
+                                                                              </div>
+                                                                                  <div class="modal-footer">
+                                                                                    <button type="button" class="btn btn-secondary " data-dismiss="modal">Close</button>
+                                                                                    <button id="editSaveButtonId" type="button" class="btn btn-primary ">Save changes</button>
+                                                                                  </div>
+                                                                            </form>
+
+                                                                                </div>
+                                                                              </div>
+                                                                            </div>
+
+                                                                  <%---------------modal--------------%>
+
 
                                                              </div>
                                                          </g:if>
@@ -235,10 +300,11 @@
 
     </div>    <%--end of right side of container--%>
 
-</div>
 
 </div>
 
+</div>
+<asset:javascript src="myStarRatingQuery.js"/>
 
 </body>
 </html>

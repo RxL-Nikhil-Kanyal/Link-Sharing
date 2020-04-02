@@ -106,7 +106,33 @@ class TopicController {
        }
 
 
+    }
 
+    def deleteTopicAjax(){
+        User activeUser=User.findByUsername(session.user)
+        println "ppppppppppppppppppp   "+params.topicId
+        Topics topic=Topics.get(params.topicId)
+        println "---------------"+topic
+
+
+
+        try{
+            topic.delete(flush: true,failOnError:true)
+//            topic.findAll().each { it.delete(flush:true, failOnError:true) }
+
+
+        }
+        catch(e) {
+            flash.warning="Error deleting Topic"
+
+            println "hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhreeeeeeeeeeeeeeeeee"
+            return
+        }
+
+        flash.message="Successfully Deleted ${topic.name}"
+        return true
 
     }
+
+
 }
