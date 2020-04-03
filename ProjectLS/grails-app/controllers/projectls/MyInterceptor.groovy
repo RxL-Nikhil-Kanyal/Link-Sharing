@@ -4,36 +4,27 @@ package projectls
 class MyInterceptor {
 
 
-  public  MyInterceptor(){
+    public MyInterceptor() {
         println "my interceptor called"
 
-        matchAll().excludes(controller:'authentication')
-
-
-
-
-
-//        .except(action:"auth")
-//        .except(action:"myAction")
-//        .except(action:"RegisterAction")
+        matchAll().excludes(controller: 'authentication')
 
 
     }
 
     boolean before() {
-        println "before called for session by :"+ session.user
 
-        if(!session.user) {
+        if (!session.user) {
             redirect(controller: "Authentication", action: "auth")
             flash.warning = "please Login first!"
-            println "before was called!"
+
             return false
-        }else {
-            println "inside else"
+        } else {
+
             true
         }
 
-         }
+    }
 
     boolean after() { true }
 

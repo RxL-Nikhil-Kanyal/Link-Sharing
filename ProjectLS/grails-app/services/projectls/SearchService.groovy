@@ -5,8 +5,7 @@ import grails.gorm.transactions.Transactional
 @Transactional
 class SearchService {
 
-    def serviceMethod(String usernameSess,String searchString) {
-
+    def serviceMethod(String usernameSess, String searchString) {
 
 
     }

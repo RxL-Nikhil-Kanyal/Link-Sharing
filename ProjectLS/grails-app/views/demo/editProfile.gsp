@@ -28,7 +28,12 @@
                                    <div class="card-body " style="border:2px solid;border-radius: 15px;box-shadow: 10px 15px #888888;">
 
                                        <span class="col-4">
-                                       <g:img dir="images" file="defaultpic.png" width="120" height="120" />
+                                       <g:if test="${activeUser.photo!=null}">
+                                           <img height="90" style="margin-top: 10px;margin-left: 0px,margin-bottom: 10px;margin-right: 10px "  width="90" src="${createLink(controller: 'demo', action: 'fetchPersonImage', params: ['userId':activeUser.id])}"/>
+                                        </g:if>
+                                        <g:else>
+                                            <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
+                                        </g:else>
                                        </span>
                                        <span class="col-8" id="displayName"> ${activeUser.firstName} ${activeUser.lastName}</span>
 
@@ -118,7 +123,13 @@
                                         <div class="row">
                                             <div class="col-4">
 
-                                            <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
+                                                <g:if test="${u?.topics?.user?.photo!=null}">
+
+                                                    <img height="90" style="margin-top: 10px;margin-left: 0px,margin-bottom: 10px;margin-right: 10px "  width="90" src="${createLink(controller: 'demo', action: 'fetchPersonImage', params: ['userId':u?.topics.user.id])}"/>
+                                                 </g:if>
+                                                 <g:else>
+                                                     <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
+                                                 </g:else>
 
                                             </div>
                                             <div class="col-8"><%---right of pic---%>

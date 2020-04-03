@@ -1,17 +1,12 @@
 package projectls
 
 
-
 class DemoController {
     TopicsService topicsService
     ReadingItemService readingItemService
 
 
     static defaultAction = "dashboard"
-
-    def index() {
-
-    }
 
 
     def posts() {
@@ -33,19 +28,17 @@ class DemoController {
     def dashboard() {
         User au = User.findByUsername(session.user)
         List subscribedTopics = Subscription.findAllByUser(User.get(au.id)).topics
-        List L = Subscription.findAllByUser(User.findByUsername(session.user))//display subs of user
+        List listSub = Subscription.findAllByUser(User.findByUsername(session.user))//display subs of user
         List topicsByUser = Topics.findAllByUser(User.findAllByUsername(session.user))
-        def topicsWithCount=topicsService.trendingTopics();//trend
+        def topicsWithCount = topicsService.trendingTopics();//trend
 
-        List UnReadResources=readingItemService.unReadResourceMethod(session.user)
+        List UnReadResources = readingItemService.unReadResourceMethod(session.user)
 
-        [activeUser: au, subbedTopics: subscribedTopics, listOfSubs: L,
-         usersTopics: topicsByUser,trendingTopicsAndCount:topicsWithCount,userUnReadResource:UnReadResources]
+        [activeUser : au, subbedTopics: subscribedTopics, listOfSubs: listSub,
+         usersTopics: topicsByUser, trendingTopicsAndCount: topicsWithCount, userUnReadResource: UnReadResources]
 
 
     }
-
-
 
 
     def UsersA() {
@@ -63,18 +56,15 @@ class DemoController {
 
         User au = User.findByUsername(session.user)
         List subscribedTopics = Subscription.findAllByUser(User.get(au.id)).topics
-        List topicsByUser=Topics.findAllByUser(User.findByUsername(session.user))
+        List topicsByUser = Topics.findAllByUser(User.findByUsername(session.user))
 
-
-        if(!topicsByUser.isEmpty()){
+        if (!topicsByUser.isEmpty()) {
             List UserCreatedAndSubTopics = Subscription.createCriteria().list() {
 
                 inList("topics", topicsByUser)
             }
-            return [activeUser: au, subbedTopics: subscribedTopics,userSubbedTopics:UserCreatedAndSubTopics]
+            return [activeUser: au, subbedTopics: subscribedTopics, userSubbedTopics: UserCreatedAndSubTopics]
         }
-
-
         return [activeUser: au, subbedTopics: subscribedTopics]
     }
 
@@ -84,33 +74,31 @@ class DemoController {
         List subscribedTopics = Subscription.findAllByUser(User.get(au.id)).topics
         Resource resourceOfSelectedTopic
 
-        List allResourceScoreAndCount=[]
+        List allResourceScoreAndCount = []
 
-        if(params.topicId && params.userId){
-            resourceOfSelectedTopic=Resource.findByTopicsAndUser(Topics.get(params.topicId),User.get(params.userId))
+        if (params.topicId && params.userId) {
+            resourceOfSelectedTopic = Resource.findByTopicsAndUser(Topics.get(params.topicId), User.get(params.userId))
 
-           allResourceScoreAndCount= ResourceRating.createCriteria().list() {
+            allResourceScoreAndCount = ResourceRating.createCriteria().list() {
                 projections {
                     sum("score")
                     count("user")
 
                 }
                 groupProperty("resource")
-                eq("resource",resourceOfSelectedTopic)
+                eq("resource", resourceOfSelectedTopic)
             }
-            println "||||||||||||||||||||||||="+allResourceScoreAndCount
-        }
-        ResourceRating userRating=ResourceRating.findByUserAndResource(au,resourceOfSelectedTopic)
-        List rating=[]
-        if(userRating){
-            rating=[userRating.score]
-        }
-        println "ggggggggggggggggggggggg"+rating
 
+        }
+        ResourceRating userRating = ResourceRating.findByUserAndResource(au, resourceOfSelectedTopic)
+        List rating = []
+        if (userRating) {
+            rating = [userRating.score]
+        }
 
-        return [activeUser: au, subbedTopics: subscribedTopics,
-                selectedResoftopic:resourceOfSelectedTopic,trendingTopicsAndCount:topicsService.trendingTopics(),
-                userPastRating:rating,scoreAndCount:allResourceScoreAndCount]
+        return [activeUser        : au, subbedTopics: subscribedTopics,
+                selectedResoftopic: resourceOfSelectedTopic, trendingTopicsAndCount: topicsService.trendingTopics(),
+                userPastRating    : rating, scoreAndCount: allResourceScoreAndCount]
 
 
     }
@@ -127,8 +115,8 @@ class DemoController {
                     println it
                 }
 
-                flash.warning="Error, Please try again!"
-                redirect(action:"editProfile")
+                flash.warning = "Error, Please try again!"
+                redirect(action: "editProfile")
             }
 
             redirect(action: "editProfile")
@@ -167,28 +155,27 @@ class DemoController {
 
 
     }
+
     def userProfile() {
 
 
         User au = User.findByUsername(session.user)
         List subscribed = Subscription.findAllByUser(au)
-        List subTopics=subscribed.topics
-        List R=[]
+        List subTopics = subscribed.topics
+        List R = []
 
         List topicsByUser = Topics.findAllByUser(User.findByUsername(session.user))
 
 
         //get from link
-        if(au==User.get(params.otherUserId)){
-           List subsOfTopicCreatedByUser =Subscription.createCriteria().list(){
+        if (au == User.get(params.otherUserId)) {
+            List subsOfTopicCreatedByUser = Subscription.createCriteria().list() {
 
-                inList("topics",topicsByUser)
-                eq('user',User.findByUsername(session.user))
+                inList("topics", topicsByUser)
+                eq('user', User.findByUsername(session.user))
 
             }
-
-
-            if(!subTopics.isEmpty()) {
+            if (!subTopics.isEmpty()) {
                 R = Resource.createCriteria().list() {//posts
                     inList("topics", subTopics)
 
@@ -196,18 +183,18 @@ class DemoController {
 
             }
 
-            return [activeUser: au,DisplayRes:R, subbedTopics: subTopics,subsOfTopicByOUser:subsOfTopicCreatedByUser,usersTopics: topicsByUser,ou:au,ouSubs:subscribed,ouTopic:topicsByUser]
+            return [activeUser: au, DisplayRes: R, subbedTopics: subTopics, subsOfTopicByOUser: subsOfTopicCreatedByUser, usersTopics: topicsByUser, ou: au, ouSubs: subscribed, ouTopic: topicsByUser]
 
-        }else{
-            User otherUser=User.get(params.otherUserId)
-            List ouPublicTopics = Topics?.findAllByVisibilityAndUser("Public",otherUser)
-            List x=topicsByUser+ouPublicTopics
+        } else {
+            User otherUser = User.get(params.otherUserId)
+            List ouPublicTopics = Topics?.findAllByVisibilityAndUser("Public", otherUser)
+            List x = topicsByUser + ouPublicTopics
 
 
-            List subsOfTopicCreatedByOtherUser =Subscription.createCriteria().list(){
+            List subsOfTopicCreatedByOtherUser = Subscription.createCriteria().list() {
 
-                inList("topics",x)
-                eq('user',otherUser)
+                inList("topics", x)
+                eq('user', otherUser)
 
             }
 
@@ -219,7 +206,7 @@ class DemoController {
                 }
             }
 
-            if(!subPublic?.topics?.isEmpty()) { ///posts
+            if (!subPublic?.topics?.isEmpty()) { ///posts
                 R = Resource.createCriteria().list() {
                     inList("topics", subPublic?.topics)
 
@@ -230,11 +217,7 @@ class DemoController {
                     subsOfTopicByOUser: subPublic, ou: otherUser, ouSubs: subsOfTopicCreatedByOtherUser,
                     ouTopic           : ouPublicTopics]
 
-
         }
-
-
-
 
     }
 
@@ -252,11 +235,12 @@ class DemoController {
     }
 
     def fetchPersonImage() {
-        User usr = User.findByUsername(session.user)
-//
-//        String encoded = Base64.getEncoder().encodeToString(usr.photo)
-//        session.setAttribute("userPhoto", encoded)
 
+        def user = User.get(params.userId)
+        byte[] imageInByte = user.photo
+        response.contentType = 'image/png/jpeg'
+        response.outputStream << imageInByte
+        response.outputStream.flush()
 
     }
 
@@ -277,12 +261,11 @@ class DemoController {
             return
         } else {
             linkResource.save(flush: true, failOnError: true)
-            ReadingItem readingItem=new ReadingItem(isRead:'true',user:u,resource:linkResource)
-            readingItem.save(flush:true,failOnError: true)
+            ReadingItem readingItem = new ReadingItem(isRead: 'true', user: u, resource: linkResource)
+            readingItem.save(flush: true, failOnError: true)
             flash.message = "Added Resource Successfully"
             return true
         }
-
 
     }
 
@@ -303,20 +286,16 @@ class DemoController {
         } else {
             docResource.save(flush: true, failOnError: true)
 
-            ReadingItem readingItem=new ReadingItem(isRead:'true',user:u,resource:docResource)
-            readingItem.save(flush:true,failOnError: true)
+            ReadingItem readingItem = new ReadingItem(isRead: 'true', user: u, resource: docResource)
+            readingItem.save(flush: true, failOnError: true)
             flash.message = "Added Resource Successfully"
         }
 
-
         redirect(action: "dashboard")
-
     }
 
     def unsubscribeAction() {
 
-        //needs correction
-        println "----------->" + params.topicinfo
         Topics topic = Topics.findById(params.topicinfo)
 
         println "this is the topic here: " + topic
@@ -325,9 +304,9 @@ class DemoController {
 
         if (u.id == topic.user.id) {
 
-             flash.warning = "can not UnSubcribe your own Topic!"
+            flash.warning = "can not UnSubcribe your own Topic!"
 
-             redirect(action: "dashboard")
+            redirect(action: "dashboard")
 
         } else {
             checksub.delete(flush: true, failOnError: true)
@@ -335,36 +314,28 @@ class DemoController {
             redirect(action: "dashboard")
         }
 
-
-
-
     }
 
-
     def downloadFile = {
-        println "------------------------->"+params.res
-        DocumentResources docRes=DocumentResources.findById(params.res)
+        println "------------------------->" + params.res
+        DocumentResources docRes = DocumentResources.findById(params.res)
 
         response.setHeader("Content-Type", "application/octet-stream;")
-       response.setHeader("Content-Disposition", "attachment; filename=\"" + "document" + "\"")
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + "document" + "\"")
         response.outputStream << docRes.doc
 
 
         render "downloading !!!"
     }
 
-    def changeVisibFromDash(){
+    def changeVisibFromDash() {
 
-        Topics topic=Topics.findByName(params.topicNa);
-        User user=User.findByUsername(session.user);
-        println "topic name ------------------>>>"+params.topicNa
-        println "visibility------------------->>>>"+params.selectVisib
-        println "topics ---------------------->>>>>"+topic
-        if(topic.user.id==user.id){
-            topic.visibility=params.selectVisib;
+        Topics topic = Topics.findByName(params.topicNa);
+        User user = User.findByUsername(session.user);
 
-            println "changeed???-------------->"+topic.visibility
-            topic.save(flush:true,failOnError: true)
+        if (topic.user.id == user.id) {
+            topic.visibility = params.selectVisib;
+            topic.save(flush: true, failOnError: true)
             [success: true, "message": "Visibility Changed !"]
 
 
@@ -373,28 +344,22 @@ class DemoController {
     }
 
 
-     def editProfileChanges(){
+    def editProfileChanges() {
 
+        Subscription sub = Subscription.findById(params.subsIdentify)
+        sub.topics.name = params.NewTopicName
+        sub.seriousness = params.seriousnessChange
+        sub.topics.visibility = params.visibilityChange
+        sub.validate()
+        if (sub.hasErrors()) {
+            flash.warning = "Error! Try Again!"
+            redirect(action: "editProfile")
+        } else {
+            sub.save(flush: true, failOnError: true)
+            flash.message = "Changes Saved! "
+            redirect(action: "editProfile")
 
-         Subscription sub=Subscription.findById(params.subsIdentify)
-         sub.topics.name=params.NewTopicName
-         sub.seriousness=params.seriousnessChange
-         sub.topics.visibility=params.visibilityChange
-         sub.validate()
-         if(sub.hasErrors()){
-            flash.warning="Error! Try Again!"
-             redirect(action:"editProfile")
-         }
-         else{
-             sub.save(flush: true,failOnError: true)
-             flash.message="Changes Saved! "
-             redirect(action:"editProfile")
-
-         }
-
-
+        }
     }
-
-
 
 }

@@ -26,42 +26,30 @@
                               <div class="card-body">
                                   <span class="col-4">
 
-
-                             <div class="row">
+                                  <div class="row">
 
                                         <div class="col-5">
+                                            <g:if test="${ou.photo!=null}">
 
-
-                                                     <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
-
-
+                                                <img height="90" style="margin-top: 10px;margin-left: 0px,margin-bottom: 10px;margin-right: 10px "
+                                                  width="90" src="${createLink(controller: 'demo', action: 'fetchPersonImage', params: ['userId':ou.id])}"/>
+                                             </g:if>
+                                             <g:else>
+                                                 <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
+                                             </g:else>
                                         </div>
                                         <div class="col-7">
-
-
                                                         <div class="row">&nbsp;</div>
                                                          <div class="row">  &nbsp;&nbsp;&nbsp;&nbsp;${ou.firstName} ${ou.lastName}</div>
                                                          <div class="row">
-
 
                                                                     <div class="col"><font size="2" color="gray">Subscriptions:</font></div>
                                                                     <div class="row"><font size="2" color="gray">${ouSubs?.size()}</font></div>
                                                                        <div class="col"><font size="2" color="gray">Topics:</font></div>
                                                                      <div class="row"><font size="2" color="gray">${ouTopic.size()}</font></div>
-
-
                                                          </div>
-
-
-
-
                                         </div>
-			</div>
-
-
-
-
-
+			                       </div>
                               </div>
                         </div>
                     </div><%--end of first row --%>
@@ -74,10 +62,6 @@
                                                  Topics
                                       </div>
                                       <div class="card-body">
-
-
-
-
                                           <div class="container" id="flow1"><%---corrections from here---%>
 
                                                    <g:if test="${subsOfTopicByOUser?.size()==0}">
@@ -92,12 +76,19 @@
 
                                                                 <div class="row">
 
-                                                                        <div class="col-3">
+                                                                        <div class="col-4">
 
-                                                                        <g:img dir="images" file="defaultpic.png" width="80" height="80"/>
+                                                                        <g:if test="${u.topics.user.photo!=null}">
+
+                                                                           <img height="90" style="margin-top: 10px;margin-left: 0px,margin-bottom: 10px;margin-right: 10px "
+                                                                             width="90" src="${createLink(controller: 'demo', action: 'fetchPersonImage', params: ['userId':u?.topics?.user.id])}"/>
+                                                                        </g:if>
+                                                                        <g:else>
+                                                                            <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
+                                                                        </g:else>
 
                                                                         </div>
-                                                                        <div class="col-9">
+                                                                        <div class="col-8">
                                                                             <div class="row">
                                                                                <div id="nameOfTopic" class="col-7">${u?.topics?.name}</div>
                                                                                <div class="col-5">
@@ -120,29 +111,20 @@
                                                                                                      <g:select id="selectSeriousnessId" name="selectSeriousness" from="${['Casual','Serious','Very_Serious']}" value="${u?.seriousness}"
                                                                                                        class="form-control changeSeriousclass"/>
                                                                                                        <input type="hidden" name="hiddenVal" class="hiddenSubId" value="${u.id}">
-
-
-
                                                                                                     </div>
                                                                                                     <div class="col-6"><g:link params=" ">Invite</g:link></div>
                                                                                             </div>
 
                                                                                     </g:else>
                                                                                 </div>
-
-
                                                                                 <div class="col-4">
                                                                                         <div class="row"><font siz="2" color="gray">Subs:${u?.topics?.subscription?.size()}</font></div>
                                                                                         <div class="row"><font siz="2" color="gray">Post:${u?.topics?.resource?.size()}</font></div>
-
-
                                                                                  </div>
                                                                              </div>
                                                                              <div class="row">
 
                                                                                    <div class="col-6">
-
-
 
                                                                                    </div>
 
@@ -162,9 +144,6 @@
 
                                                      </g:else>
                                                   </div>
-
-
-
                                       </div>
                                 </div>
                             </div><%--end of 2 row --%>
@@ -197,7 +176,14 @@
 
                                                                         <div class="col-3">
 
-                                                                        <g:img dir="images" file="defaultpic.png" width="80" height="80"/>
+                                                                         <g:if test="${u?.topics?.user.photo!=null}">
+
+                                                                            <img height="90" style="margin-top: 10px;margin-left: 0px,margin-bottom: 10px;margin-right: 10px "
+                                                                              width="90" src="${createLink(controller: 'demo', action: 'fetchPersonImage', params: ['userId':u?.topics?.user.id])}"/>
+                                                                         </g:if>
+                                                                         <g:else>
+                                                                             <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
+                                                                         </g:else>
 
                                                                         </div>
                                                                         <div class="col-9">
@@ -296,7 +282,14 @@
                                             <div class="row">
                                                 <div class="col-4">
 
-                                                <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
+                                                     <g:if test="${u?.user.photo!=null}">
+
+                                                        <img height="90" style="margin-top: 10px;margin-left: 0px,margin-bottom: 10px;margin-right: 10px "  width="90"
+                                                         src="${createLink(controller: 'demo', action: 'fetchPersonImage', params: ['userId':u?.user.id])}"/>
+                                                     </g:if>
+                                                     <g:else>
+                                                         <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
+                                                     </g:else>
 
                                                 </div>
                                                 <div class="col-8"><%---right of pic---%>

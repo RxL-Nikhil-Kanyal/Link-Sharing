@@ -60,7 +60,13 @@
                     <div class="row">
                         <div class="col-4">
 
-                        <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
+                         <g:if test="${u?.user.photo!=null}">
+
+                             <img height="90" style="margin-top: 10px;margin-left: 0px,margin-bottom: 10px;margin-right: 10px"  width="90" src="${createLink(controller: 'authentication', action: 'userImage', params: ['userId':u?.user?.id])}"/>
+                          </g:if>
+                          <g:else>
+                              <g:img dir="images" file="defaultpic.png" width="100" height="100" />
+                          </g:else>
 
                         </div>
                         <div class="col-8"><%---right of pic---%>
@@ -195,9 +201,56 @@
                   Top Posts
                 </div>
                 <div class="card-body">
-                  <h5 class="card-title">Special title treatment</h5>
-                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                  <a href="#">link</a>
+                 <%-----------------------%>
+                    <div class="container" id="flow">
+                       <g:if test="${!topPostsWithRating}">
+                           <font size="3" color="red">No Rating on Posts yet.</font>
+                       </g:if>
+                       <g:else>
+                          <g:each in="${topPostsWithRating}" var="u" status="i">
+                            <div class="row">
+                                <div class="col-4">
+                                     <g:if test="${u[1]?.user.photo!=null}">
+
+                                         <img height="90" style="margin-top: 10px;margin-left: 0px,margin-bottom: 10px;margin-right: 10px"  width="90"
+                                          src="${createLink(controller: 'authentication', action: 'userImage', params: ['userId':u[1]?.user?.id])}"/>
+                                      </g:if>
+                                      <g:else>
+                                          <g:img dir="images" file="defaultpic.png" width="100" height="100" />
+                                      </g:else>
+
+
+                                </div>
+                                 <div class="col-8">
+                                    <div class="row">
+                                        <div class="col-6">${u[1]?.user?.username}</div>
+                                        <div class="col-6">${u[1]?.topics?.name}</div>
+
+
+                                    </div><hr>
+                                    <div class="row">
+                                        <div class="col">
+
+                                            <div id="ellps" class="col-9">${u[1]?.name}</div>
+
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-8"></div>
+                                        <div class="col-4">
+                                         <g:link controller="authentication" action="PublicTopicsShow" params="[topicRelated:u[1]?.id]">
+                                                                         full Post
+                                                                   </g:link>
+
+                                        </div>
+                                    </div>
+                                 </div>
+                             </div>
+                             <hr>
+                           </g:each>
+                        </g:else>
+                    </div>
+                 <%-----------------------%>
                 </div>
               </div>
 
@@ -210,8 +263,8 @@
                      </div>
                      <div class="card-body">
                        <Div class="container">
-                       <g:form name="myForm" controller="Authentication" action="RegisterAction"
-                       method="post" enctype="multipart/form-data">
+                       <g:uploadForm  name="myForm" controller="Authentication" action="RegisterAction"
+                       method="post" >
                                    <Div class="row form-group">                              <%-- add in message--%>
                                       <Div class="col-sm-6">
                                        <g:message code="auth.register.firstname" />
@@ -276,7 +329,7 @@
                                                          <g:message code="auth.register.photo" />
                                                </Div>
                                                <Div class="col-sm-6">
-                                                         <input type="file" name="regphoto" accept="image/x-png,image/gif,image/jpeg" class="form-control"/>
+                                                         <input type="file" name="regphoto" accept="image/x-png ,image/jpeg,image/jpg" class="form-control"/>
 
                                                 </Div>
                                                </Div>
@@ -296,7 +349,7 @@
 
                                    </div>   <%--end of (in) row--%>
 
-                        </g:form>
+                        </g:uploadForm>
 
                         <div>
 

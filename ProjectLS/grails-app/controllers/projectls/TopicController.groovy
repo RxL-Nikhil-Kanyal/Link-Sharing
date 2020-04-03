@@ -6,6 +6,7 @@ import grails.converters.JSON
 class TopicController {
 
     TopicsService topicsService
+    ResourceRatingService resourceRatingService
 
     def createTopicFormAction() {
 
@@ -18,15 +19,13 @@ class TopicController {
         User x = User.findByUsername(session.user)
 
 
-
-        Topics t = new Topics(name: params.newTopicName, user: x.id, visibility: params.topicVisibility) //topic creation by user
+        Topics t = new Topics(name: params.newTopicName, user: x.id, visibility: params.topicVisibility)
+        //topic creation by user
         t.validate()
         if (t.hasErrors()) {
 
-//            flash.warning="Topic Already Exists. Try Again!"
-//            redirect(action: "dashboard")
-            flash.warning="An Error Occurred! Topic already Exists! "
-            return [success:false] as JSON
+            flash.warning = "An Error Occurred! Topic already Exists! "
+            return [success: false] as JSON
 
         }
         t.save(flush: true, failOnError: true)
@@ -35,10 +34,8 @@ class TopicController {
         newSub.save(flush: true, failOnError: true)
 
 
-        flash.message="Topic Created !"
-        return [success:true] as JSON
-//        flash.message = "Topic added Successfully"
-//        redirect(action: "dashboard")
+        flash.message = "Topic Created !"
+        return [success: true] as JSON
 
     }
 
@@ -58,7 +55,9 @@ class TopicController {
         //search
         if (au.admin) {
             if (!params.search) {
-                return [activeUser: au, subbedTopics: subscribedTopics, allResource: Resource.list(), trendingTopicsAndCount: topicsWithCount]
+                return [activeUser            : au, subbedTopics: subscribedTopics, allResource: Resource.list(),
+                        trendingTopicsAndCount: topicsWithCount,
+                        topPostsWithRating    : resourceRatingService.getTopRatedPosts(session.user)]
             } else {
                 Topics topics = Topics.findByName(params.search)
                 if (topics) {
@@ -66,7 +65,9 @@ class TopicController {
                     if (!resource) {
                         render "no posts found for topic ${params.search}!"
                     } else {
-                        return [activeUser: au, subbedTopics: subscribedTopics, allResource: resource, trendingTopicsAndCount: topicsWithCount]
+                        return [activeUser        : au, subbedTopics: subscribedTopics,
+                                allResource       : resource, trendingTopicsAndCount: topicsWithCount,
+                                topPostsWithRating: resourceRatingService.getTopRatedPosts(session.user)]
                     }
                 } else {
                     render "This Topic Does not Exist! "
@@ -85,51 +86,45 @@ class TopicController {
                     if (!resource) {
                         render "no posts found about the topic!"
                     } else {
-                        return [activeUser: au, subbedTopics: subscribedTopics, allResource: resource, trendingTopicsAndCount: topicsWithCount]
+                        return [activeUser        : au, subbedTopics: subscribedTopics,
+                                allResource       : resource, trendingTopicsAndCount: topicsWithCount,
+                                topPostsWithRating: resourceRatingService.getTopRatedPosts(session.user)]
                     }
                 }
             }
         }
     }
 
-    def changeTopicVisibDash(){
+    def changeTopicVisibDash() {
 
-
-       // render ([success:topicsService.changeSeriousnessMethod(params.changeVisibility,params.topicId,session.user)] as JSON)
-
-       if(topicsService.changeSeriousnessMethod(params.changeVisibility,params.topicId,session.user)){
-           flash.message="Changed Visibility Successfully !"
-           return true
-       }else{
-           flash.warning="Action Restricted! Cannot Change Visibility of others Topics"
-           return
-       }
+        if (topicsService.changeSeriousnessMethod(params.changeVisibility, params.topicId, session.user)) {
+            flash.message = "Changed Visibility Successfully !"
+            return true
+        } else {
+            flash.warning = "Action Restricted! Cannot Change Visibility of others Topics"
+            return
+        }
 
 
     }
 
-    def deleteTopicAjax(){
-        User activeUser=User.findByUsername(session.user)
-        println "ppppppppppppppppppp   "+params.topicId
-        Topics topic=Topics.get(params.topicId)
-        println "---------------"+topic
+    def deleteTopicAjax() {
+        User activeUser = User.findByUsername(session.user)
+        println "+++++++++++++++++   " + params.topicId
+        Topics topic = Topics.get(params.topicId)
+        println "---------------" + topic
 
-
-
-        try{
-            topic.delete(flush: true,failOnError:true)
+        try {
+            topic.delete(flush: true, failOnError: true)
 //            topic.findAll().each { it.delete(flush:true, failOnError:true) }
 
-
         }
-        catch(e) {
-            flash.warning="Error deleting Topic"
-
-            println "hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhreeeeeeeeeeeeeeeeee"
+        catch (e) {
+            flash.warning = "Error deleting Topic"
             return
         }
 
-        flash.message="Successfully Deleted ${topic.name}"
+        flash.message = "Successfully Deleted ${topic.name}"
         return true
 
     }

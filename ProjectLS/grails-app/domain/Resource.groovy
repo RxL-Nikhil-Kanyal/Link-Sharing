@@ -2,16 +2,16 @@
 
 class Resource {
     String name//description
-    static belongsTo =[user: User, topics: Topics]
+    static belongsTo = [user: User, topics: Topics]
     Date dateCreated
     Date lastUpdated
-    static hasmany=[readingItem:ReadingItem, resourceRating: ResourceRating]
+    static hasmany = [readingItem: ReadingItem, resourceRating: ResourceRating]
 
 
     static constraints = {
 
 
-        name blank:false
+        name blank: false
 
     }
     static mapping = {

@@ -21,7 +21,13 @@
                     <div class="row">
                         <div class="col-4">
 
-                        <g:img dir="images" file="defaultpic.png" width="120" height="120"/>
+                        <g:if test="${u?.user?.photo!=null}">
+
+                             <img height="90" style="margin-top: 10px;margin-left: 0px,margin-bottom: 10px;margin-right: 10px"  width="90" src="${createLink(controller: 'authentication', action: 'userImage', params: ['userId':u?.user?.id])}"/>
+                         </g:if>
+                         <g:else>
+                              <g:img dir="images" file="defaultpic.png" width="100" height="100" />
+                         </g:else>
 
                         </div>
                         <div class="col-8"><%---right of pic---%>

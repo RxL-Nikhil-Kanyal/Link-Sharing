@@ -8,9 +8,6 @@
 <g:render template="dashboardTop" />
 
 
-
-
-
 <div class="container">
 <div class="row">
 
@@ -33,9 +30,7 @@
                                             <g:link action="userProfile" id="nameLink"  params="[otherUserId:activeUser.id]">
                                                  <g:if test="${activeUser.photo!=null}">
 
-                                                    <img src="${activeUser.photo}" height="100" width="100">
-
-
+                                                    <img height="90" style="margin-top: 10px;margin-left: 0px,margin-bottom: 10px;margin-right: 10px "  width="90" src="${createLink(controller: 'demo', action: 'fetchPersonImage', params: ['userId':activeUser.id])}"/>
                                                  </g:if>
                                                  <g:else>
                                                      <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
@@ -98,12 +93,21 @@
 
                                                                         <div class="col-3">
 
-                                                                        <g:img dir="images" file="defaultpic.png" width="80" height="80"/>
+                                                                        <g:if test="${u?.topics?.user.photo!=null}">
+
+                                                                            <img height="90" style="margin-top: 10px;margin-left: 0px,margin-bottom: 10px;margin-right: 10px "  width="90" src="${createLink(controller: 'demo', action: 'fetchPersonImage',
+                                                                             params: ['userId':u?.topics.user.id])}"/>
+
+                                                                         </g:if>
+                                                                         <g:else>
+                                                                             <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
+                                                                         </g:else>
 
                                                                         </div>
-                                                                        <div class="col-9">
+                                                                        <div class="col-1"></div>
+                                                                        <div class="col-8">
                                                                             <div class="row">
-                                                                               <div id="nameOfTopic" class="col-7">${u?.topics.name}</div>
+                                                                               <div id="nameOfTopic" class="col-7">${u?.topics?.name}</div>
                                                                                <div class="col-5">
 
                                                                                 <g:link action="userProfile" id="nameLink"  params="[otherUserId:u?.topics?.user?.id]">@${u?.topics?.user?.username}
@@ -201,10 +205,18 @@
 
                                                                           <div class="col-3">
 
-                                                                          <g:img dir="images" file="defaultpic.png" width="80" height="80"/>
+                                                                          <g:if test="${topicAndCountRow[1]?.user.photo!=null}">
+
+                                                                              <img height="90" style="margin-top: 20px;margin-left: 15px "  width="90"
+                                                                              src="${createLink(controller: 'demo', action: 'fetchPersonImage', params: ['userId':topicAndCountRow[1].user.id])}"/>
+                                                                           </g:if>
+                                                                           <g:else>
+                                                                               <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
+                                                                           </g:else>
 
                                                                           </div>
-                                                                          <div class="col-9">
+                                                                          <div class="col-1"></div>
+                                                                          <div class="col-8">
                                                                               <div class="row">
                                                                                  <div id="nameOfTopic" class="col-7">${topicAndCountRow[1]?.name}</div>
                                                                                  <div class="col-5">
@@ -340,7 +352,13 @@
 
                                                                     <div class="col-3">
 
-                                                                     <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
+                                                                     <g:if test="${activeUser.photo!=null}">
+
+                                                                         <img height="90" style="margin-top: 10px;margin-left: 0px,margin-bottom: 10px;margin-right: 10px"  width="90" src="${createLink(controller: 'demo', action: 'fetchPersonImage', params: ['userId':activeUser.id])}"/>
+                                                                      </g:if>
+                                                                      <g:else>
+                                                                          <g:img dir="images" file="defaultpic.png" width="100" height="100" />
+                                                                      </g:else>
 
                                                                     </div>
                                                                     <div class="col-9">

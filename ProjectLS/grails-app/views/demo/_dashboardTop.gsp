@@ -380,7 +380,13 @@ setTimeout(function() {
         <div class="btn-group dropdown">
           <button type="button" class="btn btn-secondary">
 
-                <span> <g:img dir="images" file="defaultpic.png" width="50" height="60" id="buttonimage"/></span>
+                <span>  <g:if test="${activeUser.photo!=null}">
+
+                               <img height="50" style="margin-top: 10px;margin-left: 0px,margin-bottom: 10px;margin-right: 10px  "  width="50" src="${createLink(controller: 'demo', action: 'fetchPersonImage', params: ['userId':activeUser.id])}"/>
+                            </g:if>
+                            <g:else>
+                                <g:img dir="images" file="defaultpic.png" width="50" height="50"/>
+                            </g:else></span>
                 <span id="dp">${activeUser.username}</span>
 
           </button>
@@ -398,7 +404,7 @@ setTimeout(function() {
 
 
                <a class="dropdown-item" href="/demo/posts">Posts</a>
-               <div class="dropdown-divider"></div>
+
                <a class="dropdown-item" href="/Authentication/logout">Logout</a>
           </div>
         </div>

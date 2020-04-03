@@ -43,12 +43,19 @@
 
                                                <div class="row">
 
-                                                       <div class="col-3">
+                                                       <div class="col-4">
 
-                                                       <g:img dir="images" file="defaultpic.png" width="80" height="80"/>
+                                                           <g:if test="${topicAndCountRow[1].user.photo!=null}">
+
+                                                                 <img height="90" style="margin-top: 20px;margin-left: 15px "  width="90"
+                                                                 src="${createLink(controller: 'demo', action: 'fetchPersonImage', params: ['userId':topicAndCountRow[1].user.id])}"/>
+                                                           </g:if>
+                                                           <g:else>
+                                                                  <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
+                                                           </g:else>
 
                                                        </div>
-                                                       <div class="col-9">
+                                                       <div class="col-8">
                                                            <div class="row">
                                                               <div id="nameOfTopic" class="col-7">${topicAndCountRow[1]?.name}</div>
                                                               <div class="col-5">
@@ -131,21 +138,62 @@
                                                   Top Posts
                                       </div>
                                       <div class="card-body">
-                                            <h5 class="card-title">Special title treatment</h5>
-                                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                                             <a href="#">link</a>
+
+                                           <%-----------------------%>
+                                              <div class="container" id="flow">
+                                                 <g:if test="${!topPostsWithRating}">
+                                                     <font size="3" color="red">No Rating on Posts yet.</font>
+                                                 </g:if>
+                                                 <g:else>
+                                                    <g:each in="${topPostsWithRating}" var="u" status="i">
+                                                      <div class="row">
+                                                          <div class="col-4">
+                                                            <g:if test="${u[1]?.topics?.user.photo!=null}">
+
+                                                                  <img height="90" style="margin-top: 20px;margin-left: 15px "  width="90"
+                                                                  src="${createLink(controller: 'demo', action: 'fetchPersonImage', params: ['userId':u[1]?.topics?.user.id])}"/>
+                                                            </g:if>
+                                                            <g:else>
+                                                                   <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
+                                                            </g:else>
+
+
+                                                          </div>
+                                                           <div class="col-8">
+                                                              <div class="row">
+                                                                  <div class="col-6">${u[1]?.user?.username}</div>
+                                                                  <div class="col-6">${u[1]?.topics?.name}</div>
+
+
+                                                              </div><hr>
+                                                              <div class="row">
+                                                                  <div class="col">
+
+                                                                      <div id="ellps" class="col-9">${u[1]?.name}</div>
+
+                                                                  </div>
+                                                              </div>
+                                                              <div class="row">
+                                                                  <div class="col-8"></div>
+                                                                  <div class="col-4">
+                                                                   <g:link controller="authentication" action="PublicTopicsShow" params="[topicRelated:u[1]?.id]">
+                                                                                                   full Post
+                                                                                             </g:link>
+
+                                                                  </div>
+                                                              </div>
+                                                           </div>
+                                                       </div>
+                                                       <hr>
+                                                     </g:each>
+                                                  </g:else>
+                                              </div>
+                                           <%-----------------------%>
+
                                       </div>
                                 </div>
                             </div><%--end of 2 row --%>
-                                     <div class="row">
-                                         <div class="card">
-                                               <div class="card-body">
-                                                     <h5 class="card-title">Special title treatment</h5>
-                                                     <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                                                      <a href="#">link</a>
-                                               </div>
-                                         </div>
-                                     </div><%--end of 3 row --%>
+
 
 
 
@@ -184,7 +232,14 @@
                                                                         <div class="row">
                                                                             <div class="col-4">
 
-                                                                            <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
+                                                                            <g:if test="${u?.topics.user.photo!=null}">
+
+                                                                                  <img height="90" style="margin-top: 20px;margin-left: 15px "  width="90"
+                                                                                  src="${createLink(controller: 'demo', action: 'fetchPersonImage', params: ['userId':u?.topics.user.id])}"/>
+                                                                               </g:if>
+                                                                               <g:else>
+                                                                                   <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
+                                                                             </g:else>
 
                                                                             </div>
                                                                             <div class="col-8"><%---right of pic---%>

@@ -1,7 +1,7 @@
 class LinkResources extends Resource {
     String URl
 
-    static constraints={
-        URl (URL:true)
+    static constraints = {
+        URl(URL: true)
     }
 }

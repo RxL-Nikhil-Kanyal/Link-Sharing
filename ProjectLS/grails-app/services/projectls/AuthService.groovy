@@ -14,7 +14,8 @@ class AuthService {
                 order("lastUpdated", "desc")
             }
         }
-        return [recentUpdatedTopics: LatestUpdatedPublicTopics]
+
+        return LatestUpdatedPublicTopics
 
     }
 

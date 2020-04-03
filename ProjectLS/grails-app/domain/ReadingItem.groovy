@@ -1,6 +1,6 @@
 class ReadingItem {
     boolean isRead
-    static belongsTo=[user: User, resource: Resource]
+    static belongsTo = [user: User, resource: Resource]
 
 
     static constraints = {

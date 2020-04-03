@@ -28,7 +28,14 @@
 
                                     <div class="row">
                                         <div class="col-2">
-                                             <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
+                                             <g:if test="${selectedResoftopic?.user.photo!=null}">
+
+                                                 <img height="90" style="margin-top: 10px;margin-left: 0px,margin-bottom: 10px;margin-right: 10px "  width="90"
+                                                 src="${createLink(controller: 'demo', action: 'fetchPersonImage', params: ['userId':selectedResoftopic?.user?.id])}"/>
+                                              </g:if>
+                                              <g:else>
+                                                  <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
+                                              </g:else>
                                         </div>
                                         <div class="col-10">
                                             <div class="row">&nbsp;</div>
@@ -240,7 +247,14 @@
 
                                                   <div class="col-3">
 
-                                                  <g:img dir="images" file="defaultpic.png" width="80" height="80"/>
+                                                     <g:if test="${topicAndCountRow[1]?.user.photo!=null}">
+
+                                                         <img height="90" style="margin-top: 10px;margin-left: 0px,margin-bottom: 10px;margin-right: 10px "  width="90"
+                                                         src="${createLink(controller: 'demo', action: 'fetchPersonImage', params: ['userId':topicAndCountRow[1]?.user?.id])}"/>
+                                                      </g:if>
+                                                      <g:else>
+                                                          <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
+                                                      </g:else>
 
                                                   </div>
                                                   <div class="col-9">
