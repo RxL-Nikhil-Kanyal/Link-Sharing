@@ -1,0 +1,39 @@
+#grad {
+  background-image: linear-gradient(#33ccff,#ff99cc );
+}
+
+
+#flow1{
+
+  width: auto;
+  height: 200px;
+  overflow: scroll;
+  overflow-x:hidden;
+}
+#flow3{
+
+  width: auto;
+  height: 240px;
+  overflow: scroll;
+  overflow-x:hidden;
+}
+#ellps {
+  white-space: nowrap;
+  width: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+}
+#flow2{
+
+  width: auto;
+  height: 600px;
+  overflow: scroll;
+  overflow-x:hidden;
+}
+
+
+#grad {
+  background-image: linear-gradient(#33ccff,#ff99cc );
+}
+<!-#7F00FF#E100FF->

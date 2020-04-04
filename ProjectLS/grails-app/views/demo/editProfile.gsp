@@ -208,7 +208,7 @@
                      </div>
                      <div class="card-body">
                        <Div class="container">
-                       <g:form name="myDetailsForm" controller="demo" action="changeUserDeatails" method="post" class="form-group">
+                       <g:uploadForm name="myDetailsForm" controller="demo" action="changeUserDeatails" method="post" class="form-group">
                                    <Div class="row">                              <%-- add in message--%>
                                       <Div class="col-sm-6">
                                        <g:message code="auth.register.firstname" />
@@ -234,7 +234,6 @@
                                        <div class="row">&nbsp;</div>
 
 
-
                                        <Div class="row">                              <%-- add in message--%>
                                              <Div class="col-sm-6">
                                                           <g:message code="auth.register.username" />
@@ -245,8 +244,6 @@
                                        </Div>
 
                                        <div class="row">&nbsp;</div>
-
-
 
                                          <Div class="row">                              <%-- add in message--%>
                                               <Div class="col-sm-6">
@@ -272,7 +269,7 @@
 
                                    </div>   <%--end of (in) row--%>
 
-                        </g:form>
+                        </g:uploadForm>
 
                         <div>
 

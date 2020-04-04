@@ -9,59 +9,13 @@
 <asset:javascript src="bootstrap.min.js"/>
 
 
-
-<g:javascript>
-
-setTimeout(function() {
-  $("#animateDiv").hide("slow").empty();
-}, 2500);
-
-
-</g:javascript>
+<asset:javascript src="navbarCommonScripts.js"/>
 
 <asset:javascript src="dashboardTop.js"/>
 <asset:javascript src="resourceLs.js"/>
 
 
-
-<style>
-
-#flow1{
-
-  width: auto;
-  height: 200px;
-  overflow: scroll;
-  overflow-x:hidden;
-}
-#flow3{
-
-  width: auto;
-  height: 240px;
-  overflow: scroll;
-  overflow-x:hidden;
-}
-#ellps {
-  white-space: nowrap;
-  width: auto;
-  overflow: hidden;
-  text-overflow: ellipsis;
-
-}
-#flow2{
-
-  width: auto;
-  height: 600px;
-  overflow: scroll;
-  overflow-x:hidden;
-}
-
-
-#grad {
-  background-image: linear-gradient(#33ccff,#ff99cc );
-}
-<!-#7F00FF#E100FF->
-
-</style>
+<asset:stylesheet src="navbarCommonStyling.css"/>
 
 </head>
 <body id="grad">
@@ -279,7 +233,6 @@ setTimeout(function() {
                    </table>
 
 
-
                       </div>
                       <div class="modal-footer"><div class="col-5"><g:submitButton name="sendInviteButton" value="send" class="form-control"/></div>
                       <div class="col-6"><button type="button" class="btn btn-default" data-dismiss="modal" class="form-control">Close</button></div>
@@ -324,7 +277,7 @@ setTimeout(function() {
                             <div class="modal-body"><p align="center">Share documents Here</p>
                              <%-------------form start here----------------%>
 
-                                  <g:form name="shareDocForm" action="shareDocAction" id="2">
+                                  <g:uploadForm  name="shareDocForm" action="shareDocAction" id="2">
                                         <table class="table">
 
                                           <tr>
@@ -348,19 +301,13 @@ setTimeout(function() {
 
                                         </table>
 
-
-
-
-
-
-
                             </div>
                             <div class="modal-footer">
                             <div class="col-5"><td ><g:submitButton name="update" value="share" onclick="callMyAjax()" class="form-control"/></td></div>
                               <div class="col-4"><button type="button" class="btn btn-default" data-dismiss="modal"class="form-control">Close</button></div>
                             </div>
                           </div>
-                            </g:form>
+                            </g:uploadForm >
 
                                        <%------------end here form-------------%>
 
@@ -399,11 +346,8 @@ setTimeout(function() {
 
                     <a class="dropdown-item" href="/demo/usersA">User</a>
                     <a class="dropdown-item" href="/topic/search">Topic</a>
+                    <a class="dropdown-item" href="/demo/posts">Posts</a>
                </g:if>
-
-
-
-               <a class="dropdown-item" href="/demo/posts">Posts</a>
 
                <a class="dropdown-item" href="/Authentication/logout">Logout</a>
           </div>

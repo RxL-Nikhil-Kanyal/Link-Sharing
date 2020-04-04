@@ -2,27 +2,13 @@
 <head>
 
 
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-<%--addin--%>
+<asset:stylesheet src="bootstrap.min.css"/>
+<asset:javascript src="popper.min.js"/>
+<asset:javascript src="jquery-3.3.1.min.js"/>
+<asset:javascript src="bootstrap.min.js"/>
 
-
-<style>
-#grad {
-  background-image: linear-gradient(#33ccff,#ff99cc );
-}
-
-</style>
-
-<g:javascript>
-
-setTimeout(function() {
-  $("#animateDiv").hide("slow").empty();
-}, 2500);
-
-</g:javascript>
+<asset:stylesheet src="navbarCommonStyling"/>
+<asset:javascript src="navbarCommonScripts.js"/>
 
 </head>
 <body id="grad" >

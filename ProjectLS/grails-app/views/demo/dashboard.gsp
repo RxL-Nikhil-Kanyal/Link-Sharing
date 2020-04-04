@@ -10,22 +10,14 @@
 
 <div class="container">
 <div class="row">
-
     <div class="col-6">   <%--start of left side of container--%>
-
        <div class="row">  <%--e--%>
-
             <div class="container">  <%--e--%>
                  <div class="row"> &nbsp;</div>
-
                     <div class="row">
                         <div class="card shadow p-0 bg-white rounded" style="border:2px solid;">
-
                              <div class="card-body">
-
-
                                     <div class="row" style="border:2px solid;border-radius: 15px;box-shadow: 5px 10px #888888;">
-
                                         <div class="col-5">
                                             <g:link action="userProfile" id="nameLink"  params="[otherUserId:activeUser.id]">
                                                  <g:if test="${activeUser.photo!=null}">
@@ -182,123 +174,157 @@
 
                      <div class="row"> &nbsp;</div>
 
-                                     <div class="row">
-                                         <div class="card shadow p-0 bg-white rounded " style="width: 80%;">
-                                              <div class="card-header">
-                                                           Trending Topics
-                                               </div>
-                                               <div id="flow1" class="card-body">
+                         <div class="row">
+                             <div class="card shadow p-0 bg-white rounded " style="width: 80%;">
+                                  <div class="card-header">
+                                               Trending Topics
+                                   </div>
+                                   <div id="flow1" class="card-body">
 
-                                                     <%-----------------------------------------------%>
+                                         <%-----------------------------------------------%>
 
-                                                   <g:if test="${trendingTopicsAndCount.size()==0}">
-                                                         <div class="row"><div class="col-12">No Topics . Create new Topics.</div></div>
+                                       <g:if test="${trendingTopicsAndCount.size()==0}">
+                                             <div class="row"><div class="col-12">No Topics . Create new Topics.</div></div>
 
-                                                   </g:if>
-                                                      <g:else>
+                                       </g:if>
+                                          <g:else>
 
-                                                          <div class="row"><div class="col-12">
+                                              <div class="row"><div class="col-12">
 
-                                                             <g:each in="${trendingTopicsAndCount}" var="topicAndCountRow" status="i">
+                                                 <g:each in="${trendingTopicsAndCount}" var="topicAndCountRow" status="i">
 
+                                                      <div class="row">
+
+                                                              <div class="col-3">
+
+                                                              <g:if test="${topicAndCountRow[1]?.user.photo!=null}">
+
+                                                                  <img height="90" style="margin-top: 20px;margin-left: 15px "  width="90"
+                                                                  src="${createLink(controller: 'demo', action: 'fetchPersonImage', params: ['userId':topicAndCountRow[1].user.id])}"/>
+                                                               </g:if>
+                                                               <g:else>
+                                                                   <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
+                                                               </g:else>
+
+                                                              </div>
+                                                              <div class="col-1"></div>
+                                                              <div class="col-8">
                                                                   <div class="row">
+                                                                     <div style=" " id="nameOfTopic" class="col-7 ${topicAndCountRow[1].name} ">${topicAndCountRow[1]?.name}
 
-                                                                          <div class="col-3">
+                                                                     </div>
 
-                                                                          <g:if test="${topicAndCountRow[1]?.user.photo!=null}">
+                                                                     <div class="col-5">
 
-                                                                              <img height="90" style="margin-top: 20px;margin-left: 15px "  width="90"
-                                                                              src="${createLink(controller: 'demo', action: 'fetchPersonImage', params: ['userId':topicAndCountRow[1].user.id])}"/>
-                                                                           </g:if>
-                                                                           <g:else>
-                                                                               <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
-                                                                           </g:else>
-
-                                                                          </div>
-                                                                          <div class="col-1"></div>
-                                                                          <div class="col-8">
-                                                                              <div class="row">
-                                                                                 <div id="nameOfTopic" class="col-7">${topicAndCountRow[1]?.name}</div>
-                                                                                 <div class="col-5">
-
-                                                                                  <g:link action="userProfile" id="nameLink"  params="[otherUserId:topicAndCountRow[1]?.user?.id]">@${topicAndCountRow[1]?.user?.username}
-                                                                                  </g:link>
-
-                                                                                 </div><%--c--%>
-                                                                              </div><hr>
-
-                                                                               <div class="row">
-                                                                                  <div class="col-8">
-                                                                                       <g:if test="${topicAndCountRow[1].visibility.value}">
-                                                                                              <g:if test="${subbedTopics.name.contains(topicAndCountRow[1].name)}">
-                                                                                                 <g:link action="unsubscribeAction" params="[topicinfo:topicAndCountRow[1]?.id]">UnSubscribe</g:link>
-                                                                                               </g:if>
-                                                                                                 <g:else>
-                                                                                                  <font color="gray">Private</font>
-                                                                                                 </g:else>
-                                                                                       </g:if>
-                                                                                      <g:else>
-                                                                                         <g:if test="${subbedTopics.name.contains(topicAndCountRow[1].name)}">
-                                                                                               <g:link action="unsubscribeAction" params="[topicinfo:topicAndCountRow[1]?.id]">UnSubscribe</g:link>
-                                                                                               <g:if test="${usersTopics.name.contains(topicAndCountRow[1].name)}">
-                                                                                                    <g:img class="deleteTopicClass" dir="images" file="deleteIcon.png" title="delete topic" width="20" height="20"/>
-                                                                                                    <input type="hidden" value="${topicAndCountRow[1]?.id}"/>
-                                                                                               </g:if>
+                                                                      <g:link action="userProfile" id="nameLink"  params="[otherUserId:topicAndCountRow[1]?.user?.id]">@${topicAndCountRow[1]?.user?.username}
+                                                                      </g:link>
 
 
-                                                                                          </g:if>
-                                                                                          <g:else>
-                                                                                                <g:link controller="Subscription" action="subscribeTopic" params="[topicsId:topicAndCountRow[1]?.id]">Subscribe</g:link>
-                                                                                          </g:else>
-
-
-                                                                                      </g:else>
-
-                                                                                  </div>
-
-                                                                                  <div class="col-4">
-                                                                                      <font size="2" color="gray"> Subs: ${topicAndCountRow[1]?.subscription?.size()}</font>
-                                                                                     <font size="2" color="gray"> Posts: ${topicAndCountRow[1]?.resource.size()}</font>
-
-
-                                                                                   </div>
-                                                                               </div>
-                                                                               <div class="row">
-
-                                                                                     <div class="col-6">
-
-
-                                                                                     </div>
-
-                                                                                     <div class="col-6">
-
-
-
-                                                                                     </div>
-                                                                               </div>
-
-
-
-
-                                                                          </div>
-
+                                                                     </div><%--c--%>
                                                                   </div><hr>
+                                                                  <div class="row">
+                                                                   <input style="display:none;width:70%;" type="text" class="form-control ${topicAndCountRow[1].name}" id="${topicAndCountRow[1]?.id}" value="${topicAndCountRow[1]?.name}" />
 
-                                                             </g:each>
+                                                                  <input  style="display:none;width:30%;" type="button" class="form-control ${topicAndCountRow[1].name} saveTopicChangesButton" value="save"/>
+                                                                    </div>
+                                                                   <div class="row">
+                                                                      <div class="col-8">
+                                                                            <g:if test="${topicAndCountRow[1]?.user.username==session.user}">
+                                                                                    <g:img id="${topicAndCountRow[1].name}" class="editNameButtonClass" dir="images" file="edit.png" width="20" height="20"/>
+                                                                                    <g:img class="deleteTopicClass" dir="images" file="deleteIcon.png" title="delete topic" width="20" height="20"/>
+
+                                                                                   <%------------ edit/delete here----------------%>
+                                                                            </g:if>
+                                                                            <g:else>
+                                                                                <g:if test="${activeUser.admin}">
+                                                                                        <g:if test="${subbedTopics.name.contains(topicAndCountRow[1].name)}">
+                                                                                            <g:link action="unsubscribeAction" params="[topicinfo:topicAndCountRow[1]?.id]">UnSubscribe</g:link>
+                                                                                             <%------------- Unsubscribe addquery---------------%>
+
+                                                                                        </g:if>
+                                                                                        <g:else>
+                                                                                              <g:link controller="Subscription" action="subscribeTopic" params="[topicsId:topicAndCountRow[1]?.id]">Subscribe</g:link>
+                                                                                           <%----------------  subscibe addquery---------------%>
+                                                                                        </g:else>
+
+                                                                                         <g:img id="${topicAndCountRow[1].name}" class="editNameButtonClass" dir="images" file="edit.png" width="20" height="20"/>
+                                                                                         <g:img class="deleteTopicClass" dir="images" file="deleteIcon.png" title="delete topic" width="20" height="20"/>
 
 
-                                                          </div></div>
+                                                                                   <%---------- admin loggedin edit/delte subOrNO-----------%>
+
+                                                                                </g:if>
+                                                                                <g:else>
+
+                                                                                    <g:if test="${subbedTopics.name.contains(topicAndCountRow[1].name)}">
+
+                                                                                      <g:link action="unsubscribeAction" params="[topicinfo:topicAndCountRow[1]?.id]">UnSubscribe</g:link>
+                                                                                         <%---------------unsub Noormal user-addquery---------------%>
+                                                                                    </g:if>
+                                                                                    <g:else>
+                                                                                        <g:if test="${topicAndCountRow[1].visibility.value}">
+                                                                                           <font color="gray"> private</font>
+
+                                                                                        </g:if>
+                                                                                        <g:else>
+                                                                                          <g:link controller="Subscription" action="subscribeTopic" params="[topicsId:topicAndCountRow[1]?.id]">Subscribe</g:link>
+
+                                                                                        <%---------------Sub-addquery---------------%>
+                                                                                        </g:else>
+                                                                                    </g:else>
+
+                                                                                </g:else>
+
+                                                                            </g:else>
+                                                                      </div>
+
+                                                                      <div class="col-4">
+                                                                          <font size="2" color="gray"> Subs: ${topicAndCountRow[1]?.subscription?.size()}</font>
+                                                                         <font size="2" color="gray"> Posts: ${topicAndCountRow[1]?.resource.size()}</font>
+
+
+                                                                       </div>
+                                                                   </div>
+                                                                   <div class="row">
+
+                                                                         <div class="col-6">
+
+                                                                            <g:if test="${subbedTopics.name.contains(topicAndCountRow[1].name)}">
+
+                                                                               <g:select display="" id="selectSeriousnessTrendingId" name="selectSeriousness" from="${['Casual','Serious','Very_Serious']}" value="${listOfSubs[listOfSubs.topics.name.indexOf(topicAndCountRow[1].name)].seriousness}"
+                                                                                   class="form-control changeSeriousclass"/>
+                                                                                <input type="hidden" name="hiddenVal" class="hiddenSubId" value="${listOfSubs[listOfSubs.topics.name.indexOf(topicAndCountRow[1].name)].id}">
+
+                                                                            </g:if>
+
+                                                                         </div>
+
+                                                                         <div class="col-6">
+                                                                                <g:if test="${topicAndCountRow[1].user==activeUser || activeUser.admin}">
+                                                                                     <g:select id="selectVisibId" name="selectVisib" from="${['Public','Private']}" value="${topicAndCountRow[1]?.visibility}"
+                                                                                        class="form-control visibilityChange"/>
+                                                                                      <input type="hidden" name="hiddenValVis" value="${topicAndCountRow[1]?.id}">
+
+                                                                                </g:if>
+
+
+                                                                         </div>
+                                                                   </div>
 
 
 
 
-                                                       </g:else>
+                                                              </div>
+                                                      </div><hr>
+                                                 </g:each>
+                                              </div></div>
+                                           </g:else>
 
 
                                                      <%-----------------------------------------------%>
 
-                                               </div>
-                                         </div>
+                                   </div>
+                             </div>
                                      </div><%--end of 4 row --%>
 
                                       <div class="row"> &nbsp;</div>
@@ -352,9 +378,10 @@
 
                                                                     <div class="col-3">
 
-                                                                     <g:if test="${activeUser.photo!=null}">
+                                                                     <g:if test="${res?.user.photo!=null}">
 
-                                                                         <img height="90" style="margin-top: 10px;margin-left: 0px,margin-bottom: 10px;margin-right: 10px"  width="90" src="${createLink(controller: 'demo', action: 'fetchPersonImage', params: ['userId':activeUser.id])}"/>
+                                                                         <img height="90" style="margin-top: 10px;margin-left: 0px,margin-bottom: 10px;margin-right: 10px"
+                                                                          width="90" src="${createLink(controller: 'demo', action: 'fetchPersonImage', params: ['userId':res?.user.id])}"/>
                                                                       </g:if>
                                                                       <g:else>
                                                                           <g:img dir="images" file="defaultpic.png" width="100" height="100" />

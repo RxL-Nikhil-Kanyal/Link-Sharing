@@ -60,3 +60,30 @@ $(".visibilityChange").change(function(){
     });
   });
 });
+//get Topic change module name
+$(document).ready(function(){
+var editTopic=$(".editNameButtonClass").click(function(){
+alert("edit");
+alert($(this).attr("id"));
+var classOfElementToToggle=$(this).attr("id");
+$("."+classOfElementToToggle).toggle();
+});
+});
+//save topic changes-dash
+$(document).ready(function(){
+$(".saveTopicChangesButton").click(function(){
+alert("save Action!")
+$.ajax({
+    url:"/topic/changeTopicName",
+    type:"POST",
+    data:{"topicId":$(this).prev().attr("id"),"newTopicName":$(this).prev().val()},
+    success:function(){
+    alert("Topic Name changed Successfully!");
+    location.reload();
+    },
+    error:function(){
+    alert("Error ! Try Again Later!")
+    }
+    });
+});
+});

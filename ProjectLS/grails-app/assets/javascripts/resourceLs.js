@@ -85,7 +85,6 @@ $.ajax({
 //delete Topic
 $(document).ready(function(){
 $(".deleteTopicClass").click(function(){
-alert("clicked")
 $.ajax({
     url:"/topic/deleteTopicAjax",
     type:"POST",
@@ -95,7 +94,6 @@ $.ajax({
     },
     error:function(){
     alert("An Error Occurred!");
-//    location.reload();
     }
 
 

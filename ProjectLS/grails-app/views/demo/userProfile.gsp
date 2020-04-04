@@ -15,17 +15,14 @@
 
     <div class="col-6">   <%--start of left side of container--%>
 
-       <div class="row">  <%--e--%>
+       <div class="row">
 
-            <div class="container">  <%--e--%>
+            <div class="container">
                  <div class="row"> &nbsp;</div>
-
                     <div class="row">
                         <div class="card shadow p-0 bg-white rounded ">
-
                               <div class="card-body">
                                   <span class="col-4">
-
                                   <div class="row">
 
                                         <div class="col-5">
@@ -39,15 +36,15 @@
                                              </g:else>
                                         </div>
                                         <div class="col-7">
-                                                        <div class="row">&nbsp;</div>
-                                                         <div class="row">  &nbsp;&nbsp;&nbsp;&nbsp;${ou.firstName} ${ou.lastName}</div>
-                                                         <div class="row">
+                                            <div class="row">&nbsp;</div>
+                                             <div class="row">  &nbsp;&nbsp;&nbsp;&nbsp;${ou.firstName} ${ou.lastName}</div>
+                                             <div class="row">
 
-                                                                    <div class="col"><font size="2" color="gray">Subscriptions:</font></div>
-                                                                    <div class="row"><font size="2" color="gray">${ouSubs?.size()}</font></div>
-                                                                       <div class="col"><font size="2" color="gray">Topics:</font></div>
-                                                                     <div class="row"><font size="2" color="gray">${ouTopic.size()}</font></div>
-                                                         </div>
+                                                <div class="col"><font size="2" color="gray">Subscriptions:</font></div>
+                                                <div class="row"><font size="2" color="gray">${ouSubs?.size()}</font></div>
+                                                   <div class="col"><font size="2" color="gray">Topics:</font></div>
+                                                 <div class="row"><font size="2" color="gray">${ouTopic.size()}</font></div>
+                                             </div>
                                         </div>
 			                       </div>
                               </div>
@@ -107,19 +104,19 @@
                                                                                     </g:if>
                                                                                     <g:else>
                                                                                             <div class="row">
-                                                                                                    <div class="col-6">
+                                                                                                    <div class="col-8">
                                                                                                      <g:select id="selectSeriousnessId" name="selectSeriousness" from="${['Casual','Serious','Very_Serious']}" value="${u?.seriousness}"
                                                                                                        class="form-control changeSeriousclass"/>
                                                                                                        <input type="hidden" name="hiddenVal" class="hiddenSubId" value="${u.id}">
                                                                                                     </div>
-                                                                                                    <div class="col-6"><g:link params=" ">Invite</g:link></div>
+                                                                                                    <div class="col-4"><g:link params=" "><%-----empty-----%></g:link></div>
                                                                                             </div>
 
                                                                                     </g:else>
                                                                                 </div>
-                                                                                <div class="col-4">
-                                                                                        <div class="row"><font siz="2" color="gray">Subs:${u?.topics?.subscription?.size()}</font></div>
-                                                                                        <div class="row"><font siz="2" color="gray">Post:${u?.topics?.resource?.size()}</font></div>
+                                                                                <div class="col-3">
+                                                                                        <div class="row"><font size="2" color="gray">Subs:${u?.topics?.subscription?.size()}</font></div>
+                                                                                        <div class="row"><font size="2" color="gray">Post:${u?.topics?.resource?.size()}</font></div>
                                                                                  </div>
                                                                              </div>
                                                                              <div class="row">

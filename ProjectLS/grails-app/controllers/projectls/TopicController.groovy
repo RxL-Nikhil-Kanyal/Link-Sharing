@@ -11,14 +11,7 @@ class TopicController {
     def createTopicFormAction() {
 
 
-        println params.newTopicName
-        println params.topicVisibility
-
-
-        println session.user
         User x = User.findByUsername(session.user)
-
-
         Topics t = new Topics(name: params.newTopicName, user: x.id, visibility: params.topicVisibility)
         //topic creation by user
         t.validate()
@@ -36,6 +29,14 @@ class TopicController {
 
         flash.message = "Topic Created !"
         return [success: true] as JSON
+
+    }
+    def topicsShow() {
+
+        User au = User.findByUsername(session.user)
+        List subscribedTopics = Subscription.findAllByUser(User.get(au.id)).topics
+
+        render(view:"topicsShow",model:[activeUser: au, subbedTopics: subscribedTopics])
 
     }
 
@@ -116,7 +117,6 @@ class TopicController {
 
         try {
             topic.delete(flush: true, failOnError: true)
-//            topic.findAll().each { it.delete(flush:true, failOnError:true) }
 
         }
         catch (e) {
@@ -126,6 +126,18 @@ class TopicController {
 
         flash.message = "Successfully Deleted ${topic.name}"
         return true
+
+    }
+    def changeTopicName(){
+        Topics topic=Topics.get(params.topicId)
+        topic.name=params.newTopicName
+        topic.validate();
+        if(topic.hasErrors()){
+            return
+        }else{
+            topic.save(flush:true,failOnError:true)
+            return true
+        }
 
     }
 

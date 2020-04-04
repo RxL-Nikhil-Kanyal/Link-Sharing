@@ -9,7 +9,6 @@ class AuthenticationController {
 
     def auth() {
 
-
         render(view:"auth",model:[recentUpdatedTopics:authService.authMehod(),
                                   topPostsWithRating:resourceRatingService.getTopRatedPosts(session.user)])
     }
@@ -39,10 +38,7 @@ class AuthenticationController {
             redirect(controller: 'Authentication', action: 'auth')
             flash.warning = "User Does Not Exsist"
         }
-
-
     }
-
 
     def RegisterAction() {
 
@@ -55,29 +51,12 @@ class AuthenticationController {
         User user = new User(email: params.regemail, username: params.regusername, password: params.regpassword, firstName: params.regfirstname, lastName: params.reglastname,
                 admin: 0, active: 1)
 
-     //   u.photo = params.regphoto
-
-
         if(params.regphoto.size!=0){
 
-            def file =request.getFile("regphoto")//change2
+            def file =request.getFile("regphoto")
             byte[] photo = file.bytes
             user.photo=photo
-
-//            String dir1 = new Date()
-//            String dir2 = dir1.split(" ").join("")
-//            String dir = "/home/nikhil/Desktop/grailsAppFile/Images/${params.regusername}${dir2}.png"
-//             request.getFile('regphoto').transferTo(new File(dir))
-//
-//            u.photo=dir
-//            println "whhhhhhhhhhhhhhhyyyyyyyyyyyy"
-//            println "sssssssssssssssssssssssssss"+request.getFile('regphoto')
-
         }
-
-
-
-
 
         user.validate()
         if (user.hasErrors()) {
@@ -87,7 +66,6 @@ class AuthenticationController {
             flash.warning = "Error Creating User. Username/email exists! "
             redirect(controller: 'authentication')
             return
-
 
         }
 

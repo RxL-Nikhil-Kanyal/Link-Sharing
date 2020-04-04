@@ -106,7 +106,7 @@ dataSource:
 environments:
     development:
         dataSource:
-            dbCreate: create
+            dbCreate: update
             url: jdbc:oracle:thin:@localhost:1521/orcl
 
 

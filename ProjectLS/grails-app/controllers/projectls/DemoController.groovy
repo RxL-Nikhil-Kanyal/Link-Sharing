@@ -5,9 +5,7 @@ class DemoController {
     TopicsService topicsService
     ReadingItemService readingItemService
 
-
     static defaultAction = "dashboard"
-
 
     def posts() {
         User au = User.findByUsername(session.user)
@@ -16,19 +14,11 @@ class DemoController {
         return [activeUser: au, subbedTopics: subscribedTopics]
     }
 
-    def topicsShow() {
-
-        User au = User.findByUsername(session.user)
-        List subscribedTopics = Subscription.findAllByUser(User.get(au.id)).topics
-
-        return [activeUser: au, subbedTopics: subscribedTopics]
-
-    }
 
     def dashboard() {
         User au = User.findByUsername(session.user)
-        List subscribedTopics = Subscription.findAllByUser(User.get(au.id)).topics
-        List listSub = Subscription.findAllByUser(User.findByUsername(session.user))//display subs of user
+        List subscribedTopics = Subscription.findAllByUser(au).topics
+        List listSub = Subscription.findAllByUser(au)//display subs of user
         List topicsByUser = Topics.findAllByUser(User.findAllByUsername(session.user))
         def topicsWithCount = topicsService.trendingTopics();//trend
 
@@ -130,28 +120,32 @@ class DemoController {
 
     def changeUserDeatails() {
 
-        User y = User.findByUsername(session.user)
-        println params.changeUsername
-        println params.changeFirstname
-        println params.changePhoto.bytes
+        User user = User.findByUsername(session.user)
 
         if (params.changeUsername) {
-            y.username = params.changeUsername
+            user.username = params.changeUsername
         }
         if (params.changeFirstname) {
-            y.firstName = params.changeFirstname
+            user.firstName = params.changeFirstname
         }
         if (params.changeLastname) {
-            y.lastName = params.changeLastname
+            user.lastName = params.changeLastname
         }
-        if (params.changePhoto.bytes) {
-            y.photo = params.changePhoto.bytes
-        }
+        if(params.changePhoto.size!=0){
 
-        y.save(flush: true, failOnError: true)
+            def file =request.getFile("changePhoto")
+            byte[] photo = file.bytes
+            user.photo=photo
+        }
+        try {
+            flash.message = "Changes Successfull"
+            user.save(flush: true, failOnError: true)
+        } catch(e) {
+            flash.warning = "Error! Try another Image!"
+        }
 
         redirect(action: "editProfile")
-        flash.message = "Changes Successfull"
+
 
 
     }
@@ -166,7 +160,6 @@ class DemoController {
 
         List topicsByUser = Topics.findAllByUser(User.findByUsername(session.user))
 
-
         //get from link
         if (au == User.get(params.otherUserId)) {
             List subsOfTopicCreatedByUser = Subscription.createCriteria().list() {
@@ -178,30 +171,32 @@ class DemoController {
             if (!subTopics.isEmpty()) {
                 R = Resource.createCriteria().list() {//posts
                     inList("topics", subTopics)
-
                 }
-
             }
 
-            return [activeUser: au, DisplayRes: R, subbedTopics: subTopics, subsOfTopicByOUser: subsOfTopicCreatedByUser, usersTopics: topicsByUser, ou: au, ouSubs: subscribed, ouTopic: topicsByUser]
+            return [activeUser        : au, DisplayRes: R, subbedTopics: subTopics,
+                    subsOfTopicByOUser: subsOfTopicCreatedByUser, usersTopics: topicsByUser,
+                    ou                : au, ouSubs: subscribed, ouTopic: topicsByUser]
 
         } else {
             User otherUser = User.get(params.otherUserId)
             List ouPublicTopics = Topics?.findAllByVisibilityAndUser("Public", otherUser)
-            List x = topicsByUser + ouPublicTopics
-
+            List totalTopics = topicsByUser + ouPublicTopics
 
             List subsOfTopicCreatedByOtherUser = Subscription.createCriteria().list() {
-
-                inList("topics", x)
+                inList("topics", ouPublicTopics)
                 eq('user', otherUser)
 
             }
-
+//            List subPublic = Subscription.createCriteria().list() {
+//                and {
+//                    inList("topics", ouPublicTopics)
+//                }
+//            }
             List subPublic = Subscription.createCriteria().list() {
                 and {
-
-                    inList("topics", ouPublicTopics)
+                    inList("topics",totalTopics )
+                    eq('user',otherUser)
 
                 }
             }
@@ -214,7 +209,7 @@ class DemoController {
 
             }
             return [activeUser        : au, DisplayRes: R, subbedTopics: subTopics, usersTopics: topicsByUser,
-                    subsOfTopicByOUser: subPublic, ou: otherUser, ouSubs: subsOfTopicCreatedByOtherUser,
+                    subsOfTopicByOUser: subsOfTopicCreatedByOtherUser, ou: otherUser, ouSubs: subPublic,
                     ouTopic           : ouPublicTopics]
 
         }
@@ -250,7 +245,8 @@ class DemoController {
         User u = User.findByUsername(session.user)
 
 
-        LinkResources linkResource = new LinkResources(name: params.linkDesc, URl: params.LinkTopicUrl, user: u.id, topics: t.id)
+        LinkResources linkResource = new LinkResources(name: params.linkDesc, URl: params.LinkTopicUrl,
+                user: u.id, topics: t.id)
         linkResource.validate()
 
         if (linkResource.hasErrors()) {
@@ -275,7 +271,12 @@ class DemoController {
 
 
         DocumentResources docResource = new DocumentResources(name: params.myDocField, user: u.id, topics: t.id)
-        docResource.doc = params.docfile.bytes
+
+        def file =request.getFile("docfile")
+        byte[] doc = file.bytes
+        docResource.doc=doc
+
+
         docResource.validate()
 
         if (docResource.hasErrors()) {
@@ -316,17 +317,6 @@ class DemoController {
 
     }
 
-    def downloadFile = {
-        println "------------------------->" + params.res
-        DocumentResources docRes = DocumentResources.findById(params.res)
-
-        response.setHeader("Content-Type", "application/octet-stream;")
-        response.setHeader("Content-Disposition", "attachment; filename=\"" + "document" + "\"")
-        response.outputStream << docRes.doc
-
-
-        render "downloading !!!"
-    }
 
     def changeVisibFromDash() {
 

@@ -267,7 +267,7 @@
                                                                                         <font size="2"> <a href="${u?.URl}">Link</a></font>
                                                                                        </g:if>
                                                                                        <g:else>
-                                                                                         <font size="2"> <g:link controller="Demo" action="downloadFile" params="[res:u?.id]"> Download
+                                                                                         <font size="2"> <g:link controller="resource" action="downloadFile" params="[res:u?.id]"> Download
                                                                                                                                                  </g:link></font>
                                                                                        </g:else>
                                                                                        <font size="2" style="margin-left:10px;"> <g:link controller="Demo" action="viewPost" params="[topicId:u?.topics?.id,userId:u?.user?.id]"> [Full Post]</g:link>

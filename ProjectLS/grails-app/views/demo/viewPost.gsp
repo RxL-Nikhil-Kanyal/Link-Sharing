@@ -114,7 +114,6 @@
 
                                                  <g:img dir="images" file="mailIcon.jpg" width="20" height="20" title="${selectedResoftopic?.user?.email}"/>
 
-
                                                 </div>
                                                 <div class="col-7">
                                                      <div class="row">
