@@ -7,6 +7,7 @@ class TopicController {
 
     TopicsService topicsService
     ResourceRatingService resourceRatingService
+    SearchService searchService
 
     def createTopicFormAction() {
 
@@ -53,47 +54,15 @@ class TopicController {
         User au = User.findByUsername(session.user)
         List subscribedTopics = Subscription.findAllByUser(User.get(au.id)).topics
         def topicsWithCount = topicsService.trendingTopics();
-        //search
-        if (au.admin) {
-            if (!params.search) {
-                return [activeUser            : au, subbedTopics: subscribedTopics, allResource: Resource.list(),
-                        trendingTopicsAndCount: topicsWithCount,
-                        topPostsWithRating    : resourceRatingService.getTopRatedPosts(session.user)]
-            } else {
-                Topics topics = Topics.findByName(params.search)
-                if (topics) {
-                    List resource = Resource.findAllByTopics(topics)
-                    if (!resource) {
-                        render "no posts found for topic ${params.search}!"
-                    } else {
-                        return [activeUser        : au, subbedTopics: subscribedTopics,
-                                allResource       : resource, trendingTopicsAndCount: topicsWithCount,
-                                topPostsWithRating: resourceRatingService.getTopRatedPosts(session.user)]
-                    }
-                } else {
-                    render "This Topic Does not Exist! "
-                }
-            }
-        } else {
-            if (!params.search) {
-                render "Error ! Action Prohibited ! Can not Search null ! Try Again"
-            } else {
-                List topics = Topics.findAllByNameAndVisibility(params.search, "Public") + Topics.findAllByNameAndUser(params.searach, au)
-                topics = topics.unique()
-                if (!topics) {
-                    render "error , The searched Topic either Does not exsist or you Do not have Access."
-                } else {
-                    List resource = Resource.findAllByTopicsInList(topics)
-                    if (!resource) {
-                        render "no posts found about the topic!"
-                    } else {
-                        return [activeUser        : au, subbedTopics: subscribedTopics,
-                                allResource       : resource, trendingTopicsAndCount: topicsWithCount,
-                                topPostsWithRating: resourceRatingService.getTopRatedPosts(session.user)]
-                    }
-                }
-            }
+        if(!params.search && !au.admin){
+            render "Cannot search Empty string! Invalid Search!"
+            return
         }
+
+
+        return [activeUser        : au, subbedTopics: subscribedTopics,
+                allResource       : searchService.searchMethod(session.user,params.search), trendingTopicsAndCount: topicsWithCount,
+                topPostsWithRating: resourceRatingService.getTopRatedPosts(session.user)]
     }
 
     def changeTopicVisibDash() {
