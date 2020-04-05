@@ -20,13 +20,10 @@
 }
 
 </style>
+
 </head>
 <body>
 <g:render template="top" />
-
- <g:message code="default.link.skip.label" default="" />
-
-
 
      <div class="bodyContent" id="bodyContent">
 
@@ -162,7 +159,7 @@
 
                            <Div class="row">
                                 <Div class="col-sm-5">
-                                           <a href="" >forgot Password</a>
+                                           <a href="" id="forgotPasswordId" data-toggle="modal" data-target="#forgotPasswordModalId">forgot Password</a>
                                  </Div>
                                  <Div class="col-sm-2">
 
@@ -365,6 +362,33 @@
 
   <div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="forgotPasswordModalId" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form id="forgotPasswordForm" >
+      <div class="modal-body">
+
+        <label class="form-control" style="Background-color:#ffcccb;">Enter Username Or Email :</label>
+        <Input id="detailsOfUser" type="text" class="form-control" required="true"/>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button id="forgotPasswordSubmitButtonId" type="button" class="btn btn-primary">Submit</button>
+      </div></form>
+    </div>
+  </div>
+</div>
+
+
 
 </body>
 </html>

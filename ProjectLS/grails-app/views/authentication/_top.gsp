@@ -10,6 +10,8 @@
 <asset:stylesheet src="navbarCommonStyling"/>
 <asset:javascript src="navbarCommonScripts.js"/>
 
+<asset:javascript src="AuthenticationTop.js"/>
+
 </head>
 <body id="grad" >
 

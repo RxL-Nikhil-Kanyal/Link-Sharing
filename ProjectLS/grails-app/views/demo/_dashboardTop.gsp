@@ -7,15 +7,12 @@
 <asset:javascript src="popper.min.js"/>
 <asset:javascript src="jquery-3.3.1.min.js"/>
 <asset:javascript src="bootstrap.min.js"/>
-
-
 <asset:javascript src="navbarCommonScripts.js"/>
-
 <asset:javascript src="dashboardTop.js"/>
 <asset:javascript src="resourceLs.js"/>
-
-
 <asset:stylesheet src="navbarCommonStyling.css"/>
+
+<asset:javascript src="shareInviteDash.js"/>
 
 </head>
 <body id="grad">
@@ -210,12 +207,12 @@
 
                  <tr>
                  <td>Email</td>
-                    <td><g:textField name="friendEmail" value="${sendtopic}" required="true" class="form-control"/></td>
+                    <td><g:textField id="friendEmailId" name="friendEmail" value=" " required="true" class="form-control"/></td>
                   </tr>
                     <tr>
                        <td>Topic</td>
                        <td>   <%---add list of topic here---%>
-                         <g:select name="topic.visibility" from="${subbedTopics.name}" value="${vis}" noSelection="['':'-Choose Topic-']" required="true" class="form-control"/>
+                         <g:select id="topicSelectedId" name="topicSelectedName" from="${subbedTopics.name}" value="${vis}" noSelection="['':'-Choose Topic-']" required="true" class="form-control"/>
 
                        </td>
                      </tr>
@@ -225,7 +222,7 @@
 
 
                       </div>
-                      <div class="modal-footer"><div class="col-5"><g:submitButton name="sendInviteButton" value="send" class="form-control"/></div>
+                      <div class="modal-footer"><div class="col-5"><g:submitButton id="sendInviteButtonId" name="sendInviteButton" value="send" class="form-control"/></div>
                       <div class="col-6"><button type="button" class="btn btn-default" data-dismiss="modal" class="form-control">Close</button></div>
 
                       </div>

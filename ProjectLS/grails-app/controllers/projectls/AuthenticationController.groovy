@@ -117,5 +117,44 @@ class AuthenticationController {
 
     }
 
+    def forgotPasswordMail() {
+
+        User user = User.findByUsernameOrEmail(params.userDetail, params.userDetail)
+        if (user) {
+            try {
+                sendMail {
+
+                    to user.email
+                    subject "Password change"
+                    body 'Change Password here : http://localhost:9090/authentication/passwordChange?userId=' + user.id
+                }
+
+
+            } catch (Exception e) {
+                flash.warning = "can not send Reset Link!"
+            }
+            flash.message = "Reset Mail sent!"
+            return true
+
+        } else {
+            flash.warning = "User does not Exist!"
+            return false
+        }
+
+
+    }
+    def passwordChange(){
+        render(view:"passwordChange",model: [userId:params.userId])
+    }
+    def changeUserPassword(){
+
+        User user=User.get(params.userId)
+        user.password=params.newPassword
+        user.save(flush:true,failOnError: true)
+        flash.message="password changed Successfully!"
+        return true
+
+    }
+
 
 }
