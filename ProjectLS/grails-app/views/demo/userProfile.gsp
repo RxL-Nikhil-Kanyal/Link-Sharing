@@ -326,6 +326,10 @@
 
                                                            </font></g:if>
 
+                                                             <font size="2" style="margin-left:10px;"> <g:link controller="Demo" action="viewPost" params="[topicId:u?.topics?.id,userId:u?.user?.id]"> [Full Post]</g:link>
+
+                                                               </font>
+
                                                     </div> </div>
 
                                                 </div>  <%---right of pic end---%>

@@ -1,0 +1,14 @@
+#flow{
+
+  width: auto;
+  height: 180px;
+  overflow: scroll;
+  overflow-x: hidden;
+}
+#ellps {
+  white-space: nowrap;
+  width: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+}

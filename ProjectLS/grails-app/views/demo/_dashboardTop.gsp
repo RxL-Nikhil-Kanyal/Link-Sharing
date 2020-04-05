@@ -33,20 +33,14 @@
 
      <div class="col-4">
 
-
     <g:form name="searchBar" controller="Topic" action="search"  class="form-inline my-2 my-lg-0">
-
       <input name="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </g:form>
      </div>
 
-
      <div class="col">
         <span class="col">
-
-
 
                   <!-- Trigger the modal with a topic -->
 
@@ -66,9 +60,6 @@
 
                                 <p align="center">Create Topic</p>
                             <%--form start here--%>
-
-
-
                                         <g:form name="createTopicForm" id="createTopicFormId" class="form-group">
 
                                        <div class="row">
@@ -345,8 +336,8 @@
                <g:if test="${activeUser.admin}">
 
                     <a class="dropdown-item" href="/demo/usersA">User</a>
-                    <a class="dropdown-item" href="/topic/search">Topic</a>
-                    <a class="dropdown-item" href="/demo/posts">Posts</a>
+                    <a class="dropdown-item" href="/demo/adminTopics">Topic</a>
+                    <a class="dropdown-item" href="/topic/search">Posts</a>
                </g:if>
 
                <a class="dropdown-item" href="/Authentication/logout">Logout</a>

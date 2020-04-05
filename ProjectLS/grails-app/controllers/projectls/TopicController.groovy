@@ -11,7 +11,6 @@ class TopicController {
 
     def createTopicFormAction() {
 
-
         User x = User.findByUsername(session.user)
         Topics t = new Topics(name: params.newTopicName, user: x.id, visibility: params.topicVisibility)
         //topic creation by user
@@ -26,8 +25,6 @@ class TopicController {
 
         Subscription newSub = new Subscription(user: x.id, topics: t.id, seriousness: "Serious")
         newSub.save(flush: true, failOnError: true)
-
-
         flash.message = "Topic Created !"
         return [success: true] as JSON
 
@@ -35,9 +32,24 @@ class TopicController {
     def topicsShow() {
 
         User au = User.findByUsername(session.user)
-        List subscribedTopics = Subscription.findAllByUser(User.get(au.id)).topics
+        List allActiveUserSubs=Subscription.findAllByUser(au)
+        List subscribedTopicsByActiveUser = allActiveUserSubs.topics
+        List subscriptionsOfTopic=[]
+        List resourcesOfTopics=[]
+        Topics topic
 
-        render(view:"topicsShow",model:[activeUser: au, subbedTopics: subscribedTopics])
+        if(params.topicId){
+           topic=Topics.get(params.topicId);
+            if(au.admin || topic.visibility==Visibility.valueOf('Public') || subscribedTopicsByActiveUser.contains(topic)){
+                subscriptionsOfTopic=Subscription.findAllByTopics(topic)
+                resourcesOfTopics=Resource.findAllByTopics(topic)
+
+            }
+        }
+
+        render(view: "topicsShow", model: [activeUser    : au, subbedTopics: subscribedTopicsByActiveUser,
+                                           allSubsOfTopic: subscriptionsOfTopic, allResourceOfTopic: resourcesOfTopics,
+                                           chosenTopic   : topic,activeUserSubs:allActiveUserSubs])
 
     }
 

@@ -191,7 +191,7 @@
                                                             </g:if>
                                                             <g:else>
                                                                    <font size="3">
-                                                                      <g:link controller="Demo" action="downloadFile" params="[res:selectedResoftopic?.id]"> Download
+                                                                      <g:link controller="resource" action="downloadFile" params="[res:selectedResoftopic?.id]"> Download
                                                                                                                          </g:link>
                                                                    </font>
                                                              </g:else>

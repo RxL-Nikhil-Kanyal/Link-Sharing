@@ -94,6 +94,7 @@ $.ajax({
     },
     error:function(){
     alert("An Error Occurred!");
+    location.reload();
     }
 
 

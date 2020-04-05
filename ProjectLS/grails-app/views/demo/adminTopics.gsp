@@ -1,7 +1,9 @@
 <html>
 <head>
-<title>search</title>
+<title>All Topics</title>
 <style>
+
+
 
 </style>
 
@@ -22,7 +24,7 @@
                  <div class="row"> &nbsp;</div>
 
                     <div class="row">
-                        <div class="card" style="width:90%;">
+                        <div class="card">
 
                             <div class="card-header">Trending Topics </div>
 
@@ -55,9 +57,7 @@
                                                        </div>
                                                        <div class="col-8">
                                                            <div class="row">
-                                                              <div id="nameOfTopic" class="col-7">
-                                                               <g:link controller="topic" action="topicsShow" params="[topicId:topicAndCountRow[1].id]">
-                                                              ${topicAndCountRow[1]?.name}</g:link></div>
+                                                              <div id="nameOfTopic" class="col-7">${topicAndCountRow[1]?.name}</div>
                                                               <div class="col-5">
 
                                                                <g:link action="userProfile" id="nameLink"  params="[otherUserId:topicAndCountRow[1]?.user?.id]">@${topicAndCountRow[1]?.user?.username}
@@ -133,7 +133,7 @@
                     <div class="row"> &nbsp;</div>
 
                             <div class="row">
-                                <div class="card"  style="width:90%;">
+                                <div class="card" style="width:85%;">
                                      <div class="card-header">
                                                   Top Posts
                                       </div>
@@ -162,9 +162,7 @@
                                                            <div class="col-8">
                                                               <div class="row">
                                                                   <div class="col-6">${u[1]?.user?.username}</div>
-                                                                  <div class="col-6">
-                                                                  <g:link controller="topic" action="topicsShow" params="[topicId:u[1]?.topics?.id]">
-                                                                  ${u[1]?.topics?.name}</g:link></div>
+                                                                  <div class="col-6">${u[1]?.topics?.name}</div>
 
 
                                                               </div><hr>
@@ -211,107 +209,117 @@
                         <div class="row"> &nbsp;
                         </div>
 
-                                   <div class="col">
-                                        <div class="card">
-                                             <div class="card-header">
-                                                        Search Results
-                                              </div>
-                                              <div class="card-body">
+       <div class="col">
+            <div class="card">
+                 <div class="card-header">
+                            ALL TOPICS
+                 </div>
+                 <div class="card-body" id="flow2">
+                    <%-----------------%>
 
-                                                                    <%-----------------%>
+                   <g:if test="${allTheTopics.size()==0}">
+                         <div class="row"><div class="col-12">No Topics . Create new Topics.</div></div>
 
-                                                    <div class="container">
+                   </g:if>
+                      <g:else>
 
-                                                    <g:if test="${!allResource?.isEmpty()}">
+                          <div class="row"><div class="col-12">
 
-                                                         <%----display resource start---%>
+                             <g:each in="${allTheTopics}" var="u" status="i">
 
+                                  <div class="row">
 
-                                                                  <div id="flow2">
+                                          <div class="col-3">
 
-                                                                     <g:each in="${allResource}" var="u" status="i">
+                                          <g:if test="${u?.user.photo!=null}">
 
-                                                                        <div class="row">
-                                                                            <div class="col-4">
+                                              <img height="90" style="margin-top: 20px;margin-left: 15px "  width="90"
+                                              src="${createLink(controller: 'demo', action: 'fetchPersonImage', params: ['userId':u.user.id])}"/>
+                                           </g:if>
+                                           <g:else>
+                                               <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
+                                           </g:else>
 
-                                                                            <g:if test="${u?.topics.user.photo!=null}">
+                                          </div>
+                                          <div class="col-1"></div>
+                                          <div class="col-8">
+                                              <div class="row">
+                                                 <div style=" " id="nameOfTopic" class="col-7 ${u.name} ">${u.name}
+                                                 </div>
+                                                 <div class="col-5">
+                                                  <g:link action="userProfile" id="nameLink"  params="[otherUserId:u.user?.id]">@${u?.user.username}
+                                                  </g:link>
+                                                 </div><%--c--%>
+                                              </div><hr>
+                                              <div class="row">
+                                               <input style="display:none;width:70%;" type="text" class="form-control ${u.name}" id="${u.id}" value="${u.name}" />
 
-                                                                                  <img height="90" style="margin-top: 20px;margin-left: 15px "  width="90"
-                                                                                  src="${createLink(controller: 'demo', action: 'fetchPersonImage', params: ['userId':u?.topics.user.id])}"/>
-                                                                               </g:if>
-                                                                               <g:else>
-                                                                                   <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
-                                                                             </g:else>
+                                              <input  style="display:none;width:30%;" type="button" class="form-control ${u.name} saveTopicChangesButton" value="save"/>
+                                                </div>
+                                               <div class="row">
+                                                  <div class="col-8">
 
-                                                                            </div>
-                                                                            <div class="col-8"><%---right of pic---%>
-
-                                                                               <div class="row">
-                                                                                   <div class="col-7">Topic: ${u?.topics.name}</div>
-                                                                                   <div class="col-5">By: ${u?.user.username}</div>
-                                                                                </div><hr>
-                                                                                <div class="row"><div class="col-12">${u?.name}</div>
-
-                                                                               </div>
-
-
-                                                                                <div class="row">&nbsp;</div>
-                                                                                <div class="row">
-                                                                                <div class="col-4">
-
-                                                                                        <g:img dir="images" file="mailIcon.jpg" width="20" height="20" title="${u?.user.email}"/>
-
-                                                                                </div>
-
-                                                                                <div class="col-8">
-
-                                                                                        <g:if test="${u?.class==LinkResources}">
-                                                                                        <font size="2"> <a href="${u?.URl}">Link</a></font>
-                                                                                       </g:if>
-                                                                                       <g:else>
-                                                                                         <font size="2"> <g:link controller="resource" action="downloadFile" params="[res:u?.id]"> Download
-                                                                                                                                                 </g:link></font>
-                                                                                       </g:else>
-                                                                                       <font size="2" style="margin-left:10px;"> <g:link controller="Demo" action="viewPost" params="[topicId:u?.topics?.id,userId:u?.user?.id]"> [Full Post]</g:link>
-
-                                                                                       </font>
-
-                                                                                </div> </div>
-
-                                                                            </div>  <%---right of pic end---%>
-                                                                        </div>
-                                                                        <hr>
-
-                                                                     </g:each>
-
-                                                                   </div>    <%----div flow end------%>
-
-
-                                                          <%----display resource end---%>
-
+                                                    <g:if test="${subbedTopics.name.contains(u.name)}">
+                                                        <g:link action="unsubscribeAction" params="[topicinfo:u?.id]">UnSubscribe</g:link>
+                                                         <%------------- Unsubscribe addquery---------------%>
 
                                                     </g:if>
                                                     <g:else>
-                                                         can't find the Post ! Try any other Keyword!
+                                                          <g:link controller="Subscription" action="subscribeTopic" params="[topicsId:u?.id]">Subscribe</g:link>
+                                                       <%----------------  subscibe addquery---------------%>
                                                     </g:else>
 
-
-                                                    </div>
-
-                                                                  <%------------------%>
+                                                     <g:img id="${u.name}" class="editNameButtonClass" dir="images" file="edit.png" width="20" height="20"/>
+                                                     <g:img class="deleteTopicClass" dir="images" file="deleteIcon.png" title="delete topic" width="20" height="20"/>
 
 
-                                              </div>
-                                        </div>
-                                    </div>         <%--end of 1 row --%>
+                                                      <%---------- admin loggedin edit/delte subOrNO-----------%>
 
 
+                                                  </div>
+
+                                                  <div class="col-4">
+                                                      <font size="2" color="gray"> Subs: ${u.subscription?.size()}</font>
+                                                     <font size="2" color="gray"> Posts: ${u.resource.size()}</font>
+
+
+                                                   </div>
+                                               </div>
+                                               <div class="row">
+
+                                                     <div class="col-6">
+
+                                                        <g:if test="${subbedTopics.name.contains(u.name)}">
+
+                                                           <g:select display="" id="selectSeriousnessTrendingId" name="selectSeriousness" from="${['Casual','Serious','Very_Serious']}" value="${listOfSubs[listOfSubs.topics.name.indexOf(u.name)].seriousness}"
+                                                               class="form-control changeSeriousclass"/>
+                                                            <input type="hidden" name="hiddenVal" class="hiddenSubId" value="${listOfSubs[listOfSubs.topics.name.indexOf(u.name)].id}">
+
+                                                        </g:if>
+
+                                                     </div>
+
+                                                     <div class="col-6">
+
+                                                                 <g:select id="selectVisibId" name="selectVisib" from="${['Public','Private']}" value="${u?.visibility}"
+                                                                    class="form-control visibilityChange"/>
+                                                                  <input type="hidden" name="hiddenValVis" value="${u?.id}">
+
+                                                     </div>
+                                               </div>
+                                          </div>
+                                  </div><hr>
+                             </g:each>
+                          </div></div>
+                       </g:else>
+
+                  <%------------------%>
+                  </div>
+            </div>
+        </div>         <%--end of 1 row --%>
     </div>    <%--end of right side of container--%>
-
 </div>
-
 </div>
-
 
 </body>
 </html>

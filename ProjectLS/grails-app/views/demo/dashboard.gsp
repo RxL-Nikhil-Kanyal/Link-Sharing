@@ -99,7 +99,10 @@
                                                                         <div class="col-1"></div>
                                                                         <div class="col-8">
                                                                             <div class="row">
-                                                                               <div id="nameOfTopic" class="col-7">${u?.topics?.name}</div>
+
+                                                                               <div id="nameOfTopic" class="col-7">
+                                                                               <g:link controller="topic" action="topicsShow" params="[topicId:u?.topics.id]">
+                                                                               ${u?.topics?.name}</g:link></div>
                                                                                <div class="col-5">
 
                                                                                 <g:link action="userProfile" id="nameLink"  params="[otherUserId:u?.topics?.user?.id]">@${u?.topics?.user?.username}
@@ -210,7 +213,9 @@
                                                               <div class="col-1"></div>
                                                               <div class="col-8">
                                                                   <div class="row">
-                                                                     <div style=" " id="nameOfTopic" class="col-7 ${topicAndCountRow[1].name} ">${topicAndCountRow[1]?.name}
+                                                                     <div style=" " id="nameOfTopic" class="col-7 ${topicAndCountRow[1].name} ">
+                                                                      <g:link controller="topic" action="topicsShow" params="[topicId:topicAndCountRow[1].id]">
+                                                                     ${topicAndCountRow[1]?.name}</g:link>
 
                                                                      </div>
 
@@ -306,23 +311,14 @@
                                                                                       <input type="hidden" name="hiddenValVis" value="${topicAndCountRow[1]?.id}">
 
                                                                                 </g:if>
-
-
                                                                          </div>
                                                                    </div>
-
-
-
-
                                                               </div>
                                                       </div><hr>
                                                  </g:each>
                                               </div></div>
                                            </g:else>
-
-
                                                      <%-----------------------------------------------%>
-
                                    </div>
                              </div>
                                      </div><%--end of 4 row --%>

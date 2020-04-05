@@ -4,14 +4,20 @@ package projectls
 class DemoController {
     TopicsService topicsService
     ReadingItemService readingItemService
+    ResourceRatingService resourceRatingService
 
     static defaultAction = "dashboard"
 
-    def posts() {
-        User au = User.findByUsername(session.user)
-        List subscribedTopics = Subscription.findAllByUser(User.get(au.id)).topics
+    def adminTopics() {
 
-        return [activeUser: au, subbedTopics: subscribedTopics]
+        User au = User.findByUsername(session.user)
+        List subscriptionOfUser=Subscription.findAllByUser(au)
+        List subscribedTopics = subscriptionOfUser.topics
+        def topicsWithCount = topicsService.trendingTopics();
+        List allTopics=Topics.list();
+        return [activeUser        : au, subbedTopics: subscribedTopics,listOfSubs:subscriptionOfUser,
+                trendingTopicsAndCount: topicsWithCount,allTheTopics:allTopics,
+                topPostsWithRating: resourceRatingService.getTopRatedPosts(session.user)]
     }
 
 
@@ -34,11 +40,9 @@ class DemoController {
     def UsersA() {
         def persons = User.list()
         User au = User.findByUsername(session.user)
-        //remove numbr of users for now p.s()
         List subscribedTopics = Subscription.findAllByUser(User.get(au.id)).topics
 
         return [usr: persons, activeUser: au, subbedTopics: subscribedTopics]
-
 
     }
 

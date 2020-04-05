@@ -6,10 +6,9 @@
 <body>
 <g:render template="/authentication/top" />
 
-
       <div class="card shadow p-0 bg-white rounded">
         <div class="card-header">
-          Recent Shares
+          Related Posts
         </div>
         <div class="card-body">
             <div class="container">
@@ -46,11 +45,9 @@
 
                            </div></div>
 
-
                             <div class="row">&nbsp;</div>
                             <div class="row"><div class="col-8">${u?.user.email}</div>
                             <div class="col-4">
-
 
                                     <g:if test="${u?.class==LinkResources}">
                                        Resource: <a href="${u?.URl}">Go To Link</a>
@@ -61,9 +58,6 @@
                                    </g:else>
 
                             </div> </div>
-
-
-
                         </div>  <%---right of pic end---%>
                     </div>
                     <hr>
@@ -71,21 +65,9 @@
                  </g:each>
 
                </div>    <%----div flow end------%>
-
-
-
-
-
             </div>
-
-
-
       </div>
-
     </div>
-
-
-
 </body>
 
 </html>

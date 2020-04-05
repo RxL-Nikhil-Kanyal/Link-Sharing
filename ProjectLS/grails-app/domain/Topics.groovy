@@ -19,8 +19,8 @@ class Topics {
         //source-db=""
         table 'topics'
 
-        resource cascade: 'all-delete-orphan'
-        subscription cascade: 'all-delete-orphan'
+//        resource cascade: 'all-delete-orphan'
+//        subscription cascade: 'all-delete-orphan'
 
     }
 

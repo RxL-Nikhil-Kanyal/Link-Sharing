@@ -5,6 +5,7 @@ class AuthenticationController {
 
     AuthService authService
     ResourceRatingService resourceRatingService
+    SearchService searchService
 
 
     def auth() {
@@ -87,11 +88,21 @@ class AuthenticationController {
 
     def PublicTopicsShow() {
 
+        if(params.topicRelated){
+            Resource res = Resource.findById(params.topicRelated)
+            List updatedTopics = Resource.findAllByTopics(res?.topics)
 
-        Resource res = Resource.findById(params.topicRelated)
-        List updatedTopics = Resource.findAllByTopics(res?.topics)
+            return  [recentUpdatedTopics: updatedTopics]
+        }else{
+            if(!params.searchAtAuth){
+                render "Error ! Invalid Search!"
+                return
+            }
+            String noActiveUser='';
+            return [recentUpdatedTopics: searchService.searchMethod(noActiveUser,params.searchAtAuth)]
 
-        [recentUpdatedTopics: updatedTopics]
+        }
+
 
 
     }

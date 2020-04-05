@@ -6,83 +6,83 @@ import grails.gorm.transactions.Transactional
 class SearchService {
 
     def searchMethod(String activeUsername, String searchString) {
-       // searchString='google'
-        User activeUser=User.findByUsername(activeUsername)
-        String newSearchString='%'+searchString+'%'
-        List finalResource=[]
+        // searchString='google'
+        User activeUser = User.findByUsername(activeUsername)
+        String newSearchString = '%' + searchString + '%'
+        List finalResource = []
 
 
-        if(!activeUser){//auth
-            println "outsideeeeeeeee"
-            List foundTopic=Topics.findAllByNameIlikeAndVisibility(newSearchString,'Public')
-            if(foundTopic){//search topic
-                finalResource=Resource.findAllByTopicsInList(foundTopic)
+        if (!activeUser) {//auth
+
+            List foundTopic = Topics.findAllByNameIlikeAndVisibility(newSearchString, 'Public')
+            if (foundTopic) {//search topic
+                finalResource = Resource.findAllByTopicsInList(foundTopic)
                 return finalResource
             }
 
-            List foundUser=User.findAllByUsernameIlike(newSearchString)
-            if(foundUser){
-               List publicTopics=Topics.findAllByVisibility('Public')
-                if(publicTopics){
-                    finalResource=Resource.createCriteria().list(){
-                        inList('user',foundUser)
-                        inList('topics',publicTopics)
+            List foundUser = User.findAllByUsernameIlike(newSearchString)
+            if (foundUser) {
+                List publicTopics = Topics.findAllByVisibility('Public')
+                if (publicTopics) {
+                    finalResource = Resource.createCriteria().list() {
+                        inList('user', foundUser)
+                        inList('topics', publicTopics)
                     }
                     return finalResource
 
                 }
             }//if
-            List publicTopics=Topics.findAllByVisibility('Public')
-            if(publicTopics){//search desc
-               List foundPostDescription=Resource.createCriteria().list(){
-                    inList('topics',publicTopics)
-                    ilike('name',newSearchString)
+            List publicTopics = Topics.findAllByVisibility('Public')
+            if (publicTopics) {//search desc
+                List foundPostDescription = Resource.createCriteria().list() {
+                    inList('topics', publicTopics)
+                    ilike('name', newSearchString)
                 }
-               return foundPostDescription
+                return foundPostDescription
             }
-        }else{
-            println "hhhhhhhhhhhhhhhhhreeeeeeeee"
+        } else {
 
-//            User activeUser=User.findByUsername(session.user)
-            if(activeUser.admin && !searchString){
-                finalResource=Resource.list();
+
+            if (activeUser.admin && !searchString) {
+                finalResource = Resource.list();
                 return finalResource
 
-            }else{
+            } else {
 
-               List SubscribedTopicsByUser=Subscription.findAllByUser(activeUser).topics.name
-               List finaltopics=Topics.createCriteria().list(){
-                    ilike('name',newSearchString)
-                    or{
-                        inList('name',SubscribedTopicsByUser)
-                        eq('visibility',Visibility.valueOf('Public'))
+                List SubscribedTopicsByUser = Subscription.findAllByUser(activeUser).topics.name
+                List finaltopics = Topics.createCriteria().list() {
+                    ilike('name', newSearchString)
+                    or {
+                        inList('name', SubscribedTopicsByUser)
+                        eq('visibility', Visibility.valueOf('Public'))
                     }
                 }
-                if(finaltopics){finalResource=Resource.findAllByTopicsInList(finaltopics)
+                if (finaltopics) {
+                    finalResource = Resource.findAllByTopicsInList(finaltopics)
 
                     return finalResource
 
-                }
-                else{
-                    List allSimilarUser=User.findAllByUsernameIlike(newSearchString)
-                    if(allSimilarUser){
-                        List allTopic=Topics.createCriteria().list(){
-                            inList('user',allSimilarUser)
-                            or{ eq('visibility',Visibility.valueOf('Public'))
-                                inList('name',SubscribedTopicsByUser)
+                } else {
+                    List allSimilarUser = User.findAllByUsernameIlike(newSearchString)
+                    if (allSimilarUser) {
+                        List allTopic = Topics.createCriteria().list() {
+                            inList('user', allSimilarUser)
+                            or {
+                                eq('visibility', Visibility.valueOf('Public'))
+                                inList('name', SubscribedTopicsByUser)
                             }
                         }
-                        if(allTopic){
-                            finalResource=Resource.findAllByTopicsInList(allTopic)
+                        if (allTopic) {
+                            finalResource = Resource.findAllByTopicsInList(allTopic)
                             return finalResource
                         }
 
-                    }else{
-                        List subbedTopics=Subscription.findAllByUser(activeUser)
-                       List  allPublicAndSubbedTopics=Topics.findAllByVisibility('Public')+subbedTopics?.topics
-                       List  allSimilarDescriptions=Resource.createCriteria().list(){
-                            ilike('name',newSearchString)
-                            inList('topics',allPublicAndSubbedTopics)
+                    } else {
+                        List subbedTopics = Subscription.findAllByUser(activeUser)
+                        List allPublicAndSubbedTopics = Topics.findAllByVisibility('Public') + subbedTopics?.topics
+                        List allSimilarDescriptions = Resource.createCriteria().list() {
+                            ilike('name', newSearchString)
+                            inList('topics', allPublicAndSubbedTopics)
 
                         }
                         return allSimilarDescriptions
@@ -90,11 +90,9 @@ class SearchService {
                 }
 
 
-
             }
 
         }
-
 
 
     }
