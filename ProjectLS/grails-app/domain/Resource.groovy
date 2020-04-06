@@ -21,5 +21,6 @@ class Resource {
 //        readingItem cascade: 'all-delete-orphan'
 //        resourceRating cascade: 'all-delete-orphan'
 
+
     }
 }

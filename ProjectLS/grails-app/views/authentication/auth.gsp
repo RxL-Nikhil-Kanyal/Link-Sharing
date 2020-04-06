@@ -81,8 +81,6 @@
                            </g:link>
 
                            </div></div>
-
-
                             <div class="row">&nbsp;</div>
                             <div class="row"><div class="col-8">${u?.user.email}</div>
 
@@ -96,27 +94,14 @@
                                                                                                        </g:link>
                                    </g:else>
 
-
-
                             </div> </div>
-
-
 
                         </div>  <%---right of pic end---%>
                     </div>
                     <hr>
-
                  </g:each>
-
                </div>    <%----div flow end------%>
-
-
-
-
-
             </div>
-
-
             <a href="#"></a>
                 </div>
       </div>
@@ -167,13 +152,6 @@
                                   <Div class="col-sm-4">
                                     <g:submitButton name="update" value="submit" class="form-control"/></span></Div>
                                    </Div>
-
-
-
-
-
-
-
 
                            </div>
 

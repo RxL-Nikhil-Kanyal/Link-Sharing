@@ -3,7 +3,6 @@ package projectls
 class ResourceController {
     ResourceService resourceService
 
-    def index() {}
 
     def deleteResource() {
 
@@ -38,7 +37,6 @@ class ResourceController {
     def downloadFile = {
 
         DocumentResources docRes = DocumentResources.findById(params.res)
-
         response.setHeader("Content-Type", "application/octet-stream;")
         response.setHeader("Content-Disposition", "attachment; filename=\"" + "document" + "\"")
         response.outputStream << docRes.doc

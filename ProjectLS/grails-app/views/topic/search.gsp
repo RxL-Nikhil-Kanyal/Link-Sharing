@@ -60,7 +60,7 @@
                                                               ${topicAndCountRow[1]?.name}</g:link></div>
                                                               <div class="col-5">
 
-                                                               <g:link action="userProfile" id="nameLink"  params="[otherUserId:topicAndCountRow[1]?.user?.id]">@${topicAndCountRow[1]?.user?.username}
+                                                               <g:link controller="demo" action="userProfile" id="nameLink"  params="[otherUserId:topicAndCountRow[1]?.user?.id]">@${topicAndCountRow[1]?.user?.username}
                                                                </g:link>
 
                                                               </div><%--c--%>

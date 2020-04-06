@@ -33,9 +33,7 @@ class DemoController {
         [activeUser : au, subbedTopics: subscribedTopics, listOfSubs: listSub,
          usersTopics: topicsByUser, trendingTopicsAndCount: topicsWithCount, userUnReadResource: UnReadResources]
 
-
     }
-
 
     def UsersA() {
         def persons = User.list()
@@ -163,15 +161,19 @@ class DemoController {
         List R = []
 
         List topicsByUser = Topics.findAllByUser(User.findByUsername(session.user))
-
+        List subsOfTopicCreatedByUser=[]
         //get from link
         if (au == User.get(params.otherUserId)) {
-            List subsOfTopicCreatedByUser = Subscription.createCriteria().list() {
+            if(topicsByUser){
+                 subsOfTopicCreatedByUser = Subscription.createCriteria().list() {
 
-                inList("topics", topicsByUser)
-                eq('user', User.findByUsername(session.user))
+                    inList("topics", topicsByUser)
+                    eq('user', User.findByUsername(session.user))
+
+                }
 
             }
+
             if (!subTopics.isEmpty()) {
                 R = Resource.createCriteria().list() {//posts
                     inList("topics", subTopics)
@@ -192,11 +194,7 @@ class DemoController {
                 eq('user', otherUser)
 
             }
-//            List subPublic = Subscription.createCriteria().list() {
-//                and {
-//                    inList("topics", ouPublicTopics)
-//                }
-//            }
+
             List subPublic = Subscription.createCriteria().list() {
                 and {
                     inList("topics",totalTopics )
@@ -272,14 +270,11 @@ class DemoController {
     def shareDocAction() {
         Topics t = Topics.findByName(params.docChosenTopic)
         User u = User.findByUsername(session.user)
-
-
         DocumentResources docResource = new DocumentResources(name: params.myDocField, user: u.id, topics: t.id)
 
         def file =request.getFile("docfile")
         byte[] doc = file.bytes
         docResource.doc=doc
-
 
         docResource.validate()
 

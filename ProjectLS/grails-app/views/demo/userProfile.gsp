@@ -201,7 +201,7 @@
                                                                                          <g:link controller="subscription" action="subscribeAction" params="[inviteTopicId:u?.topics?.id]">Subscribe</g:link>
                                                                                     </g:if>
                                                                                     <g:else>
-                                                                                          <g:link params="[inviteTopicId:u?.topics?.id]">Invite</g:link>
+                                                                                           <g:img dir="images" file="msg.jpg" style="background-color: white;border-radius: 5px;"  width="20" height="20" data-toggle="modal" data-target="#myModalinvite" />
                                                                                     </g:else>
                                                                                 </div>
 

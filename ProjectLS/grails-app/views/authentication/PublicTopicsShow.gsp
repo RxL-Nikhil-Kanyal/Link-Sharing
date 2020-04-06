@@ -35,7 +35,7 @@
                                <div class="col-7">${u?.user.username}</div>
                                <div class="col-5">${u?.topics.name}</div>
                             </div><hr>
-                            <div class="row"><div id="ellps" class="col-9">${u?.name}</div>
+                            <div class="row"><div class="col-9">${u?.name}</div>
 
                             <div class="col-3">
 

@@ -1,4 +1,5 @@
 package projectls
+import grails.converters.JSON
 
 class AuthenticationController {
     static defaultAction = "auth"
@@ -71,7 +72,6 @@ class AuthenticationController {
         }
 
         user.save(flush: true, failOnError: true)
-
          flash.message="User Created ${user.username}. Please Login"
         redirect(controller: 'Authentication', action: 'auth')
 
@@ -79,9 +79,7 @@ class AuthenticationController {
 
     def logout() {
 
-
         session.invalidate()
-
         redirect(controller: "Authentication", action: "auth")
         flash.message = "logged out successfully"
     }
@@ -102,9 +100,6 @@ class AuthenticationController {
             return [recentUpdatedTopics: searchService.searchMethod(noActiveUser,params.searchAtAuth)]
 
         }
-
-
-
     }
 
     def userImage() {
@@ -123,15 +118,13 @@ class AuthenticationController {
         if (user) {
             try {
                 sendMail {
-
                     to user.email
                     subject "Password change"
                     body 'Change Password here : http://localhost:9090/authentication/passwordChange?userId=' + user.id
                 }
-
-
             } catch (Exception e) {
                 flash.warning = "can not send Reset Link!"
+                return false
             }
             flash.message = "Reset Mail sent!"
             return true
@@ -140,12 +133,12 @@ class AuthenticationController {
             flash.warning = "User does not Exist!"
             return false
         }
-
-
     }
+
     def passwordChange(){
         render(view:"passwordChange",model: [userId:params.userId])
     }
+
     def changeUserPassword(){
 
         User user=User.get(params.userId)
@@ -153,6 +146,7 @@ class AuthenticationController {
         user.save(flush:true,failOnError: true)
         flash.message="password changed Successfully!"
         return true
+
 
     }
 

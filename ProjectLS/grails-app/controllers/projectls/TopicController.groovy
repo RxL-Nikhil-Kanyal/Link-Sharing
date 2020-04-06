@@ -65,7 +65,8 @@ class TopicController {
 
     def search() {
         User au = User.findByUsername(session.user)
-        List subscribedTopics = Subscription.findAllByUser(User.get(au.id)).topics
+        List subscribedTopics =[]
+        subscribedTopics=Subscription.findAllByUser(User.get(au.id)).topics
         def topicsWithCount = topicsService.trendingTopics();
         if (!params.search && !au.admin) {
             render "Cannot search Empty string! Invalid Search!"
@@ -136,14 +137,14 @@ class TopicController {
                     body 'First Login To your Link sharing Account and then Click the Link here : ' +
                             'http://localhost:9090/topic/subscribeThroughLink?userEmail=' + invitedUser.email + '&topicName=' + params.selectedTopicName
                 }
-                flash.message = "Invite Mail sent!"
-                return true
+
 
             } catch (Exception e) {
                 flash.warning = "can not send invite Link!"
                 return false
             }
-
+            flash.message = "Invite Mail sent!"
+            return true
 
         } else {
             flash.warning = "User does not Exist!"

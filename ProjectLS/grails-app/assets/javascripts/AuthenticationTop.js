@@ -28,6 +28,7 @@ $.ajax({
     type:"POST",
     data:{"userId":$("#hiddenUserId").val(),"newPassword":$("#changePasswordId").val()},
     success:function(){
+    alert("Password changed!");
     window.location.replace('/authentication/auth');
     },
     error:function(){

@@ -76,11 +76,6 @@
                                             </div>
 
                                       </div>
-
-
-
-
-
                           </div>
                           <div class="modal-footer">
                           <div class="col-5">
@@ -97,15 +92,9 @@
                       </div>
                     </div>
                     <!--end--->
-
-
-
-
         </span>
 
         <span class="col">
-
-
 
                          <!-- Trigger the modal with a link -->
 
@@ -151,12 +140,6 @@
 
                                            </table>
 
-
-
-
-
-
-
                                </div>
                                <div class="modal-footer">
 
@@ -174,15 +157,9 @@
                          </div>
                          <!--end--->
 
-
-
-
         </span>
 
         <span class="col">
-
-
-
 
          <!-- Trigger the modal with a invite -->
 
@@ -314,7 +291,7 @@
 
         <div class="btn-group dropdown">
           <button type="button" class="btn btn-secondary">
-
+                <g:link action="userProfile" id="nameLink"  params="[otherUserId:activeUser.id]">
                 <span>  <g:if test="${activeUser.photo!=null}">
 
                                <img height="50" style="margin-top: 10px;margin-left: 0px,margin-bottom: 10px;margin-right: 10px  "  width="50" src="${createLink(controller: 'demo', action: 'fetchPersonImage', params: ['userId':activeUser.id])}"/>
@@ -322,8 +299,8 @@
                             <g:else>
                                 <g:img dir="images" file="defaultpic.png" width="50" height="50"/>
                             </g:else></span>
-                <span id="dp">${activeUser.username}</span>
-
+                <span id="dp"><font color="white">${activeUser.username}</font></span>
+                </g:link>
           </button>
           <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="sr-only">Toggle Dropdown</span>

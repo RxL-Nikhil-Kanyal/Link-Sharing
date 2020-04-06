@@ -50,13 +50,25 @@ class SearchService {
             } else {
 
                 List SubscribedTopicsByUser = Subscription.findAllByUser(activeUser).topics.name
-                List finaltopics = Topics.createCriteria().list() {
-                    ilike('name', newSearchString)
-                    or {
-                        inList('name', SubscribedTopicsByUser)
-                        eq('visibility', Visibility.valueOf('Public'))
+                List finaltopics=[]
+                if(SubscribedTopicsByUser) {
+                    finaltopics = Topics.createCriteria().list() {
+                        ilike('name', newSearchString)
+                        or {
+                            inList('name', SubscribedTopicsByUser)
+                            eq('visibility', Visibility.valueOf('Public'))
+                        }
                     }
+                }else{
+                    finaltopics = Topics.createCriteria().list() {
+                        ilike('name', newSearchString)
+                        or {
+                            eq('visibility', Visibility.valueOf('Public'))
+                        }
+                    }
+
                 }
+
                 if (finaltopics) {
                     finalResource = Resource.findAllByTopicsInList(finaltopics)
 
@@ -64,7 +76,7 @@ class SearchService {
 
                 } else {
                     List allSimilarUser = User.findAllByUsernameIlike(newSearchString)
-                    if (allSimilarUser) {
+                    if (allSimilarUser && SubscribedTopicsByUser) {//changed
                         List allTopic = Topics.createCriteria().list() {
                             inList('user', allSimilarUser)
                             or {
