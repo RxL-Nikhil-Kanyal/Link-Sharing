@@ -1,14 +1,9 @@
 <html>
 <head>
 <title>dashboard</title>
-
-
-
 </head>
 <body>
 <g:render template="dashboardTop" />
-
-
 
 <div class="container">
 <div class="row">
@@ -120,23 +115,14 @@
                                                                                  </div>
                                                                              </div>
                                                                              <div class="row">
-
                                                                                    <div class="col-6">
-
                                                                                    </div>
-
                                                                                    <div class="col-6">
-
                                                                                    </div>
                                                                              </div>
-
                                                                         </div>
-
-                                                                </div><hr>
-
+                                                                </div>
                                                            </g:each>
-
-
                                                         </div></div>
 
                                                      </g:else>
@@ -215,30 +201,16 @@
                                                                              <div class="row">
 
                                                                                    <div class="col-6">
-
-
-
                                                                                    </div>
-
                                                                                    <div class="col-6">
-
                                                                                    </div>
                                                                              </div>
-
                                                                         </div>
-
                                                                 </div><hr>
-
                                                            </g:each>
-
-
                                                         </div></div>
-
                                                      </g:else>
                                                   </div>
-
-
-
                                                </div>
                                          </div>
                                      </div><%--end of 4 row --%>
@@ -254,28 +226,23 @@
 
     <div class="col-6">            <%--start of right side of container--%>
 
-                        <div class="row"> &nbsp;
-                        </div>
+        <div class="row"> &nbsp;
+        </div>
 
-   <div class="row">
-                <div class="card shadow p-0 bg-white rounded w-100">
-                     <div class="card-header">
-                                Posts
-                      </div>
-                      <div class="card-body">
-                            <%-----------------%>
+        <div class="row">
+            <div class="card" style="width:100%; border-radius: 10px;border: 3px solid outset;">
+            <table id="postsDataTable" class="table  table-bordered table-hover "  style="width:100% ;border-radius: 20px;">
+                <div class="card" >
 
-                        <div class="container">
+                         <thead>
+                            <tr><th style="text-align:center;" class="card-header"><font size="5">Posts</font></th></tr>
+                        </thead>
 
-                        <g:if test="${!DisplayRes.isEmpty()}">
+                    <tbody >
 
                              <%----display resource start---%>
-
-
-                                      <div id="flow2">
-
                                          <g:each in="${DisplayRes}" var="u" status="i">
-
+                                            <tr><td>
                                             <div class="row">
                                                 <div class="col-4">
 
@@ -335,30 +302,19 @@
                                                 </div>  <%---right of pic end---%>
                                             </div>
                                             <hr>
-
+                                            </td></tr>
                                          </g:each>
-
-                                       </div>    <%----div flow end------%>
-
-
+                                         <%----div flow end------%>
                               <%----display resource end---%>
+                    </tbody>
+                 </div>
 
+            </table>
+            </div>
+        </div><%--end of 2 row --%>
 
-                        </g:if>
-                        <g:else>
-                             No Posts yet. Users Can Create a New Topic or Subscribe to One.
-                        </g:else>
-
-
-                        </div>
-
-                            <%------------------%>
-                      </div>
-                </div>
-            </div><%--end of 2 row --%>
-                     <div class="row">
-
-                     </div><%--end of 3 row --%>
+         <div class="row">
+         </div><%--end of 3 row --%>
 
     </div>    <%--end of right side of container--%>
 
@@ -366,6 +322,15 @@
 
 </div>
 
+
+<script>
+
+$("#postsDataTable").DataTable({
+"scrollY": "710px",
+  "scrollCollapse": true
+});
+
+</script>
 
 </body>
 </html>

@@ -53,7 +53,7 @@
                                        Resource: <a href="${u?.URl}">Go To Link</a>
                                    </g:if>
                                    <g:else>
-                                        Resource:   <g:link controller="resource" action="downloadFile" params="[res:u?.id]"> Download
+                                        Resource:   <g:link controller="authentication" action="downloadFile" params="[res:u?.id]"> Download
                                                      </g:link>
                                    </g:else>
 

@@ -26,14 +26,6 @@
 <g:render template="top" />
 
      <div class="bodyContent" id="bodyContent">
-
-   <g:if test="${flash.message}">
-          <div id ="animateDiv" class="message" role="status" style="font-size: medium;color: white;background-color: green;font-weight: bold;">${flash.message}</div>
-      </g:if>
-      <g:if test="${flash.warning}">
-          <div id ="animateDiv"  class="message_error" style="font-size: medium;color: white;background-color: red;font-weight: bold;">${flash.warning}</div>
-      </g:if>
-
      </div>
 
 <div class="container">
@@ -90,7 +82,7 @@
                                        Resource: <a href="${u?.URl}">Go To Link</a>
                                    </g:if>
                                    <g:else>
-                                        Resource:   <g:link controller="Demo" action="downloadFile" params="[res:u?.id]"> Download
+                                        Resource:   <g:link controller="authentication" action="downloadFile" params="[res:u?.id]"> Download
                                                                                                        </g:link>
                                    </g:else>
 
@@ -125,7 +117,7 @@
                               </Div>
                               <Div class="col-sm-6 ">
                               <g:field type="text" name="username" value=""
-                              required="true"  class="form-control"/>
+                              required="true"  class="form-control" style="width:100%;"/>
                               </Div>
                            </Div>
 
@@ -138,19 +130,16 @@
                                    </Div>
                                    <Div class="col-sm-6">
                                        <g:field type="Password" name="passwd" value=""
-                                       required="true" class="form-control"/></Div>
+                                       required="true" class="form-control" style="width:100%;"/></Div>
                                     </Div>
                            </Div>
-
                            <Div class="row">
-                                <Div class="col-sm-5">
-                                           <a href="" id="forgotPasswordId" data-toggle="modal" data-target="#forgotPasswordModalId">forgot Password</a>
+                                <Div class="col-sm-6">
+                                           <a href="" id="forgotPasswordId" data-toggle="modal" data-target="#forgotPasswordModalId">Forgot Password</a>
                                  </Div>
-                                 <Div class="col-sm-2">
 
-                                 </Div>
-                                  <Div class="col-sm-4">
-                                    <g:submitButton name="update" value="submit" class="form-control"/></span></Div>
+                                  <Div class="col-sm-6 " >
+                                    <g:submitButton name="update" value="Submit" class="form-control" style="width:95%;Background-color:#D3D3D3;"/></Div>
                                    </Div>
 
                            </div>
@@ -314,11 +303,9 @@
                                         <Div class="col-sm-6">
                                                                <%--empty--%>
                                          </Div>
-                                         <Div class="col-sm-1">
-                                                                <%--empty--%>
-                                         </Div>
-                                          <Div class="col-sm-5">
-                                            <g:submitButton name="update" value="submit" class="form-control"/></span></Div>
+
+                                          <Div class="col-sm-6">
+                                            <g:submitButton name="update" value="Submit" class="form-control" style="Background-color:#D3D3D3;"/></span></Div>
                                            </Div>
 
 
@@ -346,7 +333,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <h5 class="modal-title">Forgot Password</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

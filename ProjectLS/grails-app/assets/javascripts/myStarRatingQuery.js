@@ -11,19 +11,20 @@ $(".my-rating").starRating({
        initialRating: parseFloat($("#rate").val()),
           disableAfterRate: false,
     callback: function(currentRating, $el){
-        alert(currentRating);
         $.ajax({
             url:"/resourceRating/createOrUpdateStarRating",
             type:"POST",
             data:{"resourceId":$("#hiddenResourceId").val(),"newResourceRating":currentRating},
-            success:function(){
-
-            },
-            error:function(){
-            alert("An Error Occurred!");
-
+            success:function(data){
+            if(data.success==true){
+               $("#successMessageId").text(data.message);
+               $("#successMessageId").show();
+               setTimeout(function() {
+                  $("#successMessageId").hide("slow").empty();
+                }, 2500);
             }
 
+            },
         });
     }
 });

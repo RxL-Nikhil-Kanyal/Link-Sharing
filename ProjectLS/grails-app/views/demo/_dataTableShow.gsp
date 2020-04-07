@@ -12,7 +12,6 @@
 
         <thead>
             <tr>
-
            <th><B>S.no</th>
               <th><B>ID</th>
              <th> <B>FIRST NAME</th>
@@ -21,38 +20,29 @@
              <th><B>EMAIL</th>
              <th><B>ACTIVE STATUS</th>
              <th><B>ACTIVATE/DEACTIVATE</th>
-
-
-
                 </tr>
-
         </thead>
-
         <tbody>
             <g:each in="${usr}" var="u" status="i">
-
                 <tr>
                 <td> <h5 id="idtable">${i+1}.</h5></td>
                 <td> <h5 id="idtable">${u.id}</h5></td>
                 <td> <h5 id="idtable">${u.firstName}</h5></td>
                 <td> <h5 id="idtable">${u.firstName}</h5></td>
-                <td> <h5 id="idtable">${u.username}.</h5></td>
+                <td> <h5 id="idtable">${u.username}</h5></td>
                 <td> <h5 id="idtable">${u.email}</h5></td>
                 <td> <h5 id="idtable">${u.active}</h5></td>
-                <td> <h5 id="idtable"><g:link action="changeUserActiveStatus" params="[val:u.id]">CLICK TO CHANGE STATUS</g:link></h5></td>
+                <td> <h5 id="idtable"><g:link action="changeUserActiveStatus" params="[val:u.id]">
+                <g:if test="${u.active}">Deactivate</g:if>
+                <g:else>Activate</g:else>
+                </g:link></h5></td>
                 </tr>
-
-
-
             </g:each>
 
         </tbody>
     </table>
 
-
 </div>
-
-
 
 <script>
 

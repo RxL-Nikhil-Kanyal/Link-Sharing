@@ -15,7 +15,6 @@
 </head>
 <body id="grad" >
 
-
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark " style="height: 100px;">
 
 <div class="container">
@@ -41,6 +40,19 @@
   </div>
 </nav>
 
+<div style="display: none;" id="successMessageId" class="alert alert-success" role="alert">
+  Success
+</div>
+<div style="display: none;" id="errorMessageId" class="alert alert-danger" role="alert">
+  Danger
+</div>
+
+   <g:if test="${flash.message}">
+          <div id ="animateDiv" class="alert alert-success">${flash.message}</div>
+      </g:if>
+      <g:if test="${flash.warning}">
+          <div id ="animateDiv"  class="alert alert-success">${flash.warning}</div>
+      </g:if>
 
 
 </body>

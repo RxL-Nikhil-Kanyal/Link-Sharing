@@ -7,9 +7,9 @@ class ReadingItemController {
    def userReadPost(){
 
       if(readingItemService.markAsReadByUserMethod(session.user,params.resourceId)){
-         return [success:true] as JSON
+         render ([success:true,message:"Marked as Read!"] as JSON)
       }else{
-         return [success:false] as JSON
+         render( [success:false,message: "Error!"] as JSON)
       }
 
    }

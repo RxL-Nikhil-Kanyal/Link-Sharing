@@ -1,5 +1,5 @@
 package projectls
-
+import grails.converters.JSON
 
 class DemoController {
     TopicsService topicsService
@@ -154,7 +154,6 @@ class DemoController {
 
     def userProfile() {
 
-
         User au = User.findByUsername(session.user)
         List subscribed = Subscription.findAllByUser(au)
         List subTopics = subscribed.topics
@@ -169,14 +168,11 @@ class DemoController {
 
                     inList("topics", topicsByUser)
                     eq('user', User.findByUsername(session.user))
-
                 }
-
             }
-
             if (!subTopics.isEmpty()) {
                 R = Resource.createCriteria().list() {//posts
-                    inList("topics", subTopics)
+                    eq('user',au)
                 }
             }
 
@@ -187,48 +183,44 @@ class DemoController {
         } else {
             User otherUser = User.get(params.otherUserId)
             List ouPublicTopics = Topics?.findAllByVisibilityAndUser("Public", otherUser)
-            List totalTopics = topicsByUser + ouPublicTopics
+            List allPublicTopics=Topics.findAllByVisibility("Public");
+            List totalTopics = topicsByUser + ouPublicTopics +allPublicTopics
+            totalTopics=totalTopics.unique()
+
 
             List subsOfTopicCreatedByOtherUser = Subscription.createCriteria().list() {
                 inList("topics", ouPublicTopics)
                 eq('user', otherUser)
 
             }
-
             List subPublic = Subscription.createCriteria().list() {
                 and {
                     inList("topics",totalTopics )
                     eq('user',otherUser)
-
                 }
             }
-
             if (!subPublic?.topics?.isEmpty()) { ///posts
                 R = Resource.createCriteria().list() {
                     inList("topics", subPublic?.topics)
+                    eq('user',otherUser)
 
                 }
-
             }
             return [activeUser        : au, DisplayRes: R, subbedTopics: subTopics, usersTopics: topicsByUser,
                     subsOfTopicByOUser: subsOfTopicCreatedByOtherUser, ou: otherUser, ouSubs: subPublic,
                     ouTopic           : ouPublicTopics]
-
         }
-
     }
 
     def changeUserActiveStatus() {
         User otherUser = User.get(params.val)
         if (otherUser.active) {
-
             otherUser.active = 0
         } else {
             otherUser.active = 1
         }
         otherUser.save(flush: true, failOnError: true)
-        println "change active called"
-        redirect(action: "UsersA")
+        redirect (action: "UsersA")
     }
 
     def fetchPersonImage() {
@@ -243,26 +235,27 @@ class DemoController {
 
     def ShareLinkAction() {
 
-        Topics t = Topics.findByName(params.linkTopicName)
-        User u = User.findByUsername(session.user)
+        println "xxxxxxxxxxxxxxxxxxxxxxxx"+params.linkTopicName
+        Topics topic = Topics.findByName(params.linkTopicName)
+        User user = User.findByUsername(session.user)
 
 
         LinkResources linkResource = new LinkResources(name: params.linkDesc, URl: params.LinkTopicUrl,
-                user: u.id, topics: t.id)
+                user: user.id, topics: topic.id)
         linkResource.validate()
 
         if (linkResource.hasErrors()) {
             linkResource.errors.allErrors.each {
                 println it
             }
-            flash.warning = "Error! "
-            return
+
+            render ([success: false,message: "An Error Occurred!"] as JSON)
         } else {
             linkResource.save(flush: true, failOnError: true)
-            ReadingItem readingItem = new ReadingItem(isRead: 'true', user: u, resource: linkResource)
+            ReadingItem readingItem = new ReadingItem(isRead: 'true', user: user, resource: linkResource)
             readingItem.save(flush: true, failOnError: true)
-            flash.message = "Added Resource Successfully"
-            return true
+
+            render ([success: true,message: "Resource Added to ${topic.name}"] as JSON)
         }
 
     }
@@ -297,20 +290,18 @@ class DemoController {
     def unsubscribeAction() {
 
         Topics topic = Topics.findById(params.topicinfo)
+        User user = User.findByUsername(session.user)
+        Subscription checksub = Subscription.findByTopicsAndUser(topic, user)
 
-        println "this is the topic here: " + topic
-        User u = User.findByUsername(session.user)
-        Subscription checksub = Subscription.findByTopicsAndUser(topic, u)
+        if (user.id == topic.user.id) {
 
-        if (u.id == topic.user.id) {
-
-            flash.warning = "can not UnSubcribe your own Topic!"
+            flash.warning = "Can not UnSubscribe your own Topic!"
 
             redirect(action: "dashboard")
 
         } else {
             checksub.delete(flush: true, failOnError: true)
-            flash.message = "Unsubscibed "
+            flash.message = "UnSubscribed to ${topic.name}"
             redirect(action: "dashboard")
         }
 
@@ -326,8 +317,6 @@ class DemoController {
             topic.visibility = params.selectVisib;
             topic.save(flush: true, failOnError: true)
             [success: true, "message": "Visibility Changed !"]
-
-
         }
         [success: false, "message": "Permission Denied! Topics Created By Other!"]
     }

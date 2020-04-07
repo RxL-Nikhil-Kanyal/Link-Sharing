@@ -1,4 +1,5 @@
 package projectls
+import grails.converters.JSON
 
 class SubscriptionController {
 
@@ -30,8 +31,10 @@ class SubscriptionController {
     def changeSeriousnessDash() {
 
         subService.changeSeriousnessMethod(params.changedSeriousness, params.subscriptionId);
-        flash.message = "Changes Successful!"
-        return true
+        Subscription subscription=Subscription.get(params.subscriptionId)
+
+        String successMessage = "Changed Seriousness of ${subscription.topics.name} to ${params.changedSeriousness} "
+        render ([success:true,message:successMessage] as JSON)
 
     }
 

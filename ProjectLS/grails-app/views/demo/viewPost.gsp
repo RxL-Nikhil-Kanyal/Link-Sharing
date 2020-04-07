@@ -9,8 +9,6 @@
 <asset:javascript src="jquery.star-rating-svg.js"/>
 <asset:stylesheet src="star-rating-svg.css"/>
 
-
-
 <div class="container">
 <div class="row">
     <div class="col-7">   <%--start of left side of container--%>
@@ -24,8 +22,6 @@
                                                <font size="3" color="red">Resource Does not Exist! Try Other Resources</font>
                                    </g:if>
                                    <g:else>
-
-
                                     <div class="row">
                                         <div class="col-2">
                                              <g:if test="${selectedResoftopic?.user.photo!=null}">
@@ -144,7 +140,7 @@
                                                                               <span aria-hidden="true">&times;</span>
                                                                             </button>
                                                                           </div>
-                                                                            <form class="form-group">
+                                                                            <form class="form-group" id="editResourceFormId">
 
                                                                               <div class="modal-body" style="border:1px outset;">
 
@@ -161,14 +157,12 @@
 
 
                                                                                           <input id="hiddenResourceId" value="${selectedResoftopic?.id}" type="hidden"/>
-                                                                                         <textarea maxlength="4000" id="editResDesc" rows="5" cols="50" class="form-control" required></textarea>
-
+                                                                                         <textarea maxlength="4000" id="editResDesc" rows="5" cols="50" class="form-control" required="true"></textarea>
                                                                                  </div>
-
                                                                               </div>
                                                                                   <div class="modal-footer">
                                                                                     <button type="button" class="btn btn-secondary " data-dismiss="modal">Close</button>
-                                                                                    <button id="editSaveButtonId" type="button" class="btn btn-primary ">Save changes</button>
+                                                                                    <Input type="submit" value="Save changes" id="editSaveButtonId" class="btn btn-primary "/>
                                                                                   </div>
                                                                             </form>
 

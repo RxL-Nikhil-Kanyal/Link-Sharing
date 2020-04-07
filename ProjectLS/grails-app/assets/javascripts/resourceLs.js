@@ -9,54 +9,70 @@ $.ajax({
     success:function(){
     location.reload();
     }
-
 });
 });
 });
 
 //create link Resource
 $(document).ready(function(){
-$("#shareLinkButtonId").click(function(){
+$("#shareLinkFormId").on('submit',function(event){
+event.preventDefault();
 $.ajax({
     url:"/demo/ShareLinkAction",
     type:"POST",
-    data:{"LinkTopicUrl":$("#linkTopicUrlId").val(),"linkDesc":$("#linkDescId").val(),"linkTopicName":$("#linkTopicName").val()},
-    success:function(){
-    location.reload();
+    data:{"LinkTopicUrl":$("#linkTopicUrlId").val(),
+    "linkDesc":$("#linkDescId").val(),"linkTopicName":$("#linkTopicName").val()},
+    success:function(data){
+     $("#myModallink").modal("hide");
+     $("#myModallink").find('form').trigger('reset');
+    if(data.success==true){
+
+    $("#successMessageId").text(data.message);
+        $("#successMessageId").show();
+        setTimeout(function() {
+          $("#successMessageId").hide("slow").empty();
+        }, 2500);
+    }else{
+      $("#errorMessageId").text(data.message);
+      $("#errorMessageId").show();
+       setTimeout(function() {
+      $("#errorMessageId").hide("slow").empty();
+       }, 2500);
+    }
     }
     });
 });
 });
 //changeResourceDescription
 $(document).ready(function(){
-$("#editSaveButtonId").click(function(){
-if($("#editResDesc").val()=="")
-{
-     alert("Description cannot be empty!");
-}else{
-
+$("#editResourceFormId").on('submit',function(event){
+event.preventDefault();
 $.ajax({
     url:"/resource/updateResource",
     type:"POST",
     data:{"resourceId":$("#hiddenResourceId").val(),"newDescription":$("#editResDesc").val()},
-    success:function(){
-       location.reload();
-    },
-    error:function(){
-    alert("An Error Occurred!");
+    success:function(data){
+     $("#EditResourceModal").modal("hide");
+     $("#EditResourceModal").find('form').trigger('reset');
+    if(data.success==true){
 
+    $("#successMessageId").text(data.message);
+        $("#successMessageId").show();
+        setTimeout(function() {
+          $("#successMessageId").hide("slow").empty();
+        }, 2500);
+    }else{
+      $("#errorMessageId").text(data.message);
+      $("#errorMessageId").show();
+       setTimeout(function() {
+      $("#errorMessageId").hide("slow").empty();
+       }, 2500);
     }
+    }
+    });
 
 });
-
-}
-
 });
-
-});
-
-
-
 
 //isRead update
 $(document).ready(function(){
@@ -70,13 +86,20 @@ $.ajax({
     data:{"resourceId":$(this).attr("id")},
     success:function(data){
     if(data.success){
-        alert("Added to Read Posts!")
+        $("#successMessageId").text(data.message);
+        $("#successMessageId").show();
+        setTimeout(function() {
+          $("#successMessageId").hide("slow").empty();
+        }, 2500);
     }
 
     },
     error:function(){
-    alert("An Error Occurred!");
-    location.reload();
+       $("#errorMessageId").text(data.message);
+       $("#errorMessageId").show();
+        setTimeout(function() {
+        $("#errorMessageId").hide("slow").empty();
+        }, 2500);
     }
 
 });
@@ -89,17 +112,23 @@ $.ajax({
     url:"/topic/deleteTopicAjax",
     type:"POST",
     data:{"topicId":$(this).next().val()},
-    success:function(){
-        location.reload();
+    success:function(data){
+       if(data.success==true){
+         $("#successMessageId").text(data.message);
+          $("#successMessageId").show();
+           setTimeout(function() {
+           $("#successMessageId").hide("slow").empty();
+           }, 2500);
+       }else{
+         $("#errorMessageId").text(data.message);
+         $("#errorMessageId").show();
+          setTimeout(function() {
+          $("#errorMessageId").hide("slow").empty();
+          }, 2500);
+
+
+       }
     },
-    error:function(){
-    alert("An Error Occurred!");
-    location.reload();
-    }
-
-
 });
 });
-
-
 });

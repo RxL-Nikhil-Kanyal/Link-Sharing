@@ -9,8 +9,6 @@
 <body>
 
 <g:render template="/demo/dashboardTop" />
-
-
 <div class="container">
 <div class="row">
 
@@ -70,47 +68,39 @@
                                                                <div class="col-8">
                                                                     <g:if test="${topicAndCountRow[1].visibility.value}">
                                                                            <g:if test="${subbedTopics.name.contains(topicAndCountRow[1].name)}">
-                                                                              <g:link action="unsubscribeAction" params="[topicinfo:topicAndCountRow[1]?.id]">UnSubscribe</g:link>
-                                                                            </g:if>
-                                                                              <g:else>
-                                                                               <font color="gray">Private</font>
-                                                                              </g:else>
+                                                                              <g:link controller="demo" action="unsubscribeAction" params="[topicinfo:topicAndCountRow[1]?.id]">UnSubscribe</g:link>
+                                                                           </g:if>
+                                                                           <g:else>
+                                                                                    <g:if test="${activeUser.admin}">
+                                                                                    <g:link controller="Subscription" action="subscribeTopic" params="[topicId:topicAndCountRow[1]?.id]">Subscribe</g:link>
+
+                                                                                    </g:if>
+                                                                                    <g:else>
+                                                                                        <font color="gray">Private</font>
+
+                                                                                    </g:else>
+
+                                                                            </g:else>
                                                                     </g:if>
                                                                    <g:else>
                                                                       <g:if test="${subbedTopics.name.contains(topicAndCountRow[1].name)}">
-                                                                            <g:link action="unsubscribeAction" params="[topicinfo:topicAndCountRow[1]?.id]">UnSubscribe</g:link>
+                                                                            <g:link controller="demo" action="unsubscribeAction" params="[topicinfo:topicAndCountRow[1]?.id]">UnSubscribe</g:link>
                                                                        </g:if>
                                                                        <g:else>
                                                                              <g:link controller="Subscription" action="subscribeTopic" params="[topicId:topicAndCountRow[1]?.id]">Subscribe</g:link>
                                                                        </g:else>
-
-
                                                                    </g:else>
-
                                                                </div>
-
-
                                                                <div class="col-4">
                                                                    <font size="2" color="gray"> Subs: ${topicAndCountRow[1]?.subscription?.size()}</font>
                                                                   <font size="2" color="gray"> Posts: ${topicAndCountRow[1]?.resource.size()}</font>
 
-
-
                                                                 </div>
                                                             </div>
                                                             <div class="row">
-
-                                                                  <div class="col-6">
-
-
-
-
+                                                                 <div class="col-6">
                                                                   </div>
-
                                                                   <div class="col-6">
-
-
-
                                                                   </div>
                                                             </div>
 
@@ -178,10 +168,10 @@
                                                               <div class="row">
                                                                   <div class="col-8"></div>
                                                                   <div class="col-4">
-                                                                   <g:link controller="authentication" action="PublicTopicsShow" params="[topicRelated:u[1]?.id]">
-                                                                                                   full Post
-                                                                                             </g:link>
 
+                                                                   <g:link controller="Demo" action="viewPost" params="[topicId:u[1]?.topics?.id,userId:u[1]?.user?.id]">
+                                                                                               <font size="2">Full Post</font>
+                                                                                             </g:link>
                                                                   </div>
                                                               </div>
                                                            </div>
@@ -195,123 +185,95 @@
                                       </div>
                                 </div>
                             </div><%--end of 2 row --%>
-
-
-
-
-
                    </div>      <%--e--%>
 
        </div>      <%--e--%>
-
     </div>  <%--end of left side of container--%>
-
     <div class="col-7">            <%--start of right side of container--%>
+        <div class="row"> &nbsp;
+        </div>
+           <div class="col">
+                <div class="card" style="Border-radius:10px;">
+                   <table id="searchTableId">
 
-                        <div class="row"> &nbsp;
-                        </div>
+                     <thead ><tr><th class="card-header" style="text-align:center;size:4;"> Search Results</th></tr></thead>
 
-                                   <div class="col">
-                                        <div class="card">
-                                             <div class="card-header">
-                                                        Search Results
-                                              </div>
-                                              <div class="card-body">
+                                        <%-----------------%>
 
-                                                                    <%-----------------%>
+                            <tbody>
+                                      <g:each in="${allResource}" var="u" status="i">
+                                          <tr><td>
+                                             <div class="row">
+                                                 <div class="col-4">
+                                                 <g:if test="${u?.topics.user.photo!=null}">
 
-                                                    <div class="container">
-
-                                                    <g:if test="${!allResource?.isEmpty()}">
-
-                                                         <%----display resource start---%>
-
-
-                                                                  <div id="flow2">
-
-                                                                     <g:each in="${allResource}" var="u" status="i">
-
-                                                                        <div class="row">
-                                                                            <div class="col-4">
-
-                                                                            <g:if test="${u?.topics.user.photo!=null}">
-
-                                                                                  <img height="90" style="margin-top: 20px;margin-left: 15px "  width="90"
-                                                                                  src="${createLink(controller: 'demo', action: 'fetchPersonImage', params: ['userId':u?.topics.user.id])}"/>
-                                                                               </g:if>
-                                                                               <g:else>
-                                                                                   <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
-                                                                             </g:else>
-
-                                                                            </div>
-                                                                            <div class="col-8"><%---right of pic---%>
-
-                                                                               <div class="row">
-                                                                                   <div class="col-7">Topic: ${u?.topics.name}</div>
-                                                                                   <div class="col-5">By: ${u?.user.username}</div>
-                                                                                </div><hr>
-                                                                                <div class="row"><div class="col-12">${u?.name}</div>
-
-                                                                               </div>
-
-
-                                                                                <div class="row">&nbsp;</div>
-                                                                                <div class="row">
-                                                                                <div class="col-4">
-
-                                                                                        <g:img dir="images" file="mailIcon.jpg" width="20" height="20" title="${u?.user.email}"/>
-
-                                                                                </div>
-
-                                                                                <div class="col-8">
-
-                                                                                        <g:if test="${u?.class==LinkResources}">
-                                                                                        <font size="2"> <a href="${u?.URl}">Link</a></font>
-                                                                                       </g:if>
-                                                                                       <g:else>
-                                                                                         <font size="2"> <g:link controller="resource" action="downloadFile" params="[res:u?.id]"> Download
-                                                                                                                                                 </g:link></font>
-                                                                                       </g:else>
-                                                                                       <font size="2" style="margin-left:10px;"> <g:link controller="Demo" action="viewPost" params="[topicId:u?.topics?.id,userId:u?.user?.id]"> [Full Post]</g:link>
-
-                                                                                       </font>
-
-                                                                                </div> </div>
-
-                                                                            </div>  <%---right of pic end---%>
-                                                                        </div>
-                                                                        <hr>
-
-                                                                     </g:each>
-
-                                                                   </div>    <%----div flow end------%>
-
-
-                                                          <%----display resource end---%>
-
-
+                                                       <img height="90" style="margin-top: 20px;margin-left: 15px "  width="90"
+                                                       src="${createLink(controller: 'demo', action: 'fetchPersonImage', params: ['userId':u?.topics.user.id])}"/>
                                                     </g:if>
                                                     <g:else>
-                                                         can't find the Post ! Try any other Keyword!
-                                                    </g:else>
+                                                        <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
+                                                  </g:else>
 
+                                                 </div>
+                                                 <div class="col-8"><%---right of pic---%>
+
+                                                    <div class="row">
+                                                        <div class="col-7">Topic: ${u?.topics.name}</div>
+                                                        <div class="col-5">By: ${u?.user.username}</div>
+                                                     </div><hr>
+                                                     <div class="row"><div class="col-12">${u?.name}</div>
 
                                                     </div>
 
-                                                                  <%------------------%>
 
+                                                     <div class="row">&nbsp;</div>
+                                                     <div class="row">
+                                                     <div class="col-4">
 
-                                              </div>
-                                        </div>
-                                    </div>         <%--end of 1 row --%>
+                                                             <g:img dir="images" file="mailIcon.jpg" width="20" height="20" title="${u?.user.email}"/>
 
+                                                     </div>
 
+                                                     <div class="col-8">
+
+                                                             <g:if test="${u?.class==LinkResources}">
+                                                             <font size="2"> <a href="${u?.URl}">Link</a></font>
+                                                            </g:if>
+                                                            <g:else>
+                                                              <font size="2"> <g:link controller="resource" action="downloadFile" params="[res:u?.id]"> Download
+                                                                                                                      </g:link></font>
+                                                            </g:else>
+                                                            <font size="2" style="margin-left:10px;">
+                                                            <g:link controller="Demo" action="viewPost" params="[topicId:u?.topics?.id,userId:u?.user?.id]"> [Full Post]</g:link>
+
+                                                            </font>
+
+                                                     </div> </div>
+
+                                                 </div>  <%---right of pic end---%>
+                                             </div>
+                                             <hr>
+                                           </td></tr>
+
+                                      </g:each>
+
+                                           <%----div flow end------%>
+                                       <%----display resource end---%>
+                            </tbody>
+                                      <%------------------%>
+                    </table>
+                </div>
+            </div>         <%--end of 1 row --%>
     </div>    <%--end of right side of container--%>
-
 </div>
 
 </div>
+<script>
+$("#searchTableId").DataTable({
+"scrollY": "450px",
+  "scrollCollapse": true
+});
 
-
+</script>
 </body>
 </html>

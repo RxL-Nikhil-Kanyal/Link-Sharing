@@ -11,22 +11,19 @@ class TopicController {
 
     def createTopicFormAction() {
 
-        User x = User.findByUsername(session.user)
-        Topics t = new Topics(name: params.newTopicName, user: x.id, visibility: params.topicVisibility)
+        User user = User.findByUsername(session.user)
+        Topics topic = new Topics(name: params.newTopicName, user: user.id, visibility: params.topicVisibility)
 
-        t.validate()    //topic creation by user
-        if (t.hasErrors()) {
-
-            flash.warning = "An Error Occurred! Topic already Exists! "
-            return [success: false] as JSON
-
+        topic.validate()    //topic creation by user
+        if (topic.hasErrors()) {
+            render ([success: false,message:"Topic Already Exists!"] as JSON)
         }
-        t.save(flush: true, failOnError: true)
+        topic.save(flush: true, failOnError: true)
 
-        Subscription newSub = new Subscription(user: x.id, topics: t.id, seriousness: "Serious")
+        Subscription newSub = new Subscription(user: user.id, topics: topic.id, seriousness: "Serious")
         newSub.save(flush: true, failOnError: true)
-        flash.message = "Topic Created !"
-        return [success: true] as JSON
+
+        render ([success: true,message:"Topic ${topic.name} Created !"] as JSON)
 
     }
 
@@ -80,13 +77,14 @@ class TopicController {
     }
 
     def changeTopicVisibDash() {
+        Topics topic=Topics.get(params.topicId)
 
         if (topicsService.changeSeriousnessMethod(params.changeVisibility, params.topicId, session.user)) {
-            flash.message = "Changed Visibility Successfully !"
-            return true
+            String successMessage = "Changed Visibility of ${topic.name} to ${params.changeVisibility}"
+            render ([success: true,message:successMessage] as JSON)
         } else {
-            flash.warning = "Action Restricted! Cannot Change Visibility of others Topics"
-            return
+            String restrictedMessage= "Action Restricted! Only Owners can change Visibility "
+            render ([success: false,message:restrictedMessage] as JSON)
         }
 
 
@@ -95,18 +93,13 @@ class TopicController {
     def deleteTopicAjax() {
         User activeUser = User.findByUsername(session.user)
         Topics topic = Topics.get(params.topicId)
-
         try {
             topic.delete(flush: true, failOnError: true)
-
         }
-        catch (e) {
-            flash.warning = "Error deleting Topic"
-            return
+        catch (Exception e)  {
+            render ([sucess:true,message:" Error deleting Topic ${topic.name}"]as JSON)
         }
-
-        flash.message = "Successfully Deleted ${topic.name}"
-        return true
+        render ([sucess:true,message:" Successfully Deleted ${topic.name}"]as JSON)
 
     }
 
@@ -115,12 +108,11 @@ class TopicController {
         topic.name = params.newTopicName
         topic.validate();
         if (topic.hasErrors()) {
-            return
+            render([success: false,message: "Error Changing Topic!"])
         } else {
             topic.save(flush: true, failOnError: true)
-            return true
+            render([success:true,message:"Topic Name Changed to ${params.newTopicName}"]as JSON)
         }
-
     }
 
     def shareInvite() {
@@ -131,24 +123,18 @@ class TopicController {
         if (invitedUser) {
             try {
                 sendMail {
-
                     to invitedUser.email
                     subject "Invite For Topic: " + params.selectedTopicName
                     body 'First Login To your Link sharing Account and then Click the Link here : ' +
                             'http://localhost:9090/topic/subscribeThroughLink?userEmail=' + invitedUser.email + '&topicName=' + params.selectedTopicName
                 }
 
-
             } catch (Exception e) {
-                flash.warning = "can not send invite Link!"
-                return false
+                render([success: false,message: "Error sending Invite "]as JSON)
             }
-            flash.message = "Invite Mail sent!"
-            return true
-
+            render([success: true,message: "Invite Sent to ${invitedUser.email} for topic ${params.selectedTopicName} "]as JSON)
         } else {
-            flash.warning = "User does not Exist!"
-            return false
+            render([success: false,message: "Can not Send Invite! Check the Email Again! "]as JSON)
         }
     }
 
@@ -170,8 +156,6 @@ class TopicController {
                 render "Subscribed To the Topic " + topic.name
             }
         }
-
     }
-
 
 }

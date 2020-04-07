@@ -1,4 +1,5 @@
 package projectls
+import grails.converters.JSON
 
 class ResourceController {
     ResourceService resourceService
@@ -12,26 +13,20 @@ class ResourceController {
         } else {
             flash.warning = "Error in deleting Post!"
             return
-
         }
-
     }
 
     def updateResource() {
 
-
-        Resource res = Resource.get(params.resourceId);
-        res.name = params.newDescription
-        res.validate()
-        if (res.hasErrors()) {
-            flash.warning = "Error Updating Resource! "
-            return
+        Resource resource = Resource.get(params.resourceId);
+        resource.name = params.newDescription
+        resource.validate()
+        if (resource.hasErrors()) {
+            render([success:false,message:"Error Updating resource!"]as JSON)
         } else {
-            res.save(flush: true, failOnError: true)
-            flash.message = "Description Changed Successfully!"
-            return true
+            resource.save(flush: true, failOnError: true)
+            render([success:true,message:"Description Changed Successfully!"]as JSON)
         }
-
     }
 
     def downloadFile = {
