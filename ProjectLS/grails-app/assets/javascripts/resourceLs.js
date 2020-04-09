@@ -18,7 +18,7 @@ $(document).ready(function(){
 $("#shareLinkFormId").on('submit',function(event){
 event.preventDefault();
 $.ajax({
-    url:"/demo/ShareLinkAction",
+    url:"/resource/shareLink",
     type:"POST",
     data:{"LinkTopicUrl":$("#linkTopicUrlId").val(),
     "linkDesc":$("#linkDescId").val(),"linkTopicName":$("#linkTopicName").val()},
@@ -47,6 +47,7 @@ $.ajax({
 $(document).ready(function(){
 $("#editResourceFormId").on('submit',function(event){
 event.preventDefault();
+var description=$("#editResDesc").val()
 $.ajax({
     url:"/resource/updateResource",
     type:"POST",
@@ -55,7 +56,7 @@ $.ajax({
      $("#EditResourceModal").modal("hide");
      $("#EditResourceModal").find('form').trigger('reset');
     if(data.success==true){
-
+        $("#descriptionId").text(description);
     $("#successMessageId").text(data.message);
         $("#successMessageId").show();
         setTimeout(function() {

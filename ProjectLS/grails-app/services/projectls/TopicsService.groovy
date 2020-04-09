@@ -23,7 +23,7 @@ class TopicsService {
 
     }
 
-    def changeSeriousnessMethod(String visibility, String topicId, String activeUsername) {
+    def changeVisibilityOfTopic(String visibility, String topicId, String activeUsername) {
 
         Topics topic = Topics.get(topicId);
 

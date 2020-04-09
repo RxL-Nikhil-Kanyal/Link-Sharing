@@ -57,6 +57,7 @@ $.ajax({
     type:"POST",
     data:{"userId":$("#hiddenUser").val(),"newPassword":$("#changePasswordId").val()},
     success:function(){
+    window.location.replace("/authentication/homePage");
     $("#successMessageId").text("Password Changed SuccessFully! ");
     $("#successMessageId").show();
     setTimeout(function() {

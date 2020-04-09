@@ -5,7 +5,7 @@ import grails.gorm.transactions.Transactional
 @Transactional
 class SearchService {
 
-    def searchMethod(String activeUsername, String searchString) {
+    def searchInputString(String activeUsername, String searchString) {
         // searchString='google'
         User activeUser = User.findByUsername(activeUsername)
         String newSearchString = '%' + searchString + '%'

@@ -37,11 +37,11 @@ createTopic();
 
 // dashboard Subs serious and visibility change-seriousness
 $(document).ready(function(){
-  $(".changeSeriousclass").change(function(){
+  $(".changeSeriousness").change(function(){
 
-        $.ajax({url:"/Subscription/changeSeriousnessDash",
+        $.ajax({url:"/Subscription/changeSeriousness",
         type:"POST",
-        data:{"changedSeriousness":$(this).val(),"subscriptionId":$(this).next().val()},
+        data:{"changedSeriousness":$(this).val(),"subscriptionId":$(this).attr("id")},
         success:function(data){
         window.scrollTo(0,0);
         $("#successMessageId").text(data.message);
@@ -61,9 +61,9 @@ $(document).ready(function(){
 
 $(document).ready(function(){
 $(".visibilityChange").change(function(){
-    $.ajax({url:"/topic/changeTopicVisibDash",
+    $.ajax({url:"/topic/changeTopicVisibility",
     type:"POST",
-    data:{"changeVisibility":$(this).val(),"topicId":$(this).next().val()},
+    data:{"changeVisibility":$(this).val(),"topicId":$(this).attr("id")},
     success:function(data){
     window.scrollTo(0,0);
     if(data.success==true){
@@ -121,5 +121,35 @@ $.ajax({
 
     },
     });
+});
+});
+$(document).ready(function(){
+$(".topicSubscribeClass").click(function(event){
+event.preventDefault();
+var element = $(this)
+$.ajax({
+    url:"/subscription/subscribeTopic",
+    type:"POST",
+    data:{"topicId":$(this).attr("id")},
+    success:function(data){
+
+    if(data.success==true){
+
+       element.prev().show();
+       element.hide();
+       $("#successMessageId").text(data.message);
+       $("#successMessageId").show();
+       setTimeout(function(){
+       $("#successMessageId").hide("slow").empty();
+       },3000);
+    }else{
+           $("#errorMessageId").text(data.message);
+               $("#errorMessageId").show();
+               setTimeout(function(){
+               $("#errorMessageId").hide("slow").empty();
+               },3000);
+    }
+    }
+});
 });
 });

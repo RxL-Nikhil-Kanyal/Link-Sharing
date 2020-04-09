@@ -6,8 +6,8 @@ class User {
     String firstName
     String lastName
     byte[] photo
-    boolean admin
-    boolean active
+    boolean admin=false
+    boolean active=true
     Date dateCreated
     Date lastUpdated
 

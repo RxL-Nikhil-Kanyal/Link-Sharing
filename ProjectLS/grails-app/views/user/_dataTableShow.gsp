@@ -2,6 +2,7 @@
 <head>
 <asset:stylesheet src="DataTable.css"/>
 <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.js"></script>
+
 </head>
 
 <body>
@@ -31,11 +32,11 @@
                 <td> <h5 id="idtable">${u.firstName}</h5></td>
                 <td> <h5 id="idtable">${u.username}</h5></td>
                 <td> <h5 id="idtable">${u.email}</h5></td>
-                <td> <h5 id="idtable">${u.active}</h5></td>
-                <td> <h5 id="idtable"><g:link action="changeUserActiveStatus" params="[val:u.id]">
-                <g:if test="${u.active}">Deactivate</g:if>
-                <g:else>Activate</g:else>
-                </g:link></h5></td>
+                <td> <h5 id="idtable" class="${u.id}">${u.active}</h5></td>
+                <td> <h5 id="idtable"><a href="" class="changeUserActiveStatus" id="${u.id}" >
+                <g:if test="${u.active}"><p>Deactivate</p><p style="display:none;">Activate</p></g:if>
+                <g:else><p style="display:none;">Deactivate</p><p>Activate</p></g:else>
+                </a></h5></td>
                 </tr>
             </g:each>
 

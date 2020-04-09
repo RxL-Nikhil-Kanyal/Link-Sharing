@@ -22,7 +22,7 @@
 
                         <g:if test="${u?.user?.photo!=null}">
 
-                             <img height="90" style="margin-top: 10px;margin-left: 0px,margin-bottom: 10px;margin-right: 10px"  width="90" src="${createLink(controller: 'authentication', action: 'userImage', params: ['userId':u?.user?.id])}"/>
+                             <img height="90" style="margin-top: 10px;margin-left: 0px,margin-bottom: 10px;margin-right: 10px"  width="90" src="${createLink(controller: 'publicResources', action: 'userImage', params: ['userId':u?.user?.id])}"/>
                          </g:if>
                          <g:else>
                               <g:img dir="images" file="defaultpic.png" width="100" height="100" />
@@ -53,7 +53,7 @@
                                        Resource: <a href="${u?.URl}">Go To Link</a>
                                    </g:if>
                                    <g:else>
-                                        Resource:   <g:link controller="authentication" action="downloadFile" params="[res:u?.id]"> Download
+                                        Resource:   <g:link controller="publicResources" action="downloadFile" params="[res:u?.id]"> Download
                                                      </g:link>
                                    </g:else>
 

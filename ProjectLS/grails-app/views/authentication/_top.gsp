@@ -20,16 +20,16 @@
 <div class="container">
     <div class="col-7">
 
-  <a class="navbar-brand" href="/authentication/auth"><h4>LINK SHARING</h4></a>
+  <a class="navbar-brand" href="/authentication/homePage"><h4>LINK SHARING</h4></a>
 
 
     </div>
 
      <div class="col-5">
 
-    <g:form controller="authentication" action="PublicTopicsShow" class="form-inline my-2 my-lg-0">
+    <g:form controller="publicResources" action="PublicTopicsShow" class="form-inline my-2 my-lg-0">
 
-      <input id="inputSearchAuth" name="searchAtAuth" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"/>
+      <input id="inputSearchAuth" name="searchedStringAtHomePage" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"/>
 
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </g:form>
@@ -51,7 +51,7 @@
           <div id ="animateDiv" class="alert alert-success">${flash.message}</div>
       </g:if>
       <g:if test="${flash.warning}">
-          <div id ="animateDiv"  class="alert alert-success">${flash.warning}</div>
+          <div id ="animateDiv"  class="alert alert-danger">${flash.warning}</div>
       </g:if>
 
 

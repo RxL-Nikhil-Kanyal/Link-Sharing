@@ -3,8 +3,8 @@
 <title>dashboard</title>
 </head>
 <body>
-<g:render template="dashboardTop" />
-
+<g:render template="/user/dashboardTop" />
+<asset:javascript src="userProfile.js"/>
 <div class="container">
 <div class="row">
 
@@ -24,7 +24,7 @@
                                             <g:if test="${ou.photo!=null}">
 
                                                 <img height="90" style="margin-top: 10px;margin-left: 0px,margin-bottom: 10px;margin-right: 10px "
-                                                  width="90" src="${createLink(controller: 'demo', action: 'fetchPersonImage', params: ['userId':ou.id])}"/>
+                                                  width="90" src="${createLink(controller: 'user', action: 'fetchPersonImage', params: ['userId':ou.id])}"/>
                                              </g:if>
                                              <g:else>
                                                  <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
@@ -73,7 +73,7 @@
                                                                         <g:if test="${u.topics.user.photo!=null}">
 
                                                                            <img height="90" style="margin-top: 10px;margin-left: 0px,margin-bottom: 10px;margin-right: 10px "
-                                                                             width="90" src="${createLink(controller: 'demo', action: 'fetchPersonImage', params: ['userId':u?.topics?.user.id])}"/>
+                                                                             width="90" src="${createLink(controller: 'user', action: 'fetchPersonImage', params: ['userId':u?.topics?.user.id])}"/>
                                                                         </g:if>
                                                                         <g:else>
                                                                             <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
@@ -85,7 +85,7 @@
                                                                                <div id="nameOfTopic" class="col-7">${u?.topics?.name}</div>
                                                                                <div class="col-5">
 
-                                                                                <g:link action="userProfile" id="nameLink"  params="[otherUserId:u?.user?.id]">@${u?.topics?.user?.username}
+                                                                                <g:link controller="user" action="userProfile" id="nameLink"  params="[otherUserId:u?.user?.id]">@${u?.topics?.user?.username}
                                                                                 </g:link>
 
                                                                                </div><%--c--%>
@@ -100,9 +100,9 @@
                                                                                     <g:else>
                                                                                             <div class="row">
                                                                                                     <div class="col-8">
-                                                                                                     <g:select id="selectSeriousnessId" name="selectSeriousness" from="${['Casual','Serious','Very_Serious']}" value="${u?.seriousness}"
-                                                                                                       class="form-control changeSeriousclass"/>
-                                                                                                       <input type="hidden" name="hiddenVal" class="hiddenSubId" value="${u.id}">
+                                                                                                     <g:select id="${u.id}" name="selectSeriousness" from="${['Casual','Serious','Very_Serious']}" value="${u?.seriousness}"
+                                                                                                       class="form-control changeSeriousness"/>
+
                                                                                                     </div>
                                                                                                     <div class="col-4"><g:link params=" "><%-----empty-----%></g:link></div>
                                                                                             </div>
@@ -122,6 +122,7 @@
                                                                              </div>
                                                                         </div>
                                                                 </div>
+                                                                <hr>
                                                            </g:each>
                                                         </div></div>
 
@@ -155,14 +156,14 @@
 
                                                            <g:each in="${ouSubs}" var="u" status="i">
 
-                                                                <div class="row">
+                                                                <div class="row" id="${u.id}">
 
                                                                         <div class="col-3">
 
                                                                          <g:if test="${u?.topics?.user.photo!=null}">
 
                                                                             <img height="90" style="margin-top: 10px;margin-left: 0px,margin-bottom: 10px;margin-right: 10px "
-                                                                              width="90" src="${createLink(controller: 'demo', action: 'fetchPersonImage', params: ['userId':u?.topics?.user.id])}"/>
+                                                                              width="90" src="${createLink(controller: 'user', action: 'fetchPersonImage', params: ['userId':u?.topics?.user.id])}"/>
                                                                          </g:if>
                                                                          <g:else>
                                                                              <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
@@ -174,7 +175,7 @@
                                                                                <div id="nameOfTopic" class="col-7">${u?.topics?.name}</div>
                                                                                <div class="col-5">
 
-                                                                                <g:link action="userProfile" id="nameLink"  params="[otherUserId:u?.topics?.user?.id]">@${u?.topics?.user?.username}
+                                                                                <g:link controller="user" action="userProfile" id="nameLink"  params="[otherUserId:u?.topics?.user?.id]">@${u?.topics?.user?.username}
                                                                                 </g:link>
 
                                                                                </div><%--c--%>
@@ -183,10 +184,14 @@
                                                                              <div class="row">
                                                                                 <div class="col-8">
 
-                                                                                    <g:if test="${u?.topics?.user.username !=session.user }">
+                                                                                    <g:if test="${!u?.topics?.subscription.user.username.contains(session.user) }">
                                                                                          <g:link controller="subscription" action="subscribeAction" params="[inviteTopicId:u?.topics?.id]">Subscribe</g:link>
                                                                                     </g:if>
                                                                                     <g:else>
+                                                                                        <g:if test="${u?.topics.user.username!=session.user}">
+                                                                                            <a href="" id="${u?.topics.id}" class="topicUnsubscribeClassUserProfile" >Unsubscribe</a>
+                                                                                        </g:if>
+
                                                                                            <g:img dir="images" file="msg.jpg" style="background-color: white;border-radius: 5px;"  width="20" height="20" data-toggle="modal" data-target="#myModalinvite" />
                                                                                     </g:else>
                                                                                 </div>
@@ -249,7 +254,7 @@
                                                      <g:if test="${u?.user.photo!=null}">
 
                                                         <img height="90" style="margin-top: 10px;margin-left: 0px,margin-bottom: 10px;margin-right: 10px "  width="90"
-                                                         src="${createLink(controller: 'demo', action: 'fetchPersonImage', params: ['userId':u?.user.id])}"/>
+                                                         src="${createLink(controller: 'user', action: 'fetchPersonImage', params: ['userId':u?.user.id])}"/>
                                                      </g:if>
                                                      <g:else>
                                                          <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
@@ -293,7 +298,7 @@
 
                                                            </font></g:if>
 
-                                                             <font size="2" style="margin-left:10px;"> <g:link controller="Demo" action="viewPost" params="[topicId:u?.topics?.id,userId:u?.user?.id]"> [Full Post]</g:link>
+                                                             <font size="2" style="margin-left:10px;"> <g:link controller="resource" action="viewPost" params="[topicId:u?.topics?.id,userId:u?.user?.id]"> [Full Post]</g:link>
 
                                                                </font>
 

@@ -51,35 +51,30 @@ class TopicController {
 
     }
 
+    def adminTopics() {
+
+        User au = User.findByUsername(session.user)
+        List subscriptionOfUser = Subscription.findAllByUser(au)
+        List subscribedTopics = subscriptionOfUser.topics
+        List allTopics = Topics.list();
+        return [activeUser            : au, subbedTopics: subscribedTopics, listOfSubs: subscriptionOfUser,
+                trendingTopicsAndCount: topicsService.trendingTopics(), allTheTopics: allTopics,
+                topPostsWithRating    : resourceRatingService.getTopRatedPosts(session.user)]
+    }
+
     def deleteTopic() {
 
         Topics topic = Topics.get(params.topicId)
         topic.delete(flush: true, failOnError: true)
 
         flash.message = "Topic Deleted"
-        redirect(controller: 'demo', action: 'editProfile')
+        redirect(controller: 'user', action: 'editProfile')
     }
 
-    def search() {
-        User au = User.findByUsername(session.user)
-        List subscribedTopics =[]
-        subscribedTopics=Subscription.findAllByUser(User.get(au.id)).topics
-        def topicsWithCount = topicsService.trendingTopics();
-        if (!params.search && !au.admin) {
-            render "Cannot search Empty string! Invalid Search!"
-            return
-        }
-
-
-        return [activeUser        : au, subbedTopics: subscribedTopics,
-                allResource       : searchService.searchMethod(session.user, params.search), trendingTopicsAndCount: topicsWithCount,
-                topPostsWithRating: resourceRatingService.getTopRatedPosts(session.user)]
-    }
-
-    def changeTopicVisibDash() {
+    def changeTopicVisibility() {
         Topics topic=Topics.get(params.topicId)
 
-        if (topicsService.changeSeriousnessMethod(params.changeVisibility, params.topicId, session.user)) {
+        if (topicsService.changeVisibilityOfTopic(params.changeVisibility, params.topicId, session.user)) {
             String successMessage = "Changed Visibility of ${topic.name} to ${params.changeVisibility}"
             render ([success: true,message:successMessage] as JSON)
         } else {
@@ -126,7 +121,7 @@ class TopicController {
                     to invitedUser.email
                     subject "Invite For Topic: " + params.selectedTopicName
                     body 'First Login To your Link sharing Account and then Click the Link here : ' +
-                            'http://localhost:9090/topic/subscribeThroughLink?userEmail=' + invitedUser.email + '&topicName=' + params.selectedTopicName
+                            'http://localhost:9090/subscription/subscribeThroughLink?userEmail=' + invitedUser.email + '&topicName=' + params.selectedTopicName
                 }
 
             } catch (Exception e) {
@@ -138,24 +133,6 @@ class TopicController {
         }
     }
 
-    def subscribeThroughLink() {
 
-        Topics topic = Topics.findByName(params.topicName)
-        User user = User.findByEmail(params.userEmail)
-
-        Subscription newSubscription = Subscription.findByTopicsAndUser(topic, user)
-        if (newSubscription) {
-            render "Already Subscribed!"
-        } else {
-            newSubscription = new Subscription(user: user, topics: topic, seriousness: 'Serious')
-            newSubscription.validate()
-            if (newSubscription.hasErrors()) {
-                render "Error ! Try Again Later"
-            } else {
-                newSubscription.save(flush: true, failOnError: true)
-                render "Subscribed To the Topic " + topic.name
-            }
-        }
-    }
 
 }

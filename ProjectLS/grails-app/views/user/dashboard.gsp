@@ -19,10 +19,10 @@
                              <div class="card-body">
                                     <div class="row" style="border:2px solid;border-radius: 15px;box-shadow: 5px 10px #888888;">
                                         <div class="col-5">
-                                            <g:link action="userProfile" id="nameLink"  params="[otherUserId:activeUser.id]">
+                                            <g:link controller="user" action="userProfile" id="nameLink"  params="[otherUserId:activeUser.id]">
                                                  <g:if test="${activeUser.photo!=null}">
 
-                                                    <img height="90" style="margin-top: 10px;margin-left: 0px,margin-bottom: 10px;margin-right: 10px "  width="90" src="${createLink(controller: 'demo', action: 'fetchPersonImage', params: ['userId':activeUser.id])}"/>
+                                                    <img height="90" style="margin-top: 10px;margin-left: 0px,margin-bottom: 10px;margin-right: 10px "  width="90" src="${createLink(controller: 'user', action: 'fetchPersonImage', params: ['userId':activeUser.id])}"/>
                                                  </g:if>
                                                  <g:else>
                                                      <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
@@ -32,10 +32,10 @@
                                         <div class="col-7">
 
                                                         <div class="row">&nbsp;</div>
-                                                  <g:link action="userProfile" id="nameLink" params="[otherUserId:activeUser.id]">
+                                                  <g:link controller="user" action="userProfile" id="nameLink" params="[otherUserId:activeUser.id]">
                                                          <div class="row">  &nbsp;&nbsp;&nbsp;&nbsp;${activeUser.firstName} ${activeUser.lastName}</div>
                                                   </g:link>
-                                                 <g:link action="userProfile" id="nameLink" params="[otherUserId:activeUser.id]">
+                                                 <g:link controller="user" action="userProfile" id="nameLink" params="[otherUserId:activeUser.id]">
                                                          <div class="row">
                                                                     <div class="col"><font size="2" color="gray">Subscriptions:</font></div>
                                                                     <div class="row"><font size="2" color="gray">${subbedTopics.size()}</font></div>
@@ -61,7 +61,7 @@
                                           <div class="container"><%---corrections from here---%>
 
                                                    <g:if test="${listOfSubs.size()==0}">
-                                                            <div class="row"><div class="col-12">No Subscriptions yet . Subscribe to new Posts.</div></div>
+                                                            <div class="row"><div class="col-12"><font color="gray">No Subscriptions yet . Subscribe to new Posts.</font></div></div>
 
                                                     </g:if>
                                                     <g:else>
@@ -71,7 +71,7 @@
                                                                         <div class="col-3">
                                                                         <g:if test="${u?.topics?.user.photo!=null}">
 
-                                                                            <img height="90" style="margin-top: 10px;margin-left: 0px,margin-bottom: 10px;margin-right: 10px "  width="90" src="${createLink(controller: 'demo', action: 'fetchPersonImage',
+                                                                            <img height="90" style="margin-top: 10px;margin-left: 0px,margin-bottom: 10px;margin-right: 10px "  width="90" src="${createLink(controller: 'user', action: 'fetchPersonImage',
                                                                              params: ['userId':u?.topics.user.id])}"/>
                                                                          </g:if>
                                                                          <g:else>
@@ -86,7 +86,7 @@
                                                                                ${u?.topics?.name}</g:link></div>
                                                                                <div class="col-5">
 
-                                                                                <g:link action="userProfile" id="nameLink"  params="[otherUserId:u?.topics?.user?.id]">@${u?.topics?.user?.username}
+                                                                                <g:link controller="user" action="userProfile" id="nameLink"  params="[otherUserId:u?.topics?.user?.id]">@${u?.topics?.user?.username}
                                                                                 </g:link>
 
                                                                                </div><%--c--%>
@@ -94,7 +94,12 @@
 
                                                                              <div class="row">
                                                                                 <div class="col-8">
-                                                                                    <g:link action="unsubscribeAction" params="[topicinfo:u?.topics?.id]">UnSubscribe</g:link>
+
+                                                                                    <g:if test="${u?.topics.user.username!=session.user}">
+                                                                                     <a href="" id="${u?.topics.id}" class="topicUnsubscribeClass">UnSubscribe</a>
+                                                                                     <a href="" style="display:none;" id="${u?.topics.id}" class="topicSubscribeClass" >Subscribe</a>
+
+                                                                                    </g:if>
 
                                                                                 </div>
                                                                                 <div class="col-4">
@@ -104,15 +109,15 @@
                                                                              </div>
                                                                              <div class="row">
                                                                                    <div class="col-6">
-                                                                                          <g:select id="selectSeriousnessId" name="selectSeriousness" from="${['Casual','Serious','Very_Serious']}" value="${u?.seriousness}"
-                                                                                           class="form-control changeSeriousclass"/>
-                                                                                           <input type="hidden" name="hiddenVal" class="hiddenSubId" value="${u.id}">
+                                                                                          <g:select id="${u.id}" name="selectSeriousness" from="${['Casual','Serious','Very_Serious']}" value="${u?.seriousness}"
+                                                                                           class="form-control changeSeriousness"/>
+
                                                                                    </div>
                                                                                    <div class="col-6">
                                                                                         <form >
-                                                                                        <g:select id="selectVisibId" name="selectVisib" from="${['Public','Private']}" value="${u?.topics?.visibility}"
+                                                                                        <g:select id="${u?.topics?.id}" name="selectVisib" from="${['Public','Private']}" value="${u?.topics?.visibility}"
                                                                                         class="form-control visibilityChange"/>
-                                                                                        <input type="hidden" name="hiddenValVis" value="${u?.topics?.id}">
+
                                                                                    </div>
                                                                              </div>
                                                                        </div>
@@ -138,7 +143,7 @@
                                    <div id="flow1" class="card-body">
                                          <%-----------------------------------------------%>
                                        <g:if test="${trendingTopicsAndCount.size()==0}">
-                                             <div class="row"><div class="col-12">No Topics . Create new Topics.</div></div>
+                                             <div class="row"><div class="col-12"><font color="gray">No Topics . Create new Topics.</font></div></div>
 
                                        </g:if>
                                           <g:else>
@@ -154,7 +159,7 @@
                                                               <g:if test="${topicAndCountRow[1]?.user.photo!=null}">
 
                                                                   <img height="90" style="margin-top: 20px;margin-left: 15px "  width="90"
-                                                                  src="${createLink(controller: 'demo', action: 'fetchPersonImage', params: ['userId':topicAndCountRow[1].user.id])}"/>
+                                                                  src="${createLink(controller: 'user', action: 'fetchPersonImage', params: ['userId':topicAndCountRow[1].user.id])}"/>
                                                                </g:if>
                                                                <g:else>
                                                                    <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
@@ -172,7 +177,7 @@
 
                                                                      <div class="col-5">
 
-                                                                      <g:link action="userProfile" id="nameLink"  params="[otherUserId:topicAndCountRow[1]?.user?.id]">@${topicAndCountRow[1]?.user?.username}
+                                                                      <g:link controller="user" action="userProfile" id="nameLink"  params="[otherUserId:topicAndCountRow[1]?.user?.id]">@${topicAndCountRow[1]?.user?.username}
                                                                       </g:link>
 
 
@@ -194,12 +199,14 @@
                                                                             <g:else>
                                                                                 <g:if test="${activeUser.admin}">
                                                                                         <g:if test="${subbedTopics.name.contains(topicAndCountRow[1].name)}">
-                                                                                            <g:link action="unsubscribeAction" params="[topicinfo:topicAndCountRow[1]?.id]">UnSubscribe</g:link>
+                                                                                            <a href="" id="${topicAndCountRow[1]?.id}" class="topicUnsubscribeClass">UnSubscribe</a>
+                                                                                              <a href="" style="display:none;" id="${topicAndCountRow[1]?.id}" class="topicSubscribeClass" >Subscribe</a>
                                                                                              <%------------- Unsubscribe addquery---------------%>
 
                                                                                         </g:if>
                                                                                         <g:else>
-                                                                                              <g:link controller="Subscription" action="subscribeTopic" params="[topicsId:topicAndCountRow[1]?.id]">Subscribe</g:link>
+                                                                                             <a href="" style="display:none;" id="${topicAndCountRow[1]?.id}" class="topicUnsubscribeClass">UnSubscribe</a>
+                                                                                               <a href="" id="${topicAndCountRow[1]?.id}" class="topicSubscribeClass" >Subscribe</a>
                                                                                            <%----------------  subscibe addquery---------------%>
                                                                                         </g:else>
 
@@ -214,16 +221,17 @@
 
                                                                                     <g:if test="${subbedTopics.name.contains(topicAndCountRow[1].name)}">
 
-                                                                                      <g:link action="unsubscribeAction" params="[topicinfo:topicAndCountRow[1]?.id]">UnSubscribe</g:link>
-                                                                                         <%---------------unsub Noormal user-addquery---------------%>
+                                                                                         <a href="" id="${topicAndCountRow[1]?.id}" class="topicUnsubscribeClass">UnSubscribe</a>
+                                                                                         <a href=""  style="display:none;" id="${topicAndCountRow[1]?.id}" class="topicSubscribeClass" >Subscribe</a>
+                                                                                         <%---------------unsubscribe Noormal user-addquery---------------%>
                                                                                     </g:if>
                                                                                     <g:else>
                                                                                         <g:if test="${topicAndCountRow[1].visibility.value}">
                                                                                            <font color="gray"> private</font>
-
                                                                                         </g:if>
                                                                                         <g:else>
-                                                                                          <g:link controller="Subscription" action="subscribeTopic" params="[topicsId:topicAndCountRow[1]?.id]">Subscribe</g:link>
+                                                                                           <a href="" style="display:none;" id="${topicAndCountRow[1]?.id}" class="topicUnsubscribeClass">UnSubscribe</a>
+                                                                                          <a href="" id="${topicAndCountRow[1]?.id}" class="topicSubscribeClass" >Subscribe</a>
 
                                                                                         <%---------------Sub-addquery---------------%>
                                                                                         </g:else>
@@ -247,9 +255,9 @@
 
                                                                             <g:if test="${subbedTopics.name.contains(topicAndCountRow[1].name)}">
 
-                                                                               <g:select display="" id="selectSeriousnessTrendingId" name="selectSeriousness" from="${['Casual','Serious','Very_Serious']}" value="${listOfSubs[listOfSubs.topics.name.indexOf(topicAndCountRow[1].name)].seriousness}"
-                                                                                   class="form-control changeSeriousclass"/>
-                                                                                <input type="hidden" name="hiddenVal" class="hiddenSubId" value="${listOfSubs[listOfSubs.topics.name.indexOf(topicAndCountRow[1].name)].id}">
+                                                                               <g:select display="" id="${listOfSubs[listOfSubs.topics.name.indexOf(topicAndCountRow[1].name)].id}" name="selectSeriousness" from="${['Casual','Serious','Very_Serious']}" value="${listOfSubs[listOfSubs.topics.name.indexOf(topicAndCountRow[1].name)].seriousness}"
+                                                                                   class="form-control changeSeriousness"/>
+
 
                                                                             </g:if>
 
@@ -257,9 +265,9 @@
 
                                                                          <div class="col-6">
                                                                                 <g:if test="${topicAndCountRow[1].user==activeUser || activeUser.admin}">
-                                                                                     <g:select id="selectVisibId" name="selectVisib" from="${['Public','Private']}" value="${topicAndCountRow[1]?.visibility}"
+                                                                                     <g:select id="${topicAndCountRow[1]?.id}" name="selectVisib" from="${['Public','Private']}" value="${topicAndCountRow[1]?.visibility}"
                                                                                         class="form-control visibilityChange"/>
-                                                                                      <input type="hidden" name="hiddenValVis" value="${topicAndCountRow[1]?.id}">
+
 
                                                                                 </g:if>
                                                                          </div>
@@ -305,7 +313,7 @@
                                               </div>
                                               <div class="card-body">
                                                     <g:if test="${userUnReadResource?.size==0}">
-                                                           <font size="4" color="red">NO NEW POSTS TO SHOW !</font>
+                                                           <font size="4" color="gray">NO NEW POSTS TO SHOW !</font>
                                                     </g:if>
                                                     <g:else>
                                                           <%------------------------%>
@@ -316,7 +324,7 @@
                                                                     <div class="col-3">
                                                                      <g:if test="${res?.user.photo!=null}">
                                                                          <img height="90" style="margin-top: 10px;margin-left: 0px,margin-bottom: 10px;margin-right: 10px"
-                                                                          width="90" src="${createLink(controller: 'demo', action: 'fetchPersonImage', params: ['userId':res?.user.id])}"/>
+                                                                          width="90" src="${createLink(controller: 'user', action: 'fetchPersonImage', params: ['userId':res?.user.id])}"/>
                                                                       </g:if>
                                                                       <g:else>
                                                                           <g:img dir="images" file="defaultpic.png" width="100" height="100" />
@@ -328,7 +336,7 @@
                                                                             <div class="col-6"><font size="3">${res?.topics?.name}</font></div>
                                                                         </div>
                                                                         <div class="row">
-                                                                            <div class="col-6"><font size="2" color="gray">@${res?.user?.username} ${new Date()-res?.lastUpdated}</font></div>
+                                                                            <div class="col-6"><font size="2" color="gray">@${res?.user?.username} ${new Date()-res?.lastUpdated} days ago</font></div>
                                                                             <div class="col-6"></div>
                                                                         </div>
                                                                         <hr>
@@ -345,7 +353,7 @@
                                                                                             <g:link controller="Demo" action="downloadFile" params="[res:res?.id]"> <font size="2">Download</font>
                                                                                                                                                            </g:link>
                                                                                     </g:else>
-                                                                                     <font size="2" style="margin-left:10px;"> <g:link controller="Demo" action="viewPost" params="[topicId:res?.topics?.id,userId:res?.user?.id]">
+                                                                                     <font size="2" style="margin-left:10px;"> <g:link controller="resource" action="viewPost" params="[topicId:res?.topics?.id,userId:res?.user?.id]">
                                                                                      [Full Post] </g:link>
                                                                                      <a href="" id="${res?.id}" class="changeReadStatus" >
                                                                                           <font size="2"> &nbsp;&nbsp; Mark as read</font>

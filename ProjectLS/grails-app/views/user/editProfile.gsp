@@ -5,8 +5,8 @@
 </head>
 
 <body>
-<g:render template="dashboardTop" />
-
+<g:render template="/user/dashboardTop" />
+<asset:javascript src="editProfile.js"/>
 
 <div class="row">&nbsp;</div>
 
@@ -29,7 +29,7 @@
 
                                        <span class="col-4">
                                        <g:if test="${activeUser.photo!=null}">
-                                           <img height="90" style="margin-top: 10px;margin-left: 0px,margin-bottom: 10px;margin-right: 10px "  width="90" src="${createLink(controller: 'demo', action: 'fetchPersonImage', params: ['userId':activeUser.id])}"/>
+                                           <img height="90" style="margin-top: 10px;margin-left: 0px,margin-bottom: 10px;margin-right: 10px "  width="90" src="${createLink(controller: 'user', action: 'fetchPersonImage', params: ['userId':activeUser.id])}"/>
                                         </g:if>
                                         <g:else>
                                             <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
@@ -42,10 +42,7 @@
                                    </div>
                              </div>
                          </div><%--end of first row --%>
-
        </div>
-
-
     </div>
     <div class="col-sm-6">                 <%-- container 2--%>
 
@@ -55,13 +52,13 @@
              </div>
              <div class="card-body">
                <Div class="container">
-               <g:form name="changeDetailForm" controller="Demo" action="changeUserPassword">
+               <g:form name="changeDetailForm" controller="user" action="updateUserPassword">
                            <Div class="row" >                              <%-- add in message--%>
                               <Div class="col-sm-6">
                                <g:message code="auth.register.password" />
                               </Div>
                               <Div class="col-sm-6">
-                              <g:field type="Password" class="form-control" name="changePassword" value="" required="true" minlength="8" maxlength="15"/>
+                              <g:field type="Password" class="form-control" name="changePassword" value="" required="true" minlength="8" maxlength="12"/>
                               </Div>
                            </Div>
 
@@ -72,7 +69,7 @@
                                        <g:message code="auth.register.confirmpassword" />
                                    </Div>
                                    <Div class="col-sm-6">
-                                       <g:field type="Password" class="form-control" name="changeConfirmPassword" value="" required="true"  minlength="8" maxlength="15" /></Div>
+                                       <g:field type="Password" class="form-control" name="changeConfirmPassword" value="" required="true"  minlength="8" maxlength="12" /></Div>
                                     </Div>
                            </Div>
                            <div class="row">&nbsp;</div>
@@ -87,10 +84,7 @@
                                   <Div class="col-sm-5">
                                     <g:submitButton name="updatePassword" value="submit" class="form-control"/></span></Div>
                                    </Div>
-
-
                            </div>
-
                 </g:form>
 
                 <div>
@@ -108,98 +102,74 @@
     <div class="col-sm-6">                   <%-- container 3--%>
 
         <div class="card shadow p-0 bg-white rounded">
-                <div class="card-header">
-                  Topics
-                </div>
-                <div class="card-body">
-                    <%----starts topics-----%>
+           <%----------------------------------%>
+             <table id="topicTableId">
+                  <thead ><tr><th class="card-header" style="text-align:center;size:4;"> Topics</th></tr></thead>
+                     <tbody>
 
-                      <div class="container">
+                     <g:each in="${userSubbedTopics}" var="u" status="i">
+                       <tr><td>
+                        <div class="row">
+                            <div class="col-4">
 
-                                  <div id="flow1">
+                                <g:if test="${u?.topics?.user?.photo!=null}">
 
-                                     <g:each in="${userSubbedTopics}" var="u" status="i">
+                                    <img height="90" style="margin-top: 10px;margin-left: 0px,margin-bottom: 10px;margin-right: 10px "  width="90"
+                                    src="${createLink(controller: 'user', action: 'fetchPersonImage', params: ['userId':u?.topics.user.id])}"/>
+                                 </g:if>
+                                 <g:else>
+                                     <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
+                                 </g:else>
 
+                            </div>
+                            <div class="col-8"><%---right of pic---%>
+
+                               <div class="row">
+                                   <input type="text" style="width:60%;"id="${u?.topics.id}" name="NewTopicName" value="${u?.topics.name}" class="form-control">
+                                   <input id="editProfileTopicChange" style="background-color:#D3D3D3;width:30%"type="submit" value="Save" class="form-control saveTopicChangesButton" >
+                                </div><hr>
+                                <div class="row"><div class="col-7">@${u?.topics?.user?.username}</div>
+
+                                <div class="col-5">
+
+                                <font size="2" color="gray">Subs: ${u?.topics?.subscription?.size()}</font>
+                                <font size="2" color="gray">Posts:${u?.topics?.resource?.size()}</font>
+
+
+                               </div></div>
+
+
+                                <div class="row">&nbsp;</div>
+                                <div class="row"><div class="col-10">
                                         <div class="row">
-                                            <div class="col-4">
-
-                                                <g:if test="${u?.topics?.user?.photo!=null}">
-
-                                                    <img height="90" style="margin-top: 10px;margin-left: 0px,margin-bottom: 10px;margin-right: 10px "  width="90" src="${createLink(controller: 'demo', action: 'fetchPersonImage', params: ['userId':u?.topics.user.id])}"/>
-                                                 </g:if>
-                                                 <g:else>
-                                                     <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
-                                                 </g:else>
+                                            <div class="col-6">
+                                            <g:select id="${u.id}" name="seriousnessChange" from="${['Serious','Casual','very_serious']}" value="${u?.seriousness}"
+                                                                                                     class="form-control changeSeriousness" />
 
                                             </div>
-                                            <div class="col-8"><%---right of pic---%>
-                                               <g:form name="ChangeForm" controller="demo" action="editProfileChanges" >
-                                               <div class="row">
-                                                   <div class="col-6"><input type="text" id="changeTopicName" name="NewTopicName" value="${u?.topics?.name}" class="form-control"></div>
-                                                   <div class="col-5"><input id="editProfileTopicChange" type="submit" value="Save" class="form-control butonIdn" ></div>
-                                                </div><hr>
-                                                <div class="row"><div class="col-7">@${u?.topics?.user?.username}</div>
-
-                                                <div class="col-5">
-
-                                                <font size="2" color="gray">Subs: ${u?.topics?.subscription?.size()}</font>
-                                                <font size="2" color="gray">Posts:${u?.topics?.resource?.size()}</font>
-
-
-                                               </div></div>
-
-
-                                                <div class="row">&nbsp;</div>
-                                                <div class="row"><div class="col-10">
-                                                        <div class="row">
-                                                            <div class="col-6">
-                                                            <g:select id="seriousnessChangeId" name="seriousnessChange" from="${['Serious','Casual','very_serious']}" value="${u?.seriousness}"
-                                                                                                                     class="form-control" />
-
-                                                            </div>
-                                                            <div class="col-6">
-                                                            <g:select id="visibilityChangeId"name="visibilityChange" from="${['Public','Private']}" value="${u?.topics?.visibility}"
-                                                                                                                                 class="form-control"/>
-                                                            <Input type="hidden" name="subsIdentify" id="subId" value="${u?.id}"  />
-                                                            </div>
-                                                         </div>
-
-
-
-
-                                                </div>
-
-                                                <div class="col-2">
-
-                                                <g:link title="Delete Topic" controller="topic"  action="deleteTopic" params="[topicId:u?.topics?.id]" > <g:img dir="images" file="deleteIcon.png" width="25" height="25"/></g:link>
-
-
-
-
-                                                </div> </div>
-
-                                                </g:form>
-
-                                            </div>  <%---right of pic end---%>
-                                        </div>
-                                        <hr>
-
-                                     </g:each>
-
-                                   </div>    <%----div flow end------%>
-
-
-
-
-
+                                            <div class="col-6">
+                                            <g:select id="${u.topics.id}" name="visibilityChange" from="${['Public','Private']}" value="${u?.topics?.visibility}"
+                                                                                                                 class="form-control visibilityChange"/>
+                                            <Input type="hidden" name="subsIdentify" id="subId" value="${u?.id}"  />
+                                            </div>
+                                         </div>
                                 </div>
 
+                                <div class="col-2">
 
-                    <%----end topics--------%>
-                </div>
-              </div>
-
-      </div>
+                                <g:link title="Delete Topic" controller="topic"  action="deleteTopic" params="[topicId:u?.topics?.id]" > <g:img dir="images" file="deleteIcon.png" width="25" height="25"/></g:link>
+                                </div> </div>
+                            </div>  <%---right of pic end---%>
+                        </div>
+                        <div class="row"><font size="1" style="visibility:hidden;">${u?.topics.name}</font></div>
+                        <hr>
+                       </td> </tr>
+                     </g:each>
+                     </tbody>
+                 </table>
+               <%---------------------------------%>
+        </div>
+    </div>
       <div class="col-sm-6">                 <%-- container 4--%>
 
         <div class="card shadow p-0 bg-white rounded">
@@ -208,7 +178,7 @@
                      </div>
                      <div class="card-body">
                        <Div class="container">
-                       <g:uploadForm name="myDetailsForm" controller="demo" action="changeUserDeatails" method="post" class="form-group">
+                       <g:uploadForm name="myDetailsForm" controller="user" action="updateUserProfile" method="post" class="form-group">
                                    <Div class="row">                              <%-- add in message--%>
                                       <Div class="col-sm-6">
                                        <g:message code="auth.register.firstname" />
@@ -285,6 +255,13 @@
 
   <div>
 </div>
+<script>
+$("#topicTableId").DataTable({
+"scrollY": "200px",
+  "scrollCollapse": true
+});
+
+</script>
 </body>
 
 </html>

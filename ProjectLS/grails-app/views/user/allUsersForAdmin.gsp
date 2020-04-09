@@ -9,8 +9,8 @@
 <body>
 
 
-<g:render template="dashboardTop" />
-
+<g:render template="/user/dashboardTop" />
+<asset:javascript src="allUsersForAdmin.js"/>
 <div class="container">
 
 <g:render template="dataTableShow" />

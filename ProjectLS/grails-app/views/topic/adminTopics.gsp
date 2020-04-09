@@ -10,8 +10,7 @@
 </head>
 <body>
 
-<g:render template="/demo/dashboardTop" />
-
+<g:render template="/user/dashboardTop" />
 
 <div class="container">
 <div class="row">
@@ -48,7 +47,7 @@
                                                            <g:if test="${topicAndCountRow[1].user.photo!=null}">
 
                                                                  <img height="90" style="margin-top: 20px;margin-left: 15px "  width="90"
-                                                                 src="${createLink(controller: 'demo', action: 'fetchPersonImage', params: ['userId':topicAndCountRow[1].user.id])}"/>
+                                                                 src="${createLink(controller: 'user', action: 'fetchPersonImage', params: ['userId':topicAndCountRow[1].user.id])}"/>
                                                            </g:if>
                                                            <g:else>
                                                                   <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
@@ -60,7 +59,7 @@
                                                               <div id="nameOfTopic" class="col-7">${topicAndCountRow[1]?.name}</div>
                                                               <div class="col-5">
 
-                                                               <g:link action="userProfile" id="nameLink"  params="[otherUserId:topicAndCountRow[1]?.user?.id]">@${topicAndCountRow[1]?.user?.username}
+                                                               <g:link controller="user" action="userProfile" id="nameLink"  params="[otherUserId:topicAndCountRow[1]?.user?.id]">@${topicAndCountRow[1]?.user?.username}
                                                                </g:link>
 
                                                               </div><%--c--%>
@@ -151,7 +150,7 @@
                                                             <g:if test="${u[1]?.topics?.user.photo!=null}">
 
                                                                   <img height="90" style="margin-top: 20px;margin-left: 15px "  width="90"
-                                                                  src="${createLink(controller: 'demo', action: 'fetchPersonImage', params: ['userId':u[1]?.topics?.user.id])}"/>
+                                                                  src="${createLink(controller: 'user', action: 'fetchPersonImage', params: ['userId':u[1]?.topics?.user.id])}"/>
                                                             </g:if>
                                                             <g:else>
                                                                    <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
@@ -176,9 +175,10 @@
                                                               <div class="row">
                                                                   <div class="col-8"></div>
                                                                   <div class="col-4">
-                                                                   <g:link controller="authentication" action="PublicTopicsShow" params="[topicRelated:u[1]?.id]">
-                                                                                                   full Post
-                                                                                             </g:link>
+
+                                                                     <g:link controller="resource" action="viewPost" params="[topicId:u[1]?.topics.id,userId:u[1]?.user.id]">
+                                                                       <font size="2">Full Post</font>
+                                                                     </g:link>
 
                                                                   </div>
                                                               </div>
@@ -234,7 +234,7 @@
                                           <g:if test="${u?.user.photo!=null}">
 
                                               <img height="90" style="margin-top: 20px;margin-left: 15px "  width="90"
-                                              src="${createLink(controller: 'demo', action: 'fetchPersonImage', params: ['userId':u.user.id])}"/>
+                                              src="${createLink(controller: 'user', action: 'fetchPersonImage', params: ['userId':u.user.id])}"/>
                                            </g:if>
                                            <g:else>
                                                <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
@@ -247,7 +247,7 @@
                                                  <div style=" " id="nameOfTopic" class="col-7 ${u.name} ">${u.name}
                                                  </div>
                                                  <div class="col-5">
-                                                  <g:link action="userProfile" id="nameLink"  params="[otherUserId:u.user?.id]">@${u?.user.username}
+                                                  <g:link controller="user" action="userProfile" id="nameLink"  params="[otherUserId:u.user?.id]">@${u?.user.username}
                                                   </g:link>
                                                  </div><%--c--%>
                                               </div><hr>

@@ -13,6 +13,7 @@
 <asset:stylesheet src="navbarCommonStyling.css"/>
 
 <asset:javascript src="shareInviteDash.js"/>
+<asset:javascript src="unsubscribeTopic.js"/>
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
@@ -23,10 +24,10 @@
 
 <div class="container">
     <div class="col-3">
-  <a class="navbar-brand" href="/demo/dashboard"><h4>LINK SHARING</h4><h6>Welcome</h6></a>
+  <a class="navbar-brand" href="/user/dashboard"><h4>LINK SHARING</h4><h6>Welcome</h6></a>
     </div>
      <div class="col-4">
-    <g:form name="searchBar" controller="Topic" action="search"  class="form-inline my-2 my-lg-0">
+    <g:form name="searchBar" controller="search" action="searchPosts"  class="form-inline my-2 my-lg-0">
       <input name="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </g:form>
@@ -194,7 +195,7 @@
                             <div class="modal-body">
                              <%-------------form start here----------------%>
 
-                                  <g:uploadForm  name="shareDocForm" action="shareDocAction" id="2">
+                                  <g:uploadForm  name="shareDocForm" controller="resource" action="shareDocument" id="2">
                                         <table class="table">
 
                                           <tr>
@@ -235,10 +236,10 @@
 
         <div class="btn-group dropdown">
           <button type="button" class="btn btn-secondary">
-                <g:link action="userProfile" id="nameLink"  params="[otherUserId:activeUser.id]">
+                <g:link controller="user" action="userProfile" id="nameLink"  params="[otherUserId:activeUser.id]">
                 <span>  <g:if test="${activeUser.photo!=null}">
 
-                               <img height="50" style="margin-top: 10px;margin-left: 0px,margin-bottom: 10px;margin-right: 10px  "  width="50" src="${createLink(controller: 'demo', action: 'fetchPersonImage', params: ['userId':activeUser.id])}"/>
+                               <img height="50" style="margin-top: 10px;margin-left: 0px,margin-bottom: 10px;margin-right: 10px  "  width="50" src="${createLink(controller: 'user', action: 'fetchPersonImage', params: ['userId':activeUser.id])}"/>
                             </g:if>
                             <g:else>
                                 <g:img dir="images" file="defaultpic.png" width="50" height="50"/>
@@ -250,12 +251,12 @@
             <span class="sr-only">Toggle Dropdown</span>
           </button>
           <div class="dropdown-menu">
-               <a class="dropdown-item" href="/demo/editProfile">Edit Profile</a>
+               <a class="dropdown-item" href="/user/editProfile">Edit Profile</a>
                <g:if test="${activeUser.admin}">
 
-                    <a class="dropdown-item" href="/demo/usersA">User</a>
-                    <a class="dropdown-item" href="/demo/adminTopics">Topic</a>
-                    <a class="dropdown-item" href="/topic/search">Posts</a>
+                    <a class="dropdown-item" href="/user/allUsersForAdmin">User</a>
+                    <a class="dropdown-item" href="/topic/adminTopics">Topic</a>
+                    <a class="dropdown-item" href="/search/searchPosts">Posts</a>
                </g:if>
 
                <a class="dropdown-item" href="/Authentication/logout">Logout</a>

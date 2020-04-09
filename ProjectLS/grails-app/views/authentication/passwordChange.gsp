@@ -20,7 +20,7 @@
 
 			    </div>
 			    <div class="row">
-			    <input type="password" id="changePasswordId" name="changePassword" required="true" autocomplete="new-password" class="form-control" minlength="8" maxlength="15"/></div>
+			    <input type="password" id="changePasswordId" name="changePassword" required="true" autocomplete="new-password" class="form-control" minlength="8" maxlength="12"/></div>
 			    <div class="row">
                     &nbsp;
 			    </div>
@@ -28,7 +28,7 @@
 			    <div class="row">
 			    <input type="hidden"  id="hiddenUser" name="hiddenUserId" value="${userId}"/>
 
-			     <input type="password" id="confirmPasswordId" name="confirmChangePassword" required="true" autocomplete="new-password" class="form-control" minlength="8" maxlength="15"/>
+			     <input type="password" id="confirmPasswordId" name="confirmChangePassword" required="true" autocomplete="new-password" class="form-control" minlength="8" maxlength="12"/>
 
 
 			    </div>

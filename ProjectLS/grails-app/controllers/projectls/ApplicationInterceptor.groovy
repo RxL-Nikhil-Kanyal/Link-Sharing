@@ -1,17 +1,16 @@
 package projectls
 
 
-class MyInterceptor {
+class ApplicationInterceptor {
 
-    public MyInterceptor() {
-        println "my interceptor called"
-
+    public ApplicationInterceptor() {
         matchAll().excludes(controller: 'authentication')
+        .excludes(controller:'publicResources')
     }
 
     boolean before() {
         if (!session.user) {
-            redirect(controller: "Authentication", action: "auth")
+            redirect(controller: "Authentication", action: "homePage")
             flash.warning = "Please Login first!"
             return false
         } else {

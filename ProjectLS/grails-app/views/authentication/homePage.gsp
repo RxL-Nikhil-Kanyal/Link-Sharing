@@ -25,6 +25,10 @@
 <body>
 <g:render template="top" />
 
+<g:hasErrors>
+    <g:eachError><p class="alert alert-danger"><g:message error="${it}"/></p></g:eachError>
+</g:hasErrors>
+
      <div class="bodyContent" id="bodyContent">
      </div>
 
@@ -51,7 +55,7 @@
 
                          <g:if test="${u?.user.photo!=null}">
 
-                             <img height="90" style="margin-top: 10px;margin-left: 0px,margin-bottom: 10px;margin-right: 10px"  width="90" src="${createLink(controller: 'authentication', action: 'userImage', params: ['userId':u?.user?.id])}"/>
+                             <img height="90" style="margin-top: 10px;margin-left: 0px,margin-bottom: 10px;margin-right: 10px"  width="90" src="${createLink(controller: 'publicResources', action: 'userImage', params: ['userId':u?.user?.id])}"/>
                           </g:if>
                           <g:else>
                               <g:img dir="images" file="defaultpic.png" width="100" height="100" />
@@ -68,7 +72,7 @@
 
                             <div class="col-3">
 
-                           <g:link controller="authentication" action="PublicTopicsShow" params="[topicRelated:u.id]">
+                           <g:link controller="publicResources" action="PublicTopicsShow" params="[topicRelated:u.id]">
                                  more
                            </g:link>
 
@@ -82,7 +86,7 @@
                                        Resource: <a href="${u?.URl}">Go To Link</a>
                                    </g:if>
                                    <g:else>
-                                        Resource:   <g:link controller="authentication" action="downloadFile" params="[res:u?.id]"> Download
+                                        Resource:   <g:link controller="publicResources" action="downloadFile" params="[res:u?.id]"> Download
                                                                                                        </g:link>
                                    </g:else>
 
@@ -120,30 +124,25 @@
                               required="true"  class="form-control" style="width:100%;"/>
                               </Div>
                            </Div>
-
                             <Div class="row form-group">
                             </Div>
-
                            <Div class="row">
                                    <Div class="col-sm-6">
                                        <g:message code="auth.login.password" />
                                    </Div>
                                    <Div class="col-sm-6">
-                                       <g:field type="Password" name="passwd" value=""
-                                       required="true" class="form-control" style="width:100%;"/></Div>
+                                       <g:field type="Password" name="password" value=""
+                                       required="true" minlength="8" maxlength="12" class="form-control" style="width:100%;"/></Div>
                                     </Div>
                            </Div>
                            <Div class="row">
                                 <Div class="col-sm-6">
                                            <a href="" id="forgotPasswordId" data-toggle="modal" data-target="#forgotPasswordModalId">Forgot Password</a>
                                  </Div>
-
                                   <Div class="col-sm-6 " >
-                                    <g:submitButton name="update" value="Submit" class="form-control" style="width:95%;Background-color:#D3D3D3;"/></Div>
+                                    <g:submitButton name="update" value="Log In" class="form-control" style="width:95%;Background-color:#D3D3D3;"/></Div>
                                    </Div>
-
                            </div>
-
                 </g:form>
 
                 <div>
@@ -168,7 +167,7 @@
                  <%-----------------------%>
                     <div class="container" id="flow">
                        <g:if test="${!topPostsWithRating}">
-                           <font size="3" color="red">No Rating on Posts yet.</font>
+                           <font size="3" color="gray">No Rating on Posts yet.</font>
                        </g:if>
                        <g:else>
                           <g:each in="${topPostsWithRating}" var="u" status="i">
@@ -177,7 +176,7 @@
                                      <g:if test="${u[1]?.user.photo!=null}">
 
                                          <img height="90" style="margin-top: 10px;margin-left: 0px,margin-bottom: 10px;margin-right: 10px"  width="90"
-                                          src="${createLink(controller: 'authentication', action: 'userImage', params: ['userId':u[1]?.user?.id])}"/>
+                                          src="${createLink(controller: 'publicResources', action: 'userImage', params: ['userId':u[1]?.user?.id])}"/>
                                       </g:if>
                                       <g:else>
                                           <g:img dir="images" file="defaultpic.png" width="100" height="100" />
@@ -189,23 +188,18 @@
                                     <div class="row">
                                         <div class="col-6">${u[1]?.user?.username}</div>
                                         <div class="col-6">${u[1]?.topics?.name}</div>
-
-
                                     </div><hr>
                                     <div class="row">
                                         <div class="col">
-
                                             <div id="ellps" class="col-9">${u[1]?.name}</div>
-
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-8"></div>
                                         <div class="col-4">
-                                         <g:link controller="authentication" action="PublicTopicsShow" params="[topicRelated:u[1]?.id]">
+                                         <g:link controller="publicResources" action="PublicTopicsShow" params="[topicRelated:u[1]?.id]">
                                                                          full Post
                                                                    </g:link>
-
                                         </div>
                                     </div>
                                  </div>
@@ -217,7 +211,6 @@
                  <%-----------------------%>
                 </div>
               </div>
-
       </div>
       <div class="col-sm-6">                 <%-- container 4--%>
 
@@ -227,14 +220,15 @@
                      </div>
                      <div class="card-body">
                        <Div class="container">
-                       <g:uploadForm  name="myForm" controller="Authentication" action="RegisterAction"
+                       <g:uploadForm  name="myForm" controller="Authentication" action="register"
                        method="post" >
+
                                    <Div class="row form-group">                              <%-- add in message--%>
                                       <Div class="col-sm-6">
                                        <g:message code="auth.register.firstname" />
                                       </Div>
                                       <Div class="col-sm-6">
-                                      <g:field type="text" name="regfirstname"  required="true" class="form-control" />
+                                      <g:field type="text" name="firstName"  required="true" class="form-control" />
                                       </Div>
                                    </Div>
 
@@ -244,7 +238,7 @@
                                                    <g:message code="auth.register.lastname" />
                                              </Div>
                                             <Div class="col-sm-6">
-                                                    <g:field type="text" name="reglastname"  required="true" class="form-control"/>
+                                                    <g:field type="text" name="lastName"  required="true" class="form-control"/>
                                               </Div>
                                        </Div>
 
@@ -254,7 +248,7 @@
                                                           <g:message code="auth.register.email" />
                                                    </Div>
                                                    <Div class="col-sm-6">
-                                                          <g:field type="email" name="regemail"  required="true" class="form-control"/>
+                                                          <g:field type="email" name="email"  required="true" class="form-control"/>
                                                    </Div>
                                            </Div>
 
@@ -264,7 +258,7 @@
                                                           <g:message code="auth.register.username" />
                                              </Div>
                                              <Div class="col-sm-6 ">
-                                                          <g:field type="text" name="regusername"  required="true" class="form-control"/>
+                                                          <g:field type="text" name="username"  required="true" class="form-control"/>
                                               </Div>
                                        </Div>
 
@@ -273,7 +267,7 @@
                                                        <g:message code="auth.register.password" />
                                              </Div>
                                              <Div class="col-sm-6">
-                                                        <g:field type="Password" name="regpassword" id="rp" required="true" autocomplete="new-password" class="form-control" minlength="8" maxlength="15"/>
+                                                        <g:field type="Password" name="password" id="rp" required="true" autocomplete="new-password" class="form-control" minlength="8" maxlength="12"/>
                                              </Div>
                                         </Div>
 
@@ -284,7 +278,7 @@
                                                        <g:message code="auth.register.confirmpassword" />
                                              </Div>
                                              <Div class="col-sm-6">
-                                                        <g:field type="Password" name="regconfirmpassword" id="crp" required="true" class="form-control" minlength="8" maxlength="15"/>
+                                                        <g:field type="Password" name="registerConfirmPassword" id="crp" required="true" class="form-control" minlength="8" maxlength="12"/>
                                              </Div>
                                         </Div>
 
@@ -293,7 +287,7 @@
                                                          <g:message code="auth.register.photo" />
                                                </Div>
                                                <Div class="col-sm-6">
-                                                         <input type="file" name="regphoto" accept="image/x-png ,image/jpeg,image/jpg" class="form-control"/>
+                                                         <input type="file" name="registerPhoto" accept="image/x-png ,image/jpeg,image/jpg" class="form-control"/>
 
                                                 </Div>
                                                </Div>
@@ -305,7 +299,7 @@
                                          </Div>
 
                                           <Div class="col-sm-6">
-                                            <g:submitButton name="update" value="Submit" class="form-control" style="Background-color:#D3D3D3;"/></span></Div>
+                                            <g:submitButton name="update" value="Register" class="form-control" style="Background-color:#D3D3D3;"/></span></Div>
                                            </Div>
 
 
@@ -346,8 +340,8 @@
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button id="forgotPasswordSubmitButtonId" type="button" class="btn btn-primary">Submit</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button id="forgotPasswordSubmitButtonId" type="button" class="btn btn-primary">Send Reset Mail</button>
       </div></form>
     </div>
   </div>

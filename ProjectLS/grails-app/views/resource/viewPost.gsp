@@ -5,7 +5,7 @@
 
 </head>
 <body>
-<g:render template="dashboardTop" />
+<g:render template="/user/dashboardTop" />
 <asset:javascript src="jquery.star-rating-svg.js"/>
 <asset:stylesheet src="star-rating-svg.css"/>
 
@@ -27,7 +27,7 @@
                                              <g:if test="${selectedResoftopic?.user.photo!=null}">
 
                                                  <img height="90" style="margin-top: 10px;margin-left: 0px,margin-bottom: 10px;margin-right: 10px "  width="90"
-                                                 src="${createLink(controller: 'demo', action: 'fetchPersonImage', params: ['userId':selectedResoftopic?.user?.id])}"/>
+                                                 src="${createLink(controller: 'user', action: 'fetchPersonImage', params: ['userId':selectedResoftopic?.user?.id])}"/>
                                               </g:if>
                                               <g:else>
                                                   <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
@@ -38,14 +38,14 @@
                                             <div class="row">
                                                 <div class="col-7">
 
-                                                      <g:link action="userProfile" id="nameLink" params="[otherUserId:selectedResoftopic?.user?.id]">
+                                                      <g:link controller="user" action="userProfile" id="nameLink" params="[otherUserId:selectedResoftopic?.user?.id]">
                                                       <font size="3" color="black">${selectedResoftopic?.user?.firstName} ${selectedResoftopic?.user?.lastName}</font>
                                                       </g:link>
 
                                                 </div>
                                                 <div class="col-5">
 
-                                                        <g:link controller="Topic" action="search" id="" params="[search:selectedResoftopic?.topics?.name]">
+                                                        <g:link controller="search" action="searchPosts" id="" params="[search:selectedResoftopic?.topics?.name]">
                                                         <font size="3" color="black" align="right">${selectedResoftopic?.topics?.name}</font>
                                                         </g:link>
 
@@ -54,7 +54,7 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-7">
-                                                   <g:link action="userProfile" id="nameLink" params="[otherUserId:selectedResoftopic?.user?.id]">
+                                                   <g:link controller="user" action="userProfile" id="nameLink" params="[otherUserId:selectedResoftopic?.user?.id]">
                                                       <font size="3" color="gray">&nbsp;&nbsp;@${selectedResoftopic?.user?.username}</font>
                                                    </g:link>
 
@@ -98,7 +98,7 @@
 
                                          <div class="row">
                                             <div class="col-12">
-                                              <font style="padding:10px;" >
+                                              <font style="padding:10px;" id="descriptionId" >
                                                     ${selectedResoftopic?.name}
                                               </font>
                                             </div>
@@ -128,8 +128,6 @@
                                                                   </a>
                                                               </font>
                                                                   <%----------------modal------------%>
-
-
                                                                     <!-- Modal -->
                                                                     <div class="modal fade" id="EditResourceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                                                       <div class="modal-dialog modal-dialog-centered" role="document">
@@ -243,7 +241,7 @@
                                                      <g:if test="${topicAndCountRow[1]?.user.photo!=null}">
 
                                                          <img height="90" style="margin-top: 10px;margin-left: 0px,margin-bottom: 10px;margin-right: 10px "  width="90"
-                                                         src="${createLink(controller: 'demo', action: 'fetchPersonImage', params: ['userId':topicAndCountRow[1]?.user?.id])}"/>
+                                                         src="${createLink(controller: 'user', action: 'fetchPersonImage', params: ['userId':topicAndCountRow[1]?.user?.id])}"/>
                                                       </g:if>
                                                       <g:else>
                                                           <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
@@ -255,7 +253,7 @@
                                                          <div id="nameOfTopic" class="col-7">${topicAndCountRow[1]?.name}</div>
                                                          <div class="col-5">
 
-                                                          <g:link action="userProfile" id="nameLink"  params="[otherUserId:topicAndCountRow[1]?.user?.id]">@${topicAndCountRow[1]?.user?.username}
+                                                          <g:link controller="user" action="userProfile" id="nameLink"  params="[otherUserId:topicAndCountRow[1]?.user?.id]">@${topicAndCountRow[1]?.user?.username}
                                                           </g:link>
 
                                                          </div><%--c--%>
@@ -265,7 +263,7 @@
                                                           <div class="col-8">
                                                                <g:if test="${topicAndCountRow[1].visibility.value}">
                                                                       <g:if test="${subbedTopics.name.contains(topicAndCountRow[1].name)}">
-                                                                         <g:link action="unsubscribeAction" params="[topicinfo:topicAndCountRow[1]?.id]">UnSubscribe</g:link>
+                                                                         <g:link action="unsubscribeTopic" params="[topicinfo:topicAndCountRow[1]?.id]">UnSubscribe</g:link>
                                                                        </g:if>
                                                                          <g:else>
                                                                           <font color="gray">Private</font>
