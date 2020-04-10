@@ -29,7 +29,7 @@
                 <td> <h5 id="idtable">${i+1}.</h5></td>
                 <td> <h5 id="idtable">${u.id}</h5></td>
                 <td> <h5 id="idtable">${u.firstName}</h5></td>
-                <td> <h5 id="idtable">${u.firstName}</h5></td>
+                <td> <h5 id="idtable">${u.lastName}</h5></td>
                 <td> <h5 id="idtable">${u.username}</h5></td>
                 <td> <h5 id="idtable">${u.email}</h5></td>
                 <td> <h5 id="idtable" class="${u.id}">${u.active}</h5></td>
@@ -45,11 +45,7 @@
 
 </div>
 
-<script>
-
-$("#mydatatable").DataTable( );
-
-</script>
+<asset:javascript src="dataTable.js"/>
 
 </body>
 

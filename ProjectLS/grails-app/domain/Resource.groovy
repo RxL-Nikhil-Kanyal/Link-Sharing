@@ -1,4 +1,4 @@
-//class LinkReource ,DocumentResource
+
 
 class Resource {
     String name//description
@@ -7,10 +7,7 @@ class Resource {
     Date lastUpdated
     static hasmany = [readingItem: ReadingItem, resourceRating: ResourceRating]
 
-
     static constraints = {
-
-
         name blank: false
 
     }
@@ -20,7 +17,5 @@ class Resource {
         name column: "name", sqlType: "varchar(5000)"
 //        readingItem cascade: 'all-delete-orphan'
 //        resourceRating cascade: 'all-delete-orphan'
-
-
     }
 }

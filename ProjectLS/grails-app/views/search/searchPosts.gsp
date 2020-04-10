@@ -58,7 +58,7 @@
                                                               ${topicAndCountRow[1]?.name}</g:link></div>
                                                               <div class="col-5">
 
-                                                               <g:link controller="demo" action="userProfile" id="nameLink"  params="[otherUserId:topicAndCountRow[1]?.user?.id]">@${topicAndCountRow[1]?.user?.username}
+                                                               <g:link controller="user" action="userProfile" id="nameLink"  params="[otherUserId:topicAndCountRow[1]?.user?.id]">@${topicAndCountRow[1]?.user?.username}
                                                                </g:link>
 
                                                               </div><%--c--%>
@@ -228,8 +228,12 @@
                                                  <div class="col-8"><%---right of pic---%>
 
                                                     <div class="row">
-                                                        <div class="col-7">Topic: ${u?.topics.name}</div>
-                                                        <div class="col-5">By: ${u?.user.username}</div>
+                                                        <div class="col-7">Topic:
+                                                         <g:link controller="topic" action="topicsShow" params="[topicId:u?.topics.id]">
+                                                         ${u?.topics.name}</g:link></div>
+                                                        <div class="col-5">By:
+                                                        <g:link controller="user" action="userProfile" id="nameLink"  params="[otherUserId:u?.user.id]">
+                                                        ${u?.user.username}</g:link></div>
                                                      </div><hr>
                                                      <div class="row"><div class="col-12">${u?.name}</div>
 
@@ -278,12 +282,6 @@
 </div>
 
 </div>
-<script>
-$("#searchTableId").DataTable({
-"scrollY": "450px",
-  "scrollCollapse": true
-});
-
-</script>
+<asset:javascript src="dataTable.js"/>
 </body>
 </html>

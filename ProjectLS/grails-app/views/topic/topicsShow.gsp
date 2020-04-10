@@ -4,7 +4,7 @@
 
 </head>
 <body>
-<g:render template="/demo/dashboardTop" />
+<g:render template="/user/dashboardTop" />
 
 <div class="container">
 <div class="row">
@@ -102,13 +102,16 @@
                                                      <div class="col-8">
                                                         <div class="row">&nbsp;</div>
                                                          <div class="row">
-                                                                 <div class="col-12">${u?.user.firstName}&nbsp;&nbsp;${u?.user.lastName}
+                                                                 <div class="col-12">
+                                                                 <g:link controller="user" action="userProfile" id="nameLink"  params="[otherUserId:u?.user.id]">
+                                                                 ${u?.user.firstName}&nbsp;&nbsp;${u?.user.lastName}</g:link>
                                                                  </div>
 
                                                          </div>
 
                                                          <div class="row">
-                                                                 <div class="col-6">@${u?.user.username}</div>
+                                                         <g:link controller="user" action="userProfile" id="nameLink"  params="[otherUserId:u?.user.id]">
+                                                                 <div class="col-6">@${u?.user.username}</g:link></div>
                                                                  <div class="col-6"><font size="2" color="gray">subscriptions: ${u?.user.subscription.size()}
                                                                   </font></div>
 
@@ -168,7 +171,9 @@
 
                                                        <div class="row">
                                                            <div class="col-7">Topic: ${u?.topics.name}</div>
-                                                           <div class="col-5">By: ${u?.user.username}</div>
+                                                           <div class="col-5">By:
+                                                            <g:link controller="user" action="userProfile" id="nameLink"  params="[otherUserId:u?.user.id]">
+                                                            ${u?.user.username}</g:link></div>
                                                         </div><hr>
                                                         <div class="row"><div class="col-12">${u?.name}</div>
 

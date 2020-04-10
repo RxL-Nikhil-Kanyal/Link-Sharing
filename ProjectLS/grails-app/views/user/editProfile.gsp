@@ -157,7 +157,7 @@
 
                                 <div class="col-2">
 
-                                <g:link title="Delete Topic" controller="topic"  action="deleteTopic" params="[topicId:u?.topics?.id]" > <g:img dir="images" file="deleteIcon.png" width="25" height="25"/></g:link>
+                                <g:img id="${u?.topics.id}" class="deleteTopicClass" dir="images" file="deleteIcon.png" title="delete topic" width="20" height="20"/>
                                 </div> </div>
                             </div>  <%---right of pic end---%>
                         </div>
@@ -255,13 +255,8 @@
 
   <div>
 </div>
-<script>
-$("#topicTableId").DataTable({
-"scrollY": "200px",
-  "scrollCollapse": true
-});
 
-</script>
+<asset:javascript src="dataTable.js"/>
 </body>
 
 </html>

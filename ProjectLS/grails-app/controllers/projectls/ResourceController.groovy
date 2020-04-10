@@ -48,10 +48,6 @@ class ResourceController {
         linkResource.validate()
 
         if (linkResource.hasErrors()) {
-            linkResource.errors.allErrors.each {
-                println it
-            }
-
             render ([success: false,message: "Please Enter a Valid URL"] as JSON)
         } else {
             linkResource.save(flush: true, failOnError: true)

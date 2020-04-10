@@ -7,11 +7,8 @@
 <asset:javascript src="userProfile.js"/>
 <div class="container">
 <div class="row">
-
     <div class="col-6">   <%--start of left side of container--%>
-
        <div class="row">
-
             <div class="container">
                  <div class="row"> &nbsp;</div>
                     <div class="row">
@@ -50,84 +47,76 @@
 
                             <div class="row">
                                 <div class="card shadow p-0 bg-white rounded" style="width:90%;">
-                                     <div class="card-header">
-                                                 Topics
-                                      </div>
                                       <div class="card-body">
-                                          <div class="container" id="flow1"><%---corrections from here---%>
+                                        <table id="topicTableId"><thead><tr><th>Topic</th></tr></thead>
+                                          <div class="container">
+                                            <tbody>
+                                              <g:each in="${subsOfTopicByOUser}" var="u" status="i">
+                                                <tr><td>
+                                                 <div class="row">
 
-                                                   <g:if test="${subsOfTopicByOUser?.size()==0}">
-                                                            <div class="row"><div class="col-12">No Topics To Show. Create New Topics.</div></div>
+                                                         <div class="col-4">
 
-                                                    </g:if>
-                                                    <g:else>
+                                                         <g:if test="${u.topics.user.photo!=null}">
 
-                                                        <div class="row"><div class="col-12">
+                                                            <img height="90" style="margin-top: 10px;margin-left: 0px,margin-bottom: 10px;margin-right: 10px "
+                                                              width="90" src="${createLink(controller: 'user', action: 'fetchPersonImage', params: ['userId':u?.topics?.user.id])}"/>
+                                                         </g:if>
+                                                         <g:else>
+                                                             <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
+                                                         </g:else>
 
-                                                           <g:each in="${subsOfTopicByOUser}" var="u" status="i">
+                                                         </div>
+                                                         <div class="col-8">
+                                                             <div class="row">
+                                                                <div id="nameOfTopic" class="col-7">${u?.topics?.name}</div>
+                                                                <div class="col-5">
 
-                                                                <div class="row">
+                                                                 <g:link controller="user" action="userProfile" id="nameLink"  params="[otherUserId:u?.user?.id]">@${u?.topics?.user?.username}
+                                                                 </g:link>
 
-                                                                        <div class="col-4">
+                                                                </div><%--c--%>
+                                                             </div><hr>
 
-                                                                        <g:if test="${u.topics.user.photo!=null}">
+                                                              <div class="row">
+                                                                 <div class="col-8">
 
-                                                                           <img height="90" style="margin-top: 10px;margin-left: 0px,margin-bottom: 10px;margin-right: 10px "
-                                                                             width="90" src="${createLink(controller: 'user', action: 'fetchPersonImage', params: ['userId':u?.topics?.user.id])}"/>
-                                                                        </g:if>
-                                                                        <g:else>
-                                                                            <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
-                                                                        </g:else>
-
-                                                                        </div>
-                                                                        <div class="col-8">
-                                                                            <div class="row">
-                                                                               <div id="nameOfTopic" class="col-7">${u?.topics?.name}</div>
-                                                                               <div class="col-5">
-
-                                                                                <g:link controller="user" action="userProfile" id="nameLink"  params="[otherUserId:u?.user?.id]">@${u?.topics?.user?.username}
-                                                                                </g:link>
-
-                                                                               </div><%--c--%>
-                                                                            </div><hr>
-
+                                                                     <g:if test="${!(u?.user?.username.contains(session.user)) }">
+                                                                          <g:link controller="Subscription" action="subscribeTopic" params="[topicId:u?.topics?.id]">Subscribe</g:link>
+                                                                     </g:if>
+                                                                     <g:else>
                                                                              <div class="row">
-                                                                                <div class="col-8">
+                                                                                     <div class="col-8">
+                                                                                      <g:select id="${u.id}" name="selectSeriousness" from="${['Casual','Serious','Very_Serious']}" value="${u?.seriousness}"
+                                                                                        class="form-control changeSeriousness"/>
 
-                                                                                    <g:if test="${!(u?.user?.username.contains(session.user)) }">
-                                                                                         <g:link controller="Subscription" action="subscribeTopic" params="[topicId:u?.topics?.id]">Subscribe</g:link>
-                                                                                    </g:if>
-                                                                                    <g:else>
-                                                                                            <div class="row">
-                                                                                                    <div class="col-8">
-                                                                                                     <g:select id="${u.id}" name="selectSeriousness" from="${['Casual','Serious','Very_Serious']}" value="${u?.seriousness}"
-                                                                                                       class="form-control changeSeriousness"/>
-
-                                                                                                    </div>
-                                                                                                    <div class="col-4"><g:link params=" "><%-----empty-----%></g:link></div>
-                                                                                            </div>
-
-                                                                                    </g:else>
-                                                                                </div>
-                                                                                <div class="col-3">
-                                                                                        <div class="row"><font size="2" color="gray">Subs:${u?.topics?.subscription?.size()}</font></div>
-                                                                                        <div class="row"><font size="2" color="gray">Post:${u?.topics?.resource?.size()}</font></div>
-                                                                                 </div>
+                                                                                     </div>
+                                                                                     <div class="col-4"><g:link params=" "><%-----empty-----%></g:link></div>
                                                                              </div>
-                                                                             <div class="row">
-                                                                                   <div class="col-6">
-                                                                                   </div>
-                                                                                   <div class="col-6">
-                                                                                   </div>
-                                                                             </div>
-                                                                        </div>
-                                                                </div>
-                                                                <hr>
-                                                           </g:each>
-                                                        </div></div>
 
-                                                     </g:else>
-                                                  </div>
+                                                                     </g:else>
+                                                                 </div>
+                                                                 <div class="col-3">
+                                                                         <div class="row"><font size="2" color="gray">Subs:${u?.topics?.subscription?.size()}</font></div>
+                                                                         <div class="row"><font size="2" color="gray">Post:${u?.topics?.resource?.size()}</font></div>
+                                                                  </div>
+                                                              </div>
+                                                              <div class="row">
+                                                                    <div class="col-6">
+                                                                    </div>
+                                                                    <div class="col-6">
+                                                                    </div>
+                                                              </div>
+                                                         </div>
+                                                 </div>
+                                                 <hr>
+                                                </td></tr>
+
+                                              </g:each>
+
+                                            </tbody>
+
+                                          </div></table>
                                       </div>
                                 </div>
                             </div><%--end of 2 row --%>
@@ -178,7 +167,7 @@
                                                                                 <g:link controller="user" action="userProfile" id="nameLink"  params="[otherUserId:u?.topics?.user?.id]">@${u?.topics?.user?.username}
                                                                                 </g:link>
 
-                                                                               </div><%--c--%>
+                                                                               </div>
                                                                             </div><hr>
 
                                                                              <div class="row">
@@ -219,59 +208,44 @@
                                                </div>
                                          </div>
                                      </div><%--end of 4 row --%>
-
                                       <div class="row"> &nbsp;</div>
-
-
                    </div>      <%--e--%>
-
        </div>      <%--e--%>
-
     </div>  <%--end of left side of container--%>
-
     <div class="col-6">            <%--start of right side of container--%>
-
         <div class="row"> &nbsp;
         </div>
-
         <div class="row">
             <div class="card" style="width:100%; border-radius: 10px;border: 3px solid outset;">
             <table id="postsDataTable" class="table  table-bordered table-hover "  style="width:100% ;border-radius: 20px;">
                 <div class="card" >
-
                          <thead>
                             <tr><th style="text-align:center;" class="card-header"><font size="5">Posts</font></th></tr>
                         </thead>
-
                     <tbody >
-
                              <%----display resource start---%>
                                          <g:each in="${DisplayRes}" var="u" status="i">
                                             <tr><td>
                                             <div class="row">
                                                 <div class="col-4">
-
                                                      <g:if test="${u?.user.photo!=null}">
-
                                                         <img height="90" style="margin-top: 10px;margin-left: 0px,margin-bottom: 10px;margin-right: 10px "  width="90"
                                                          src="${createLink(controller: 'user', action: 'fetchPersonImage', params: ['userId':u?.user.id])}"/>
                                                      </g:if>
                                                      <g:else>
                                                          <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
                                                      </g:else>
-
                                                 </div>
                                                 <div class="col-8"><%---right of pic---%>
 
                                                    <div class="row">
-                                                       <div class="col-7">Topic: ${u?.topics.name}</div>
+                                                       <div class="col-7">Topic:
+                                                        <g:link controller="topic" action="topicsShow" params="[topicId:u?.topics.id]">
+                                                        ${u?.topics.name}</g:link></div>
                                                        <div class="col-5">By: ${u?.user.username}</div>
                                                     </div><hr>
                                                     <div class="row"><div class="col-12">${u?.name}</div>
-
                                                    </div>
-
-
                                                     <div class="row">&nbsp;</div>
                                                     <div class="row"><div class="col-4"><g:img dir="images" file="mailIcon.jpg" width="20" height="20" title="${u?.user.email}"/></div>
 
@@ -327,15 +301,7 @@
 
 </div>
 
-
-<script>
-
-$("#postsDataTable").DataTable({
-"scrollY": "710px",
-  "scrollCollapse": true
-});
-
-</script>
+<asset:javascript src="dataTable.js"/>
 
 </body>
 </html>

@@ -254,7 +254,7 @@
                <a class="dropdown-item" href="/user/editProfile">Edit Profile</a>
                <g:if test="${activeUser.admin}">
 
-                    <a class="dropdown-item" href="/user/allUsersForAdmin">User</a>
+                    <a class="dropdown-item" href="/user/displayAllUsersForAdmin">User</a>
                     <a class="dropdown-item" href="/topic/adminTopics">Topic</a>
                     <a class="dropdown-item" href="/search/searchPosts">Posts</a>
                </g:if>

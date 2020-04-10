@@ -6,7 +6,7 @@ import grails.gorm.transactions.Transactional
 class SearchService {
 
     def searchInputString(String activeUsername, String searchString) {
-        // searchString='google'
+
         User activeUser = User.findByUsername(activeUsername)
         String newSearchString = '%' + searchString + '%'
         List finalResource = []
@@ -33,7 +33,7 @@ class SearchService {
                 }
             }//if
             List publicTopics = Topics.findAllByVisibility('Public')
-            if (publicTopics) {//search desc
+            if (publicTopics) {//search description
                 List foundPostDescription = Resource.createCriteria().list() {
                     inList('topics', publicTopics)
                     ilike('name', newSearchString)

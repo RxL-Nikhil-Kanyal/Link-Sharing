@@ -16,7 +16,7 @@ class AuthenticationController {
 
     def login(String username,String password) {
 
-        User user = User.findByUsernameOrEmailIlike(username, username)
+        User user = User.findByUsernameOrEmail(username, username)
         if (user) {
             if (user.active) {
                 if (user.password == password) {
@@ -37,9 +37,9 @@ class AuthenticationController {
         }
     }
 
-    def register(User userCo) {
+    def register(User user) {
 
-        if (userCo.password!=params.registerConfirmPassword) {
+        if (user.password!=params.registerConfirmPassword) {
             redirect(action: 'homePage')
             flash.warning = "Password and Confirm password do not match"
             return
@@ -48,16 +48,16 @@ class AuthenticationController {
 
             def file = request.getFile("registerPhoto")
             byte[] photo = file.bytes
-            userCo.photo = photo
+            user.photo = photo
         }
-        userCo.validate()
-        if (userCo.hasErrors()) {
-            render(view: 'homePage', model: [User              : userCo, recentUpdatedTopics: recentUpdatedTopicsService.topRecentUpdatedPublicTopics(),
+        user.validate()
+        if (user.hasErrors()) {
+            render(view: 'homePage', model: [User              : user, recentUpdatedTopics: recentUpdatedTopicsService.topRecentUpdatedPublicTopics(),
                                              topPostsWithRating: resourceRatingService.getTopRatedPosts(session.user)])
             return
         }
-        userCo.save(flush: true, failOnError: true)
-        flash.message = "User Created ${userCo.username}. Please Login"
+        user.save(flush: true, failOnError: true)
+        flash.message = "User Created ${user.username}. Please Login"
         redirect(controller: 'Authentication', action: 'homePage')
 
     }

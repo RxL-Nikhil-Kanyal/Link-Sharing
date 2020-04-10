@@ -110,9 +110,9 @@ $.ajax({
 $(document).ready(function(){
 $(".deleteTopicClass").click(function(){
 $.ajax({
-    url:"/topic/deleteTopicAjax",
+    url:"/topic/deleteTopic",
     type:"POST",
-    data:{"topicId":$(this).next().val()},
+    data:{"topicId":$(this).attr("id")},
     success:function(data){
        if(data.success==true){
          $("#successMessageId").text(data.message);
@@ -126,8 +126,6 @@ $.ajax({
           setTimeout(function() {
           $("#errorMessageId").hide("slow").empty();
           }, 2500);
-
-
        }
     },
 });

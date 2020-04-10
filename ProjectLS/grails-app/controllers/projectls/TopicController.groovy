@@ -62,15 +62,6 @@ class TopicController {
                 topPostsWithRating    : resourceRatingService.getTopRatedPosts(session.user)]
     }
 
-    def deleteTopic() {
-
-        Topics topic = Topics.get(params.topicId)
-        topic.delete(flush: true, failOnError: true)
-
-        flash.message = "Topic Deleted"
-        redirect(controller: 'user', action: 'editProfile')
-    }
-
     def changeTopicVisibility() {
         Topics topic=Topics.get(params.topicId)
 
@@ -85,14 +76,14 @@ class TopicController {
 
     }
 
-    def deleteTopicAjax() {
+    def deleteTopic() {
         User activeUser = User.findByUsername(session.user)
         Topics topic = Topics.get(params.topicId)
         try {
             topic.delete(flush: true, failOnError: true)
         }
         catch (Exception e)  {
-            render ([sucess:true,message:" Error deleting Topic ${topic.name}"]as JSON)
+            render ([sucess:false,message:" Error deleting Topic ${topic.name}"]as JSON)
         }
         render ([sucess:true,message:" Successfully Deleted ${topic.name}"]as JSON)
 

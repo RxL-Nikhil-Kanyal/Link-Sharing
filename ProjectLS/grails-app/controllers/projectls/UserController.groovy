@@ -12,31 +12,26 @@ class UserController {
     def dashboard() {
         User activeUser = User.findByUsername(session.user)
         List subscribedTopics = Subscription.findAllByUser(activeUser).topics
-        List listSub = Subscription.findAllByUser(activeUser)//display subs of user
+        List listOfSubscriptions = Subscription.findAllByUser(activeUser)
         List topicsByUser = Topics.findAllByUser(activeUser)
-        def trendingTopicsWithCount = topicsService.trendingTopics();//trend
 
-        List UnReadResources = readingItemService.unReadResourceMethod(session.user)
-
-        [activeUser : activeUser, subbedTopics: subscribedTopics, listOfSubs: listSub,
-         usersTopics: topicsByUser, trendingTopicsAndCount: trendingTopicsWithCount, userUnReadResource: UnReadResources]
+       render(view:'dashboard',model: [activeUser        : activeUser, subbedTopics: subscribedTopics, listOfSubs: listOfSubscriptions,
+         usersTopics       : topicsByUser, trendingTopicsAndCount: topicsService.trendingTopics(),
+         userUnReadResource: readingItemService.unReadResourceMethod(session.user)])
 
     }
 
     def updateUserProfile() {
 
         User user = User.findByUsername(session.user)
-
         if (params.changeUsername) {
-            if(User.findByUsername(params.changeUsername)){
-                flash.warning="Error! Username Already Taken!"
-
-            }else{
+            if (User.findByUsername(params.changeUsername)) {
+                flash.warning = "Error! Username Already Taken!"
+            } else {
                 user.username = params.changeUsername
                 flash.message = "Changes Successful!"
-                session.user=params.changeUsername
+                session.user = params.changeUsername
             }
-
         }
         if (params.changeFirstname) {
             user.firstName = params.changeFirstname
@@ -44,20 +39,18 @@ class UserController {
         if (params.changeLastname) {
             user.lastName = params.changeLastname
         }
-        if(params.changePhoto.size!=0){
-
-            def file =request.getFile("changePhoto")
+        if (params.changePhoto.size != 0) {
+            def file = request.getFile("changePhoto")
             byte[] photo = file.bytes
-            user.photo=photo
+            user.photo = photo
         }
         try {
-
             user.save(flush: true, failOnError: true)
-        } catch(e) {
+        } catch (e) {
             flash.warning = "Error! Try another Image!"
         }
 
-        redirect(controller:'user' , action: "editProfile")
+        redirect(controller: 'user', action: "editProfile")
 
     }
 
@@ -81,18 +74,17 @@ class UserController {
         return userProfileService.userProfileInformation(session.user,params.otherUserId)
     }
 
-    def updateUserPassword() {
+    def updateUserPassword(String changePassword,String changeConfirmPassword) {
 
-        if (params.changePassword == params.changeConfirmPassword) {
+        if (changePassword == changeConfirmPassword) {
             User user = User.findByUsername(session.user)
-            user.password = params.changePassword
+            user.password = changePassword
             user.save(flush: true, failOnError: true)
 
             if (user.hasErrors()) {
-                user.errors.allErrors.each {
-                    println it
+                user.errors.allErrors.each { error->
+                    println error
                 }
-
                 flash.warning = "Error, Please try again!"
                 redirect(controller:'user' ,action: "editProfile")
             }
@@ -106,12 +98,12 @@ class UserController {
         }
     }
 
-    def allUsersForAdmin() {
-        def persons = User.list()
-        User au = User.findByUsername(session.user)
+    def displayAllUsersForAdmin() {
+        List persons = User.list()
+        User activeUser = User.findByUsername(session.user)
         List subscribedTopics = Subscription.findAllByUser(au).topics
 
-        return [usr: persons, activeUser: au, subbedTopics: subscribedTopics]
+        return [usr: persons, activeUser: activeUser, subbedTopics: subscribedTopics]
     }
 
     def changeUserActiveStatus(String userId) {

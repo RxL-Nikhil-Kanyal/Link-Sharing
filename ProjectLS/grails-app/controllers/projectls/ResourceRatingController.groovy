@@ -3,6 +3,7 @@ import grails.converters.JSON
 
 class ResourceRatingController {
 
+
     def createOrUpdateStarRating() {
 
 

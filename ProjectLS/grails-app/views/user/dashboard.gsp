@@ -192,7 +192,7 @@
                                                                       <div class="col-8">
                                                                             <g:if test="${topicAndCountRow[1]?.user.username==session.user}">
                                                                                     <g:img id="${topicAndCountRow[1].name}" class="editNameButtonClass" dir="images" file="edit.png" width="20" height="20"/>
-                                                                                    <g:img class="deleteTopicClass" dir="images" file="deleteIcon.png" title="delete topic" width="20" height="20"/>
+                                                                                    <g:img id="${topicAndCountRow[1]?.id}"class="deleteTopicClass" dir="images" file="deleteIcon.png" title="delete topic" width="20" height="20"/>
 
                                                                                    <%------------ edit/delete here----------------%>
                                                                             </g:if>
@@ -211,7 +211,7 @@
                                                                                         </g:else>
 
                                                                                          <g:img id="${topicAndCountRow[1].name}" class="editNameButtonClass" dir="images" file="edit.png" width="20" height="20"/>
-                                                                                         <g:img class="deleteTopicClass" dir="images" file="deleteIcon.png" title="delete topic" width="20" height="20"/>
+                                                                                         <g:img id="${topicAndCountRow[1].id}" class="deleteTopicClass" dir="images" file="deleteIcon.png" title="delete topic" width="20" height="20"/>
 
 
                                                                                    <%---------- admin loggedin edit/delte subOrNO-----------%>

@@ -270,7 +270,7 @@
                                                     </g:else>
 
                                                      <g:img id="${u.name}" class="editNameButtonClass" dir="images" file="edit.png" width="20" height="20"/>
-                                                     <g:img class="deleteTopicClass" dir="images" file="deleteIcon.png" title="delete topic" width="20" height="20"/>
+                                                     <g:img id="${u?.id}" class="deleteTopicClass" dir="images" file="deleteIcon.png" title="delete topic" width="20" height="20"/>
 
 
                                                       <%---------- admin loggedin edit/delte subOrNO-----------%>

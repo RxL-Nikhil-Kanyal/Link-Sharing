@@ -10,7 +10,6 @@ class ResourceService {
 
         try {
             resource.delete(flush: true, failOnError: true)
-
         }
         catch (e) {
             return false

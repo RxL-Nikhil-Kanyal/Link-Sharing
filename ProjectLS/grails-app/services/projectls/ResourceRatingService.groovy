@@ -7,7 +7,7 @@ class ResourceRatingService {
 
     def getTopRatedPosts(String activeUsername) {
 
-        List res = []
+        List resource = []
         List resourcesAvgScore = []
         List Topic = Topics.findAllByVisibility("Public")
         if (Topic) {
@@ -16,37 +16,31 @@ class ResourceRatingService {
             }
             if (publicResources) {
 
-
-                User u = User.findByUsername(activeUsername)
-
-                if (!u) {
-                    res = publicResources
+                User user = User.findByUsername(activeUsername)
+                if (!user) {
+                    resource = publicResources
                 } else {
-                    if (!u.admin) {
-                        List usertopic = Topics.findAllByUser(u)
-                        res = Resource.createCriteria().list() {
-                            inList('topics', Topic + usertopic)
+                    if (!user.admin) {
+                        List userTopic = Topics.findAllByUser(user)
+                        resource = Resource.createCriteria().list() {
+                            inList('topics', Topic + userTopic)
                         }
                     } else {
-                        res = Resource.list()
+                        resource = Resource.list()
                     }
                 }
-
                 resourcesAvgScore = ResourceRating.createCriteria().list() {
                     projections {
                         avg("score", 'avgRating')
                     }
                     groupProperty("resource")
                     order('avgRating', 'desc')
-                    inList('resource', res)
+                    inList('resource', resource)
                     maxResults(5)
                 }
-
-
             }
-
         }
-
         return resourcesAvgScore
     }
+
 }
