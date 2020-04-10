@@ -8,7 +8,6 @@ class ResourceRating {
 
     }
     static mapping = {
-        //source-db=""
         table 'ResourceRating'
 
     }

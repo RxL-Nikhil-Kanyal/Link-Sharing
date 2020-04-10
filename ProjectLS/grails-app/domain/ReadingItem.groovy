@@ -5,10 +5,8 @@ class ReadingItem {
 
     static constraints = {
 
-
     }
     static mapping = {
-        //source-db=""
         table 'ReadingItem'
 
     }

@@ -25,12 +25,11 @@ class User {
         firstName blank: false, nullable: false
         lastName blank: false, nullable: false
 
-        photo(nullable: true, maxSize: 1073741824)//4gb max
+        photo(nullable: true, maxSize: 1073741824)
 
 
     }
     static mapping = {
-        //source-db=""
         table 'usr'
 
 

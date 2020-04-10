@@ -1,7 +1,7 @@
 
 
 class Resource {
-    String name//description
+    String name
     static belongsTo = [user: User, topics: Topics]
     Date dateCreated
     Date lastUpdated
@@ -15,7 +15,5 @@ class Resource {
 
         table 'Res'
         name column: "name", sqlType: "varchar(5000)"
-//        readingItem cascade: 'all-delete-orphan'
-//        resourceRating cascade: 'all-delete-orphan'
     }
 }

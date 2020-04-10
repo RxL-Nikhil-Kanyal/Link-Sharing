@@ -9,7 +9,6 @@ class Subscription {
 
     }
     static mapping = {
-        //source-db=""
         table 'Subscription'
 
     }

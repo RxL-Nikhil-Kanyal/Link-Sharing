@@ -16,11 +16,7 @@ class Topics {
 
     }
     static mapping = {
-        //source-db=""
         table 'topics'
-
-//        resource cascade: 'all-delete-orphan'
-//        subscription cascade: 'all-delete-orphan'
 
     }
 
