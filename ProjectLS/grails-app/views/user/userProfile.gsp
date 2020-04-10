@@ -48,7 +48,7 @@
                             <div class="row">
                                 <div class="card shadow p-0 bg-white rounded" style="width:90%;">
                                       <div class="card-body">
-                                        <table id="topicTableId"><thead><tr><th>Topic</th></tr></thead>
+                                        <table id="topicTableId"><thead><tr><th class="card-header">Topic</th></tr></thead>
                                           <div class="container">
                                             <tbody>
                                               <g:each in="${subsOfTopicByOUser}" var="u" status="i">
@@ -124,91 +124,84 @@
 
                      <div class="row"> &nbsp;</div>
 
-                                     <div class="row">
-                                         <div class="card shadow p-0 bg-white rounded" style="width:90%;">
-                                              <div class="card-header">
-                                                           Subscriptions
-                                               </div>
-                                               <div class="card-body">
+                         <div class="row">
+                             <div class="card shadow p-0 bg-white rounded" style="width:90%;">
 
+                                   <div class="card-body">
+                                      <div class="container"><%---corrections from here---%>
+                                            <table id="subscriptionTableUSerProfileId">
+                                                <thead><tr><th class="card-header">Subscriptions</th></tr></thead>
+                                                <tbody>
 
+                                                     <g:each in="${ouSubs}" var="u" status="i">
+                                                        <tr><td>
 
-                                          <div class="container" id="flow1"><%---corrections from here---%>
+                                                        <div class="row" id="${u.id}">
 
-                                                   <g:if test="${ouSubs?.size()==0}">
-                                                            <div class="row"><div class="col-12">No Subscriptions yet . Subscribe to new Posts.</div></div>
+                                                                <div class="col-3">
 
-                                                    </g:if>
-                                                    <g:else>
+                                                                 <g:if test="${u?.topics?.user.photo!=null}">
 
-                                                        <div class="row"><div class="col-12">
+                                                                    <img height="90" style="margin-top: 10px;margin-left: 0px,margin-bottom: 10px;margin-right: 10px "
+                                                                      width="90" src="${createLink(controller: 'user', action: 'fetchPersonImage', params: ['userId':u?.topics?.user.id])}"/>
+                                                                 </g:if>
+                                                                 <g:else>
+                                                                     <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
+                                                                 </g:else>
 
-                                                           <g:each in="${ouSubs}" var="u" status="i">
+                                                                </div>
+                                                                <div class="col-9">
+                                                                    <div class="row">
+                                                                       <div id="nameOfTopic" class="col-7">${u?.topics?.name}</div>
+                                                                       <div class="col-5">
 
-                                                                <div class="row" id="${u.id}">
+                                                                        <g:link controller="user" action="userProfile" id="nameLink"  params="[otherUserId:u?.topics?.user?.id]">@${u?.topics?.user?.username}
+                                                                        </g:link>
 
-                                                                        <div class="col-3">
+                                                                       </div>
+                                                                    </div><hr>
 
-                                                                         <g:if test="${u?.topics?.user.photo!=null}">
+                                                                     <div class="row">
+                                                                        <div class="col-8">
 
-                                                                            <img height="90" style="margin-top: 10px;margin-left: 0px,margin-bottom: 10px;margin-right: 10px "
-                                                                              width="90" src="${createLink(controller: 'user', action: 'fetchPersonImage', params: ['userId':u?.topics?.user.id])}"/>
-                                                                         </g:if>
-                                                                         <g:else>
-                                                                             <g:img dir="images" file="defaultpic.png" width="100" height="100"/>
-                                                                         </g:else>
+                                                                            <g:if test="${!u?.topics?.subscription.user.username.contains(session.user) }">
+                                                                                 <g:link controller="subscription" action="subscribeAction" params="[inviteTopicId:u?.topics?.id]">Subscribe</g:link>
+                                                                            </g:if>
+                                                                            <g:else>
+                                                                                <g:if test="${u?.topics.user.username!=session.user}">
+                                                                                    <a href="" id="${u?.topics.id}" class="topicUnsubscribeClassUserProfile" >Unsubscribe</a>
+                                                                                </g:if>
 
+                                                                                   <g:img dir="images" file="msg.jpg" style="background-color: white;border-radius: 5px;"  width="20" height="20" data-toggle="modal" data-target="#myModalinvite" />
+                                                                            </g:else>
                                                                         </div>
-                                                                        <div class="col-9">
-                                                                            <div class="row">
-                                                                               <div id="nameOfTopic" class="col-7">${u?.topics?.name}</div>
-                                                                               <div class="col-5">
-
-                                                                                <g:link controller="user" action="userProfile" id="nameLink"  params="[otherUserId:u?.topics?.user?.id]">@${u?.topics?.user?.username}
-                                                                                </g:link>
-
-                                                                               </div>
-                                                                            </div><hr>
-
-                                                                             <div class="row">
-                                                                                <div class="col-8">
-
-                                                                                    <g:if test="${!u?.topics?.subscription.user.username.contains(session.user) }">
-                                                                                         <g:link controller="subscription" action="subscribeAction" params="[inviteTopicId:u?.topics?.id]">Subscribe</g:link>
-                                                                                    </g:if>
-                                                                                    <g:else>
-                                                                                        <g:if test="${u?.topics.user.username!=session.user}">
-                                                                                            <a href="" id="${u?.topics.id}" class="topicUnsubscribeClassUserProfile" >Unsubscribe</a>
-                                                                                        </g:if>
-
-                                                                                           <g:img dir="images" file="msg.jpg" style="background-color: white;border-radius: 5px;"  width="20" height="20" data-toggle="modal" data-target="#myModalinvite" />
-                                                                                    </g:else>
-                                                                                </div>
 
 
-                                                                                <div class="col-4">
-                                                                                     Subs:${u?.topics?.subscription?.size()}
+                                                                        <div class="col-4">
+                                                                             Subs:${u?.topics?.subscription?.size()}
 
 
-                                                                                 </div>
-                                                                             </div>
-                                                                             <div class="row">
+                                                                         </div>
+                                                                     </div>
+                                                                     <div class="row">
 
-                                                                                   <div class="col-6">
-                                                                                   </div>
-                                                                                   <div class="col-6">
-                                                                                   </div>
-                                                                             </div>
-                                                                        </div>
-                                                                </div><hr>
-                                                           </g:each>
-                                                        </div></div>
-                                                     </g:else>
-                                                  </div>
-                                               </div>
-                                         </div>
-                                     </div><%--end of 4 row --%>
-                                      <div class="row"> &nbsp;</div>
+                                                                           <div class="col-6">
+                                                                           </div>
+                                                                           <div class="col-6">
+                                                                           </div>
+                                                                     </div>
+                                                                </div>
+                                                        </div><hr>
+                                                        </td></tr>
+                                                      </g:each>
+                                                </tbody>
+                                            </table>
+
+                                       </div>
+                                   </div>
+                             </div>
+                         </div><%--end of 4 row --%>
+                          <div class="row"> &nbsp;</div>
                    </div>      <%--e--%>
        </div>      <%--e--%>
     </div>  <%--end of left side of container--%>

@@ -9,10 +9,10 @@ class TopicController {
     ResourceRatingService resourceRatingService
     SearchService searchService
 
-    def createTopicFormAction() {
+    def createTopicFormAction(String newTopicName,String topicVisibility) {
 
         User user = User.findByUsername(session.user)
-        Topics topic = new Topics(name: params.newTopicName, user: user.id, visibility: params.topicVisibility)
+        Topics topic = new Topics(name:newTopicName, user: user, visibility:topicVisibility)
 
         topic.validate()    //topic creation by user
         if (topic.hasErrors()) {
@@ -80,6 +80,7 @@ class TopicController {
         User activeUser = User.findByUsername(session.user)
         Topics topic = Topics.get(params.topicId)
         try {
+
             topic.delete(flush: true, failOnError: true)
         }
         catch (Exception e)  {
@@ -123,7 +124,5 @@ class TopicController {
             render([success: false,message: "Can not Send Invite! Check the Email Again! "]as JSON)
         }
     }
-
-
 
 }

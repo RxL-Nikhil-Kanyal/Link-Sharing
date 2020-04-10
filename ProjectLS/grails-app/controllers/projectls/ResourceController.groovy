@@ -3,20 +3,15 @@ import grails.converters.JSON
 
 class ResourceController {
     ResourceService resourceService
-    TopicsService topicsService
-    ReadingItemService readingItemService
-    ResourceRatingService resourceRatingService
     ViewPostService viewPostService
 
 
     def deleteResource() {
 
         if (resourceService.deleteYourResourceMethod(params.resourceId)) {
-            flash.message = "Post Deleted!"
-            return true
+            render([success: true,message: "Post deleted Successfully!Reload to see Changes!"]as JSON)
         } else {
-            flash.warning = "Error in deleting Post!"
-            return
+            render([success: false,message: "can Not Delete Post!"]as JSON)
         }
     }
 

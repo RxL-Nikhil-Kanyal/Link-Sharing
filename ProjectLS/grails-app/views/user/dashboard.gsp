@@ -58,7 +58,7 @@
                                       </div>
                                       <div class="card-body" id="flow1">
 
-                                          <div class="container"><%---corrections from here---%>
+                                          <div class="container" id="subscriptionContainerId"><%---corrections from here---%>
 
                                                    <g:if test="${listOfSubs.size()==0}">
                                                             <div class="row"><div class="col-12"><font color="gray">No Subscriptions yet . Subscribe to new Posts.</font></div></div>

@@ -12,7 +12,7 @@
 <asset:javascript src="resourceLs.js"/>
 <asset:stylesheet src="navbarCommonStyling.css"/>
 
-<asset:javascript src="shareInviteDash.js"/>
+<asset:javascript src="shareInvite.js"/>
 <asset:javascript src="unsubscribeTopic.js"/>
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">

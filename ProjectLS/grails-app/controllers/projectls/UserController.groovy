@@ -82,9 +82,6 @@ class UserController {
             user.save(flush: true, failOnError: true)
 
             if (user.hasErrors()) {
-                user.errors.allErrors.each { error->
-                    println error
-                }
                 flash.warning = "Error, Please try again!"
                 redirect(controller:'user' ,action: "editProfile")
             }
@@ -101,9 +98,9 @@ class UserController {
     def displayAllUsersForAdmin() {
         List persons = User.list()
         User activeUser = User.findByUsername(session.user)
-        List subscribedTopics = Subscription.findAllByUser(au).topics
+        List subscribedTopics = Subscription.findAllByUser(activeUser).topics
 
-        return [usr: persons, activeUser: activeUser, subbedTopics: subscribedTopics]
+        return [allUsers: persons, activeUser: activeUser, subbedTopics: subscribedTopics]
     }
 
     def changeUserActiveStatus(String userId) {
@@ -124,8 +121,5 @@ class UserController {
         response.contentType = 'image/png/jpeg'
         response.outputStream << imageInByte
         response.outputStream.flush()
-
     }
-
-
 }

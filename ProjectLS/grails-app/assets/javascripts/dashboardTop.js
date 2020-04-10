@@ -13,7 +13,6 @@ $("#successMessageId").text("Topic Created SuccessFully! ");
     setTimeout(function() {
       $("#successMessageId").hide("slow").empty();
     }, 2500);
-
 }else{
 $("#errorMessageId").text(data.message);
     $("#errorMessageId").show();
@@ -94,7 +93,7 @@ var classOfElementToToggle=$(this).attr("id");
 $("."+classOfElementToToggle).toggle();
 });
 });
-//save topic changes-dash
+//save topic changes
 $(document).ready(function(){
 $(".saveTopicChangesButton").click(function(){
 $.ajax({

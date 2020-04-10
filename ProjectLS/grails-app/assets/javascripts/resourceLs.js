@@ -1,14 +1,26 @@
 
 //delete Resource/Post
 $(document).ready(function(){
-$(".deleteOwnResource").click(function(){
+$(".deleteOwnResource").click(function(event){
+event.preventDefault();
 $.ajax({
     url:"/resource/deleteResource",
     type:"POST",
     data:{"resourceId":$(this).attr("id")},
-    success:function(){
-    location.reload();
-    }
+    success:function(data){
+       if(data.success==true){
+       $("#successMessageId").text(data.message);
+           $("#successMessageId").show();
+           setTimeout(function() {
+             $("#successMessageId").hide("slow").empty();
+           }, 3500);
+       }else{
+         $("#errorMessageId").text(data.message);
+         $("#errorMessageId").show();
+          setTimeout(function() {
+         $("#errorMessageId").hide("slow").empty();
+          }, 3500);
+       }}
 });
 });
 });

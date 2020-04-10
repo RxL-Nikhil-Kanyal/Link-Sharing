@@ -24,7 +24,7 @@
                 </tr>
         </thead>
         <tbody>
-            <g:each in="${usr}" var="u" status="i">
+            <g:each in="${allUsers}" var="u" status="i">
                 <tr>
                 <td> <h5 id="idtable">${i+1}.</h5></td>
                 <td> <h5 id="idtable">${u.id}</h5></td>

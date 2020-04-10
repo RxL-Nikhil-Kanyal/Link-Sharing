@@ -17,3 +17,8 @@ $("#postsDataTable").DataTable({
 "scrollY": "710px",
   "scrollCollapse": true
 });
+//subscriptions-userProfile
+$("#subscriptionTableUSerProfileId").DataTable({
+"scrollY": "170px",
+  "scrollCollapse": true
+});
