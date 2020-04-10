@@ -23,7 +23,7 @@ class UserProfileService {
                 }
             }
             if (!subTopics.isEmpty()) {
-                userResource = Resource.createCriteria().list() {//posts
+                userResource = Resource.createCriteria().list() {
                     eq('user',activeUser)
                 }
             }

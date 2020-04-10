@@ -56,7 +56,7 @@ class AuthenticationController {
                                              topPostsWithRating: resourceRatingService.getTopRatedPosts(session.user)])
             return
         }
-        user.save(flush: true, failOnError: true)
+        user.save(flush: true)
         flash.message = "User Created ${user.username}. Please Login"
         redirect(controller: 'Authentication', action: 'homePage')
 
@@ -72,11 +72,12 @@ class AuthenticationController {
 
         User user = User.findByUsernameOrEmail(userDetail,userDetail)
         if (user) {
+            def encryptUserId=(Integer.toBinaryString((int)user.id)+11).reverse()+11
             try {
                 sendMail {
                     to user.email
                     subject "Password change"
-                    body 'Change Password here : http://localhost:9090/authentication/passwordChange?userId=' + user.id
+                    body 'Change Password here : http://localhost:9090/authentication/passwordChange?userId=' + encryptUserId
                 }
             } catch (Exception e) {
                 render([success:false,message:"Error! Mail cannot be sent!"] as JSON)
@@ -93,11 +94,20 @@ class AuthenticationController {
 
     def changeUserPassword(String userId,String newPassword) {
 
-        User user = User.get(userId)
-        user.password = newPassword
-        user.save(flush: true, failOnError: true)
-        flash.message="Password Changed Successfully!"
-        return true
+        User user
+        try{
+            def decryptUserId=(Integer.parseInt((userId-11).reverse()-11,2))
+            user = User.get(decryptUserId)
+        }catch(e){
+            flash.message="Error! User does not Exist!"
+            render ([success: false]as JSON)
+        }
+        if(user){
+            user.password = newPassword
+            user.save(flush: true)
+            flash.message="Password Changed Successfully!"
+            render ([success: true]as JSON)
+        }
     }
 
 }

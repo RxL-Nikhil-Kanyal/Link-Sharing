@@ -13,11 +13,11 @@ class ResourceRatingController {
 
         if (!rating) {
             ResourceRating newRating = new ResourceRating(user: activeUser, resource: resource, score: params.float('newResourceRating'))
-            newRating.save(flush: true, failOnError: true)
+            newRating.save(flush: true)
             render([success:true,message:"Added Rating Successfully!"]as JSON)
         } else {
             rating.score = params.float('newResourceRating')
-            rating.save(flush: true, failOnError: true)
+            rating.save(flush: true)
             render([success: true,message: "Updated your Rating! New Rating is ${params.float('newResourceRating')}"]as JSON)
 
         }

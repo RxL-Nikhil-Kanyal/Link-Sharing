@@ -23,7 +23,7 @@ class ResourceController {
         if (resource.hasErrors()) {
             render([success:false,message:"Error Updating resource!"]as JSON)
         } else {
-            resource.save(flush: true, failOnError: true)
+            resource.save(flush: true)
             render([success:true,message:"Description Changed Successfully!"]as JSON)
         }
     }
@@ -45,9 +45,9 @@ class ResourceController {
         if (linkResource.hasErrors()) {
             render ([success: false,message: "Please Enter a Valid URL"] as JSON)
         } else {
-            linkResource.save(flush: true, failOnError: true)
+            linkResource.save(flush: true)
             ReadingItem readingItem = new ReadingItem(isRead: 'true', user: user, resource: linkResource)
-            readingItem.save(flush: true, failOnError: true)
+            readingItem.save(flush: true)
 
             render ([success: true,message: "Resource Added to ${topic.name}"] as JSON)
         }
@@ -66,15 +66,12 @@ class ResourceController {
         docResource.validate()
 
         if (docResource.hasErrors()) {
-            docResource.errors.allErrors.each {
-                println it
-            }
             flash.warning = "Error ,Please Try Again"
         } else {
-            docResource.save(flush: true, failOnError: true)
+            docResource.save(flush: true)
 
             ReadingItem readingItem = new ReadingItem(isRead: 'true', user: user, resource: docResource)
-            readingItem.save(flush: true, failOnError: true)
+            readingItem.save(flush: true)
             flash.message = "Added Resource Successfully"
         }
 

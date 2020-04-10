@@ -38,7 +38,7 @@ class ReadingItemService {
         if (hasRead.hasErrors()) {
             return false
         } else {
-            hasRead.save(flush: true, failOnError: true)
+            hasRead.save(flush: true)
             return true
         }
 

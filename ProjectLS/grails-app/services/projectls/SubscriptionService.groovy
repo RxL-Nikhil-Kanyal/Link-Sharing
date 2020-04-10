@@ -11,7 +11,7 @@ class SubscriptionService {
         subscription.seriousness = newSeriousness
 
         try {
-            subscription.save(flush: true, failOnError: true)
+            subscription.save(flush: true)
         }
         catch (e) {
             return false

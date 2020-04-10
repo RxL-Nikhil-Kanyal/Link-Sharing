@@ -29,7 +29,7 @@ class TopicsService {
             if (topic.hasErrors()) {
                 return false
             }
-            topic.save(flush: true, failOnError: true)
+            topic.save(flush: true)
             return true
         } else {
             return false

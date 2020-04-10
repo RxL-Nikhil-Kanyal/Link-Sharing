@@ -14,14 +14,14 @@ class TopicController {
         User user = User.findByUsername(session.user)
         Topics topic = new Topics(name:newTopicName, user: user, visibility:topicVisibility)
 
-        topic.validate()    //topic creation by user
+        topic.validate()
         if (topic.hasErrors()) {
             render ([success: false,message:"Topic Already Exists!"] as JSON)
         }
-        topic.save(flush: true, failOnError: true)
+        topic.save(flush: true)
 
         Subscription newSub = new Subscription(user: user.id, topics: topic.id, seriousness: "Serious")
-        newSub.save(flush: true, failOnError: true)
+        newSub.save(flush: true)
 
         render ([success: true,message:"Topic ${topic.name} Created !"] as JSON)
 
@@ -81,7 +81,7 @@ class TopicController {
         Topics topic = Topics.get(params.topicId)
         try {
 
-            topic.delete(flush: true, failOnError: true)
+            topic.delete(flush: true)
         }
         catch (Exception e)  {
             render ([sucess:false,message:" Error deleting Topic ${topic.name}"]as JSON)
@@ -97,7 +97,7 @@ class TopicController {
         if (topic.hasErrors()) {
             render([success: false,message: "Error Changing Topic!"])
         } else {
-            topic.save(flush: true, failOnError: true)
+            topic.save(flush: true)
             render([success:true,message:"Topic Name Changed to ${params.newTopicName}"]as JSON)
         }
     }
@@ -106,14 +106,16 @@ class TopicController {
 
         String userEmail = params.userEmail.trim()
         User invitedUser = User.findByEmail(userEmail)
+        Topics topic=Topics.findByName(params.selectedTopicName)
+        def encryptUserId=(Integer.toBinaryString((int)invitedUser.id)+11).reverse()+11
 
         if (invitedUser) {
             try {
                 sendMail {
                     to invitedUser.email
-                    subject "Invite For Topic: " + params.selectedTopicName
-                    body 'First Login To your Link sharing Account and then Click the Link here : ' +
-                            'http://localhost:9090/subscription/subscribeThroughLink?userEmail=' + invitedUser.email + '&topicName=' + params.selectedTopicName
+                    subject "Invite For Topic: ${params.selectedTopicName}"
+                    body "First Login To your Link sharing Account and then Click the Link here " +
+                            "http://localhost:9090/subscription/subscribeThroughLink?userId=${encryptUserId}&topicId=${topic.id}&u=null"
                 }
 
             } catch (Exception e) {

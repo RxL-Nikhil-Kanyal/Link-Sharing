@@ -12,10 +12,10 @@ class SearchService {
         List finalResource = []
 
 
-        if (!activeUser) {//auth
+        if (!activeUser) {
 
             List foundTopic = Topics.findAllByNameIlikeAndVisibility(newSearchString, 'Public')
-            if (foundTopic) {//search topic
+            if (foundTopic) {
                 finalResource = Resource.findAllByTopicsInList(foundTopic)
                 return finalResource
             }
@@ -31,9 +31,9 @@ class SearchService {
                     return finalResource
 
                 }
-            }//if
+            }
             List publicTopics = Topics.findAllByVisibility('Public')
-            if (publicTopics) {//search description
+            if (publicTopics) {
                 List foundPostDescription = Resource.createCriteria().list() {
                     inList('topics', publicTopics)
                     ilike('name', newSearchString)
@@ -76,7 +76,7 @@ class SearchService {
 
                 } else {
                     List allSimilarUser = User.findAllByUsernameIlike(newSearchString)
-                    if (allSimilarUser && SubscribedTopicsByUser) {//changed
+                    if (allSimilarUser && SubscribedTopicsByUser) {
                         List allTopic = Topics.createCriteria().list() {
                             inList('user', allSimilarUser)
                             or {

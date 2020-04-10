@@ -45,7 +45,7 @@ class UserController {
             user.photo = photo
         }
         try {
-            user.save(flush: true, failOnError: true)
+            user.save(flush: true)
         } catch (e) {
             flash.warning = "Error! Try another Image!"
         }
@@ -79,7 +79,7 @@ class UserController {
         if (changePassword == changeConfirmPassword) {
             User user = User.findByUsername(session.user)
             user.password = changePassword
-            user.save(flush: true, failOnError: true)
+            user.save(flush: true)
 
             if (user.hasErrors()) {
                 flash.warning = "Error, Please try again!"
@@ -110,7 +110,7 @@ class UserController {
         } else {
             otherUser.active = 1
         }
-        otherUser.save(flush: true, failOnError: true)
+        otherUser.save(flush: true)
         render ([success:true,message:"Changed ${otherUser.username}s status to ${otherUser.active} ",newValue:otherUser.active]as JSON)
     }
 

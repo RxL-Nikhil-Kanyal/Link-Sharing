@@ -9,14 +9,13 @@ class ResourceService {
         Resource resource = Resource.get(resourceId);
 
         try {
-            ReadingItem.findAllByResource(resource).each { it.delete(flush:true, failOnError:true) }
-            resource.delete(flush: true, failOnError: true)
+            ReadingItem.findAllByResource(resource).each { it.delete(flush:true) }
+            resource.delete(flush: true)
         }
         catch (e) {
             return false
         }
         return true
-
     }
 
 

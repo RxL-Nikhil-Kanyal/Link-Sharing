@@ -56,13 +56,12 @@ $.ajax({
     url:"/authentication/changeUserPassword",
     type:"POST",
     data:{"userId":$("#hiddenUser").val(),"newPassword":$("#changePasswordId").val()},
-    success:function(){
-    window.location.replace("/authentication/homePage");
-    $("#successMessageId").text("Password Changed SuccessFully! ");
-    $("#successMessageId").show();
-    setTimeout(function() {
-      $("#successMessageId").hide("slow").empty();
-    }, 2500);
+    success:function(data){
+    if(data.success==true){
+        window.location.replace("/authentication/homePage");
+    }else{
+        window.location.replace("/authentication/homePage");
+    }
     },
     error:function(){
         $("#errorMessageId").text("Error Changing password!");
